@@ -3,149 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vibe OS - Product Intelligence</title>
+    <title>Vibe OS - Debug Scanner</title>
     <script src="https://unpkg.com/html5-qrcode"></script>
     <style>
         :root { --vibe-green: #0B7517; --vibe-red: #8b0000; --vibe-neon: #39FF14; }
-        body { background-color: #000; color: white; font-family: 'Segoe UI', sans-serif; margin: 0; height: 100vh; display: flex; flex-direction: column; align-items: center; overflow: hidden; }
+        body { background-color: #000; color: white; font-family: 'Segoe UI', sans-serif; margin: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; align-items: center; }
         
-        #reader { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 1; }
-        #overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); z-index: 2; pointer-events: none; }
-
-        /* כרטיס התוצאה */
-        #product-card {
-            position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(150%);
-            width: 85%; max-width: 350px; background: rgba(20, 20, 20, 0.95);
-            padding: 20px; border-radius: 25px; border: 1px solid #444;
-            text-align: center; z-index: 20; transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
-        }
+        #reader { width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: 1; object-fit: cover; }
         
-        .product-img { width: 80px; height: 80px; object-fit: contain; background: white; border-radius: 15px; margin-bottom: 10px; }
-        .status-badge { display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-bottom: 10px; }
-        
-        .btn-scan {
-            position: absolute; bottom: 30px; background: var(--vibe-green); color: white;
-            padding: 15px 40px; border: none; border-radius: 50px; font-size: 18px; font-weight: bold;
-            z-index: 30; cursor: pointer; box-shadow: 0 0 20px rgba(11, 117, 23, 0.4);
+        /* אזור התוצאות הצף */
+        #result-panel {
+            position: absolute; bottom: 50px; width: 90%; max-width: 350px;
+            background: rgba(20, 20, 20, 0.95); padding: 20px; border-radius: 20px;
+            text-align: center; z-index: 10; border: 1px solid #444; display: none;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
         }
 
-        /* סמנים ויזואליים */
         .scan-frame {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 250px; height: 150px; border: 2px solid rgba(255, 255, 255, 0.5);
-            border-radius: 20px; z-index: 5; box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+            width: 250px; height: 150px; border: 2px solid rgba(255,255,255,0.7);
+            border-radius: 15px; z-index: 5; box-shadow: 0 0 0 9999px rgba(0,0,0,0.5);
         }
+        
         .scan-line {
             width: 100%; height: 2px; background: var(--vibe-neon);
-            position: absolute; top: 10%; animation: scanMove 2s infinite; box-shadow: 0 0 10px var(--vibe-neon);
+            position: absolute; top: 10%; animation: scan 2s infinite;
         }
-        @keyframes scanMove { 0% { top: 10%; } 100% { top: 90%; } }
+        @keyframes scan { 0% { top: 10%; } 50% { top: 90%; } 100% { top: 10%; } }
+
+        button { background: var(--vibe-green); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-size: 16px; margin-top: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div id="reader"></div>
-    
-    <div class="scan-frame">
-        <div class="scan-line"></div>
-    </div>
+    <div class="scan-frame"><div class="scan-line"></div></div>
 
-    <div style="position: absolute; top: 20px; right: 20px; z-index: 10; text-align: center;">
-        <div style="font-size: 10px; opacity: 0.8;">BODY BATTERY</div>
-        <div style="font-size: 28px; font-weight: bold; color: white;">84%</div>
+    <div id="result-panel">
+        <h2 id="p-title" style="margin: 0 0 10px 0;">מעבד נתונים...</h2>
+        <div id="p-code" style="font-family: monospace; color: var(--vibe-neon); font-size: 18px;"></div>
+        <p id="p-desc" style="font-size: 14px; color: #ccc;">בודק מול השרת העולמי...</p>
+        <button onclick="location.reload()">סרוק שוב</button>
     </div>
-
-    <div id="product-card">
-        <img id="p-image" class="product-img" src="" alt="Product">
-        <h3 id="p-name" style="margin: 5px 0; font-size: 18px;">שם המוצר</h3>
-        <div id="p-badge" class="status-badge">בודק...</div>
-        <p id="p-desc" style="font-size: 13px; opacity: 0.8; margin: 10px 0;">תיאור קצר</p>
-        <button onclick="restartScan()" style="background:none; border:1px solid #666; color:white; padding:8px 20px; border-radius:10px; margin-top:10px;">סריקה חדשה</button>
-    </div>
-
-    <button id="scanBtn" class="btn-scan" onclick="startScanner()">התחל סריקה</button>
 
     <script>
-        let html5QrcodeScanner;
-
-        function startScanner() {
-            document.getElementById('scanBtn').style.display = 'none';
-            html5QrcodeScanner = new Html5Qrcode("reader");
-            
-            const config = { fps: 10, qrbox: { width: 250, height: 150 } };
-            
-            // מנסה מצלמה אחורית (Environment), אם נכשל עובר למצלמת משתמש (User)
-            html5QrcodeScanner.start({ facingMode: "environment" }, config, onScanSuccess)
-            .catch(err => {
-                html5QrcodeScanner.start({ facingMode: "user" }, config, onScanSuccess);
-            });
+        // הפעלת צליל (ביפ)
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function beep() {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.frequency.value = 1200;
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.1);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.1);
         }
 
-        function onScanSuccess(decodedText) {
-            // ברגע שזוהה ברקוד - עוצרים את המצלמה ובודקים ב-API
-            html5QrcodeScanner.stop().then(() => {
-                document.getElementById('reader').style.display = 'none'; // הסתרת מצלמה לחסכון משאבים
-                fetchProductData(decodedText);
+        // הגדרת הסורק
+        const html5QrCode = new Html5Qrcode("reader");
+        const config = { fps: 10, qrbox: { width: 250, height: 150 } };
+
+        html5QrCode.start({ facingMode: "environment" }, config, (decodedText) => {
+            // ברגע שיש זיהוי
+            html5QrCode.stop();
+            beep();
+            document.querySelector('.scan-frame').style.display = 'none'; // הסתרת מסגרת
+            showResult(decodedText);
+        }).catch(err => {
+            // אם המצלמה האחורית נכשלת (לפטופ), נסה מצלמת משתמש
+            html5QrCode.start({ facingMode: "user" }, config, (decodedText) => {
+                html5QrCode.stop();
+                beep();
+                showResult(decodedText);
             });
-        }
+        });
 
-        async function fetchProductData(barcode) {
-            const card = document.getElementById('product-card');
-            const pName = document.getElementById('p-name');
-            const pBadge = document.getElementById('p-badge');
-            const pDesc = document.getElementById('p-desc');
-            const pImage = document.getElementById('p-image');
-
-            // הצגת מצב "טעינה"
-            card.style.transform = 'translateX(-50%) translateY(0)';
-            pName.innerText = "מנתח נתונים...";
-            pDesc.innerText = "מתחבר למאגר העולמי לבדיקת רכיבים...";
+        async function showResult(barcode) {
+            const panel = document.getElementById('result-panel');
+            const title = document.getElementById('p-title');
+            const codeDisplay = document.getElementById('p-code');
+            const desc = document.getElementById('p-desc');
+            
+            panel.style.display = 'block';
+            codeDisplay.innerText = "BARCODE: " + barcode;
             
             try {
-                // שליחת בקשה ל-Open Food Facts
+                // בדיקה מול Open Food Facts
                 const response = await fetch(`https://world.openfoodfacts.org/api/v2/product/${barcode}.json`);
                 const data = await response.json();
 
                 if (data.status === 1) {
                     const product = data.product;
-                    pName.innerText = product.product_name_he || product.product_name || "מוצר ללא שם";
-                    pImage.src = product.image_front_small_url || "https://via.placeholder.com/80?text=No+Img";
-
-                    // בדיקת רכיבים (חיפוש המילה 'חלב' או 'Milk')
-                    const ingredients = (product.ingredients_text || "").toLowerCase();
-                    const allergens = (product.allergens || "").toLowerCase();
+                    title.innerText = product.product_name_he || product.product_name || "מוצר ללא שם";
                     
-                    const hasMilk = ingredients.includes('חלב') || ingredients.includes('milk') || allergens.includes('milk');
-
-                    if (hasMilk) {
-                        // זוהה חלב!
-                        pBadge.innerText = "מכיל חלב ⚠️";
-                        pBadge.style.backgroundColor = "#8b0000"; // אדום
-                        pBadge.style.color = "white";
-                        pDesc.innerText = "לא מתאים לך. מכיל רכיבי חלב שעלולים להוריד את האנרגיה.";
-                        card.style.border = "2px solid red";
+                    // בדיקת רכיבים
+                    const ingredients = (product.ingredients_text || "").toLowerCase();
+                    if (ingredients.includes('חלב') || ingredients.includes('milk')) {
+                        desc.innerHTML = "<span style='color:red; font-weight:bold;'>⚠️ מכיל חלב - לא מתאים</span>";
+                        panel.style.border = "2px solid red";
                     } else {
-                        // בטוח לשימוש (Vibe Match)
-                        pBadge.innerText = "VIBE MATCH ✅";
-                        pBadge.style.backgroundColor = "#0B7517"; // ירוק
-                        pBadge.style.color = "white";
-                        pDesc.innerText = "מוצר נקי מחלב. מתאים לשמירה על מדד ה-84%.";
-                        card.style.border = "2px solid #39FF14";
+                        desc.innerHTML = "<span style='color:#39FF14; font-weight:bold;'>✅ Vibe Match - ללא חלב</span>";
+                        panel.style.border = "2px solid #39FF14";
                     }
-
                 } else {
-                    pName.innerText = "מוצר לא נמצא";
-                    pDesc.innerText = "הברקוד הזה (" + barcode + ") עדיין לא קיים במאגר.";
+                    // מוצר לא נמצא במאגר
+                    title.innerText = "מוצר לא מוכר במאגר";
+                    desc.innerText = "הסורק תקין! אך הנתונים על הקינואה הזו חסרים במאגר החינמי.";
+                    panel.style.border = "2px solid orange";
                 }
-            } catch (error) {
-                pName.innerText = "שגיאת תקשורת";
-                pDesc.innerText = "בדוק חיבור לאינטרנט.";
+            } catch (err) {
+                title.innerText = "שגיאת רשת";
+                desc.innerText = "בדוק חיבור לאינטרנט.";
             }
-        }
-
-        function restartScan() {
-            location.reload();
         }
     </script>
 </body>
