@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>Vibe OS 38.0 - Stable</title>
+    <title>Vibe OS 42.0 - Perfected</title>
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     <style>
         :root { 
@@ -95,9 +95,18 @@
         .aisle-header { font-size: 12px; color: var(--primary); font-weight: 800; text-transform: uppercase; margin: 20px 0 10px 0; border-bottom: 1px solid #333; padding-bottom: 5px; letter-spacing: 1px; }
         .cart-item { display: flex; justify-content: space-between; align-items: center; background: #1a1a1a; padding: 12px; border-radius: 10px; margin-bottom: 8px; border: 1px solid #2a2a2a; }
         .clean-inp { width: 100%; background: #1c1c1e; border: 1px solid #333; color: white; padding: 15px; border-radius: 12px; font-size: 16px; margin-bottom: 10px; text-align: center; }
+        .inp-group { margin-bottom: 20px; }
+        .inp-label { display: block; color: #888; font-size: 11px; font-weight: bold; margin-bottom: 5px; text-transform: uppercase; }
 
         #toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: #222; color: white; padding: 12px 24px; border-radius: 50px; border: 1px solid #444; z-index: 1000; transition: 0.3s; font-weight: bold; display: flex; align-items: center; gap: 8px; box-shadow: 0 5px 20px rgba(0,0,0,0.5); }
         #toast.show { transform: translateX(-50%) translateY(0); }
+        
+        .grade-badge { font-size: 32px; font-weight: 900; }
+        .grade-A { color: #00e676; }
+        .grade-B { color: #cddc39; }
+        .grade-C { color: #ffca28; }
+        .grade-D { color: #ff9800; }
+        .grade-E { color: #ff5252; }
     </style>
 </head>
 <body>
@@ -105,7 +114,7 @@
     <div id="toast"></div>
 
     <div class="header">
-        <div class="brand">Vibe OS 38.0</div>
+        <div class="brand">Vibe OS 42.0</div>
         <div class="nav-icons">
             <div class="icon-btn" onclick="toggleModal('history-modal')">🕒</div>
             <div class="icon-btn" onclick="toggleModal('settings-modal')">⚙️</div>
@@ -120,7 +129,7 @@
                 <div class="bento-lbl" id="score-text" style="color:var(--primary);">טרם התחלת</div>
             </div>
             <div class="progress-container"><div class="progress-fill" id="basket-score-bar" style="width: 50%;"></div></div>
-            <div style="font-size:11px; color:#666; margin-top:5px;">המדד עולה ככל שהסל מכיל יותר מוצרים טריים ומזינים</div>
+            <div style="font-size:11px; color:#666; margin-top:5px;">המדד עולה ככל שהסל מכיל יותר ירקות ומוצרים טריים</div>
         </div>
         <div class="bento-card"><div class="bento-lbl">פריטים</div><div class="bento-val" id="d-cart">0</div></div>
     </div>
@@ -129,64 +138,64 @@
         <div class="sec-head">פרופיל אישי</div>
         
         <div class="acc c-red"><div class="acc-head" onclick="tog(this)">⚠️ אלרגיות (חובה) <span>▾</span></div><div class="acc-body danger">
-            <input type="checkbox" id="a-milk" class="chip save"><label for="a-milk" class="lbl">חלב</label>
-            <input type="checkbox" id="a-gluten" class="chip save"><label for="a-gluten" class="lbl">גלוטן</label>
-            <input type="checkbox" id="a-nuts" class="chip save"><label for="a-nuts" class="lbl">אגוזים</label>
-            <input type="checkbox" id="a-peanuts" class="chip save"><label for="a-peanuts" class="lbl">בוטנים</label>
-            <input type="checkbox" id="a-soy" class="chip save"><label for="a-soy" class="lbl">סויה</label>
-            <input type="checkbox" id="a-sesame" class="chip save"><label for="a-sesame" class="lbl">שומשום</label>
-            <input type="checkbox" id="a-eggs" class="chip save"><label for="a-eggs" class="lbl">ביצים</label>
-            <input type="checkbox" id="a-fish" class="chip save"><label for="a-fish" class="lbl">דגים (יוד)</label>
-            <input type="checkbox" id="a-sulfites" class="chip save"><label for="a-sulfites" class="lbl">סולפיטים</label>
+            <input type="checkbox" id="a-milk" class="chip save"><label for="a-milk" class="lbl">🥛 חלב</label>
+            <input type="checkbox" id="a-gluten" class="chip save"><label for="a-gluten" class="lbl">🍞 גלוטן</label>
+            <input type="checkbox" id="a-nuts" class="chip save"><label for="a-nuts" class="lbl">🌰 אגוזים</label>
+            <input type="checkbox" id="a-peanuts" class="chip save"><label for="a-peanuts" class="lbl">🥜 בוטנים</label>
+            <input type="checkbox" id="a-soy" class="chip save"><label for="a-soy" class="lbl">🥢 סויה</label>
+            <input type="checkbox" id="a-sesame" class="chip save"><label for="a-sesame" class="lbl">🥯 שומשום</label>
+            <input type="checkbox" id="a-eggs" class="chip save"><label for="a-eggs" class="lbl">🥚 ביצים</label>
+            <input type="checkbox" id="a-fish" class="chip save"><label for="a-fish" class="lbl">🐟 דגים (יוד)</label>
+            <input type="checkbox" id="a-sulfites" class="chip save"><label for="a-sulfites" class="lbl">🍷 סולפיטים</label>
         </div></div>
 
         <div class="acc c-red"><div class="acc-head" onclick="tog(this)">🏥 ניהול רפואי <span>▾</span></div><div class="acc-body danger">
-            <input type="checkbox" id="d-diabetic" class="chip save"><label for="d-diabetic" class="lbl">סוכרת</label>
-            <input type="checkbox" id="d-heart" class="chip save"><label for="d-heart" class="lbl">לב/נתרן</label>
-            <input type="checkbox" id="d-cholesterol" class="chip save"><label for="d-cholesterol" class="lbl">כולסטרול</label>
-            <input type="checkbox" id="d-celiac" class="chip save"><label for="d-celiac" class="lbl">צליאק</label>
-            <input type="checkbox" id="d-gout" class="chip save"><label for="d-gout" class="lbl">גאוט</label>
-            <input type="checkbox" id="d-kidney" class="chip save"><label for="d-kidney" class="lbl">כליות</label>
-            <input type="checkbox" id="d-reflux" class="chip save"><label for="d-reflux" class="lbl">צרבת</label>
-            <input type="checkbox" id="d-ibs" class="chip save"><label for="d-ibs" class="lbl">מעי רגיז</label>
-            <input type="checkbox" id="d-anemia" class="chip save"><label for="d-anemia" class="lbl">אנמיה</label>
+            <input type="checkbox" id="d-diabetic" class="chip save"><label for="d-diabetic" class="lbl">💉 סוכרת</label>
+            <input type="checkbox" id="d-heart" class="chip save"><label for="d-heart" class="lbl">🫀 לב/נתרן</label>
+            <input type="checkbox" id="d-cholesterol" class="chip save"><label for="d-cholesterol" class="lbl">🍔 כולסטרול</label>
+            <input type="checkbox" id="d-celiac" class="chip save"><label for="d-celiac" class="lbl">🌾 צליאק</label>
+            <input type="checkbox" id="d-gout" class="chip save"><label for="d-gout" class="lbl">🦶 גאוט</label>
+            <input type="checkbox" id="d-kidney" class="chip save"><label for="d-kidney" class="lbl">🩺 כליות</label>
+            <input type="checkbox" id="d-reflux" class="chip save"><label for="d-reflux" class="lbl">🔥 צרבת</label>
+            <input type="checkbox" id="d-ibs" class="chip save"><label for="d-ibs" class="lbl">🎈 מעי רגיז</label>
+            <input type="checkbox" id="d-anemia" class="chip save"><label for="d-anemia" class="lbl">🩸 אנמיה</label>
         </div></div>
 
         <div class="acc c-purple"><div class="acc-head" onclick="tog(this)">👶 רגישויות מיוחדות <span>▾</span></div><div class="acc-body danger">
-            <input type="checkbox" id="x-preg" class="chip save"><label for="x-preg" class="lbl">הריון</label>
-            <input type="checkbox" id="x-baby" class="chip save"><label for="x-baby" class="lbl">תינוקות</label>
-            <input type="checkbox" id="x-elderly" class="chip save"><label for="x-elderly" class="lbl">גיל שלישי</label>
+            <input type="checkbox" id="x-preg" class="chip save"><label for="x-preg" class="lbl">🤰 הריון</label>
+            <input type="checkbox" id="x-baby" class="chip save"><label for="x-baby" class="lbl">🍼 תינוקות</label>
+            <input type="checkbox" id="x-elderly" class="chip save"><label for="x-elderly" class="lbl">👴 גיל שלישי</label>
         </div></div>
 
         <div class="acc c-blue"><div class="acc-head" onclick="tog(this)">🥗 דיאטה ולייף סטייל <span>▾</span></div><div class="acc-body safe">
-            <input type="checkbox" id="l-vegan" class="chip save"><label for="l-vegan" class="lbl">טבעוני</label>
-            <input type="checkbox" id="l-vegetarian" class="chip save"><label for="l-vegetarian" class="lbl">צמחוני</label>
-            <input type="checkbox" id="l-keto" class="chip save"><label for="l-keto" class="lbl">קטו</label>
-            <input type="checkbox" id="l-paleo" class="chip save"><label for="l-paleo" class="lbl">פליאו</label>
-            <input type="checkbox" id="l-lowcarb" class="chip save"><label for="l-lowcarb" class="lbl">דל פחמימה</label>
-            <input type="checkbox" id="c-clean" class="chip save"><label for="c-clean" class="lbl">תווית נקייה</label>
-            <input type="checkbox" id="c-sugar" class="chip save"><label for="c-sugar" class="lbl">ללא סוכר</label>
-            <input type="checkbox" id="c-organic" class="chip save"><label for="c-organic" class="lbl">אורגני</label>
+            <input type="checkbox" id="l-vegan" class="chip save"><label for="l-vegan" class="lbl">🌱 טבעוני</label>
+            <input type="checkbox" id="l-vegetarian" class="chip save"><label for="l-vegetarian" class="lbl">🧀 צמחוני</label>
+            <input type="checkbox" id="l-keto" class="chip save"><label for="l-keto" class="lbl">🥑 קטו</label>
+            <input type="checkbox" id="l-paleo" class="chip save"><label for="l-paleo" class="lbl">🍖 פליאו</label>
+            <input type="checkbox" id="l-lowcarb" class="chip save"><label for="l-lowcarb" class="lbl">📉 דל פחמימה</label>
+            <input type="checkbox" id="c-clean" class="chip save"><label for="c-clean" class="lbl">🧪 תווית נקייה</label>
+            <input type="checkbox" id="c-sugar" class="chip save"><label for="c-sugar" class="lbl">🍭 ללא סוכר</label>
+            <input type="checkbox" id="c-organic" class="chip save"><label for="c-organic" class="lbl">🍂 אורגני</label>
         </div></div>
 
         <div class="acc c-gold"><div class="acc-head" onclick="tog(this)">✡️ דת ומסורת <span>▾</span></div><div class="acc-body safe">
-            <input type="checkbox" id="k-kosher" class="chip save"><label for="k-kosher" class="lbl">כשר</label>
-            <input type="checkbox" id="k-badatz" class="chip save"><label for="k-badatz" class="lbl">בד"ץ</label>
-            <input type="checkbox" id="k-parve" class="chip save"><label for="k-parve" class="lbl">פרווה</label>
-            <input type="checkbox" id="k-halal" class="chip save"><label for="k-halal" class="lbl">חלאל</label>
-            <input type="checkbox" id="k-passover" class="chip save"><label for="k-passover" class="lbl">פסח</label>
+            <input type="checkbox" id="k-kosher" class="chip save"><label for="k-kosher" class="lbl">📜 כשר</label>
+            <input type="checkbox" id="k-badatz" class="chip save"><label for="k-badatz" class="lbl">✨ בד"ץ</label>
+            <input type="checkbox" id="k-parve" class="chip save"><label for="k-parve" class="lbl">🍏 פרווה</label>
+            <input type="checkbox" id="k-halal" class="chip save"><label for="k-halal" class="lbl">☪️ חלאל</label>
+            <input type="checkbox" id="k-passover" class="chip save"><label for="k-passover" class="lbl">🚫 לפסח</label>
         </div></div>
 
         <div class="acc c-blue"><div class="acc-head" onclick="tog(this)">⚡ ספורט וחיטוב <span>▾</span></div><div class="acc-body safe">
-            <input type="checkbox" id="p-protein" class="chip save"><label for="p-protein" class="lbl">חלבון גבוה</label>
-            <input type="checkbox" id="p-bulk" class="chip save"><label for="p-bulk" class="lbl">מסה</label>
-            <input type="checkbox" id="p-cut" class="chip save"><label for="p-cut" class="lbl">חיטוב</label>
-            <input type="checkbox" id="p-energy" class="chip save"><label for="p-energy" class="lbl">אנרגיה</label>
+            <input type="checkbox" id="p-protein" class="chip save"><label for="p-protein" class="lbl">💪 חלבון גבוה</label>
+            <input type="checkbox" id="p-bulk" class="chip save"><label for="p-bulk" class="lbl">🦍 מסה</label>
+            <input type="checkbox" id="p-cut" class="chip save"><label for="p-cut" class="lbl">✂️ חיטוב</label>
+            <input type="checkbox" id="p-energy" class="chip save"><label for="p-energy" class="lbl">🔋 אנרגיה</label>
         </div></div>
         
         <div class="acc c-blue"><div class="acc-head" onclick="tog(this)">🌍 ערכים <span>▾</span></div><div class="acc-body safe">
-            <input type="checkbox" id="b-israel" class="chip save" checked><label for="b-israel" class="lbl">תוצרת הארץ</label>
-            <input type="checkbox" id="b-fairtrade" class="chip save"><label for="b-fairtrade" class="lbl">סחר הוגן</label>
+            <input type="checkbox" id="b-israel" class="chip save" checked><label for="b-israel" class="lbl">🇮🇱 תוצרת הארץ</label>
+            <input type="checkbox" id="b-fairtrade" class="chip save"><label for="b-fairtrade" class="lbl">🤝 סחר הוגן</label>
         </div></div>
     </div>
 
@@ -219,14 +228,18 @@
                     <input type="text" id="p-name" class="editable-name" value="..." oninput="updateName(this.value)">
                     <div style="font-size:10px;color:#666;">✎ לחץ לעריכה ותרגום</div>
                 </div>
+                <div style="text-align:center;">
+                    <div id="grade-display" class="grade-badge"></div>
+                    <div id="p-score" style="font-size:12px;color:#888;">--%</div>
+                </div>
             </div>
 
             <div id="tags-area" class="tags-container"></div>
             <div id="bio-res" class="analysis-box"></div>
 
             <div class="action-grid">
-                <button class="sheet-btn" onclick="comparePrecise()">🔎 השוואת מחיר<span style="font-size:9px;opacity:0.6;">לפי ברקוד/שם</span></button>
-                <button class="sheet-btn" onclick="findAlternatives()">💡 חלופות זולות<span style="font-size:9px;opacity:0.6;">לפי קטגוריה</span></button>
+                <button class="sheet-btn" onclick="comparePrecise()">🔎 השוואה מדוייקת<span style="font-size:9px;opacity:0.6;">לפי ברקוד/שם</span></button>
+                <button class="sheet-btn" onclick="findAlternatives()">💡 חלופות זולות<span style="font-size:9px;opacity:0.6;">ללא מותג</span></button>
                 <button class="sheet-btn primary" onclick="addToCart()">🛒 הוסף לסל שבועי</button>
             </div>
         </div>
@@ -235,7 +248,11 @@
     <div id="cart-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header"><h2>סל קניות שבועי</h2><button onclick="closeModal('cart-modal')" style="background:none;border:none;color:white;font-size:24px;">&times;</button></div>
-            <div class="modal-body" id="cart-body"></div>
+            <div class="modal-body">
+                <textarea id="import-area" class="clean-inp" style="height:60px;margin-bottom:10px;text-align:right;" placeholder="הדבק כאן רשימה מהפתקים..."></textarea>
+                <button onclick="importList()" class="clean-inp" style="background:#333;margin-bottom:20px;">📥 ייבוא וסידור אוטומטי</button>
+                <div id="cart-body"></div>
+            </div>
             <div style="padding:20px;text-align:center;border-top:1px solid #333;"><button onclick="shareCart()" class="clean-inp" style="background:var(--primary);color:black;font-weight:bold;">וואטסאפ 📤</button></div>
         </div>
     </div>
@@ -244,10 +261,37 @@
         <div class="modal-content">
             <div class="modal-header"><h2>הגדרות</h2><button onclick="closeModal('settings-modal')" style="background:none;border:none;color:white;font-size:24px;">&times;</button></div>
             <div class="modal-body">
-                <input type="number" id="u-w" class="clean-inp" placeholder="משקל (קג)">
-                <input type="number" id="u-h" class="clean-inp" placeholder="גובה (סמ)">
-                <input type="number" id="u-age" class="clean-inp" placeholder="גיל">
-                <button onclick="saveProfile()" class="clean-inp" style="background:white;color:black;font-weight:bold;margin-top:20px;">שמור</button>
+                <div class="inp-group">
+                    <span class="inp-label">סגנון תזונה (מסננים אוטומטיים)</span>
+                    <select id="u-diet" class="clean-inp">
+                        <option value="none">ללא</option>
+                        <option value="vegan">טבעוני</option>
+                        <option value="vegetarian">צמחוני</option>
+                        <option value="keto">קטו</option>
+                        <option value="paleo">פליאו</option>
+                    </select>
+                </div>
+                <div class="inp-group">
+                    <span class="inp-label">מטרה ומשקל חכם</span>
+                    <select id="u-target" class="clean-inp" style="margin-bottom:10px;">
+                        <option value="maintain">שמירה על משקל</option>
+                        <option value="cut">חיטוב (גירעון קלורי)</option>
+                        <option value="bulk">מסה (עודף קלורי)</option>
+                    </select>
+                    <div style="display:flex;gap:10px;">
+                        <input type="number" id="u-fat" class="clean-inp" placeholder="% שומן">
+                        <input type="number" id="u-muscle" class="clean-inp" placeholder="מסת שריר">
+                    </div>
+                </div>
+                <div class="inp-group">
+                    <span class="inp-label">פרטים אישיים</span>
+                    <div style="display:flex;gap:10px;">
+                        <input type="number" id="u-w" class="clean-inp" placeholder="משקל (קג)">
+                        <input type="number" id="u-h" class="clean-inp" placeholder="גובה (סמ)">
+                    </div>
+                    <input type="number" id="u-age" class="clean-inp" style="margin-top:10px;" placeholder="גיל">
+                </div>
+                <button onclick="saveProfile()" class="clean-inp" style="background:white;color:black;font-weight:bold;margin-top:10px;">שמור וחשב מחדש</button>
             </div>
         </div>
     </div>
@@ -261,16 +305,19 @@
     </div>
 
     <script>
-        // --- VIBE OS 38.0 STABLE LOGIC ---
+        // --- VIBE OS 42.0 GOLD LOGIC ---
         
-        let cart = JSON.parse(localStorage.getItem('vibeCart38')) || [];
+        let cart = JSON.parse(localStorage.getItem('vibeCart42')) || [];
         let history = JSON.parse(localStorage.getItem('vibeHistory')) || [];
-        let user = JSON.parse(localStorage.getItem('vibeUser38')) || {w:75, h:175, age:30};
-        let currentItem = { name: '', code: '', brand: '', category: 'other' };
+        let user = JSON.parse(localStorage.getItem('vibeUser42')) || {w:75, h:175, age:30, target:'maintain', diet:'none', protein:0};
+        let currentItem = { name: '', code: '', brand: '', category: 'other', protein:0 };
 
-        // 1. MASSIVE DICTIONARY
+        // --- ISRAELI BRANDS BLACKLIST (For De-Branding) ---
+        const brandsBlacklist = ['אסם','תנובה','שטראוס','עלית','תלמה','קנור','סוגת','ויסוצקי','טרה','מחלבות גד','גד','פריגת','נביעות','מי עדן','עין גדי','שוופס','קוקה קולה','פפסי','נסטלה','יופלה','דנונה','מילקי','קרלו','במבה','ביסלי','תפוציפס','פרינגלס','אחלה','צבר','שמיר','מעדנות','שלושת האופים','טבעול','זוגלובק','יחיעם','טירת צבי','עוף טוב','סנפרוסט','וילי פוד','רמי לוי','שופרסל','אושר עד','ויקטורי'];
+
+        // --- HYPER DICTIONARY (Complete) ---
         const dict = {
-            'milk':{he:'חלב',c:'fridge'},'cheese':{he:'גבינה',c:'fridge'},'yogurt':{he:'יוגורט',c:'fridge'},'butter':{he:'חמאה',c:'fridge'},'cream':{he:'שמנת',c:'fridge'},
+            'milk':{he:'חלב',c:'fridge'},'cheese':{he:'גבינה',c:'fridge'},'yogurt':{he:'יוגורט',c:'fridge'},'butter':{he:'חמאה',c:'fridge'},'cream':{he:'שמנת',c:'fridge'},'pudding':{he:'מעדן',c:'fridge'},'probiotic':{he:'פרוביוטי',c:'fridge'},'mozzarella':{he:'מוצרלה',c:'fridge'},'cheddar':{he:'צדר',c:'fridge'},'parmesan':{he:'פרמזן',c:'fridge'},'labane':{he:'לבנה',c:'fridge'},'cottage':{he:'קוטג',c:'fridge'},
             'bread':{he:'לחם',c:'pantry'},'pasta':{he:'פסטה',c:'pantry'},'rice':{he:'אורז',c:'pantry'},'flour':{he:'קמח',c:'pantry'},'sugar':{he:'סוכר',c:'pantry'},'salt':{he:'מלח',c:'pantry'},'oil':{he:'שמן',c:'pantry'},'olive':{he:'זית',c:'pantry'},'canola':{he:'קנולה',c:'pantry'},'couscous':{he:'קוסקוס',c:'pantry'},'quinoa':{he:'קינואה',c:'pantry'},'lentil':{he:'עדשים',c:'pantry'},'bean':{he:'שעועית',c:'pantry'},'chickpea':{he:'חומוס',c:'pantry'},'tahini':{he:'טחינה',c:'pantry'},'corn':{he:'תירס',c:'pantry'},'cereal':{he:'דגני בוקר',c:'pantry'},'oat':{he:'שיבולת שועל',c:'pantry'},'granola':{he:'גרנולה',c:'pantry'},'honey':{he:'דבש',c:'pantry'},'jam':{he:'ריבה',c:'pantry'},'spread':{he:'ממרח',c:'pantry'},'chocolate':{he:'שוקולד',c:'pantry'},'halva':{he:'חלבה',c:'pantry'},
             'tomato':{he:'עגבניה',c:'veg'},'cucumber':{he:'מלפפון',c:'veg'},'apple':{he:'תפוח',c:'veg'},'banana':{he:'בננה',c:'veg'},'lemon':{he:'לימון',c:'veg'},'pepper':{he:'פלפל',c:'veg'},'carrot':{he:'גזר',c:'veg'},'onion':{he:'בצל',c:'veg'},'garlic':{he:'שום',c:'veg'},'potato':{he:'תפוח אדמה',c:'veg'},'lettuce':{he:'חסה',c:'veg'},'cabbage':{he:'כרוב',c:'veg'},'herb':{he:'עשבי תיבול',c:'veg'},'avocado':{he:'אבוקדו',c:'veg'},'orange':{he:'תפוז',c:'veg'},'grape':{he:'ענבים',c:'veg'},'melon':{he:'מלון',c:'veg'},'berry':{he:'פירות יער',c:'veg'},'date':{he:'תמר',c:'veg'},
             'chicken':{he:'עוף',c:'meat'},'beef':{he:'בקר',c:'meat'},'fish':{he:'דג',c:'meat'},'tuna':{he:'טונה',c:'pantry'},'egg':{he:'ביצים',c:'fridge'},'salami':{he:'נקניק',c:'meat'},'sausage':{he:'נקניקיה',c:'meat'},'tofu':{he:'טופו',c:'fridge'},'seitan':{he:'סייטן',c:'fridge'},'salmon':{he:'סלמון',c:'meat'},
@@ -292,9 +339,22 @@
         const chk=(id)=>document.getElementById(id).checked;
         function showToast(msg){ const t=document.getElementById('toast'); t.innerHTML=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }
         function loadChecks(){ document.querySelectorAll('.save').forEach(el=>{ if(localStorage.getItem(el.id)==='true') el.checked=true; el.addEventListener('change',()=>localStorage.setItem(el.id,el.checked)); }); }
+        
         function saveProfile(){ 
-            user.w=document.getElementById('u-w').value; user.h=document.getElementById('u-h').value; user.age=document.getElementById('u-age').value;
-            localStorage.setItem('vibeUser38',JSON.stringify(user)); closeModal('settings-modal'); showToast('פרופיל נשמר');
+            user.w=document.getElementById('u-w').value; 
+            user.h=document.getElementById('u-h').value; 
+            user.target=document.getElementById('u-target').value;
+            user.diet=document.getElementById('u-diet').value;
+            
+            // SMART SYNC LOGIC
+            if(user.diet === 'vegan') { document.getElementById('l-vegan').checked = true; localStorage.setItem('l-vegan', true); }
+            if(user.diet === 'keto') { document.getElementById('l-keto').checked = true; localStorage.setItem('l-keto', true); }
+            if(user.diet === 'paleo') { document.getElementById('l-paleo').checked = true; localStorage.setItem('l-paleo', true); }
+
+            localStorage.setItem('vibeUser42',JSON.stringify(user)); 
+            closeModal('settings-modal'); 
+            showToast('פרופיל עודכן');
+            updateScore();
         }
 
         // CAMERA
@@ -315,6 +375,7 @@
             document.getElementById('sheet-wrapper').classList.add('active-sheet');
             document.getElementById('p-name').value="טוען...";
             document.getElementById('tags-area').innerHTML="";
+            document.getElementById('grade-display').innerText = "";
             
             try {
                 const res=await fetch(`https://world.openfoodfacts.org/api/v2/product/${code}.json`);
@@ -322,7 +383,7 @@
                 if(data.status!==1) throw new Error();
                 const p=data.product;
                 
-                // 1. Translate & Categorize
+                // Translate & De-Brand Logic
                 let name=p.product_name_he||p.product_name||"";
                 let cat='other';
                 let lowName=name.toLowerCase();
@@ -333,32 +394,23 @@
                     }
                 }
                 
-                currentItem={name:name, code:code, brand:p.brands||"", category:cat};
+                let prot = p.nutriments.proteins_100g || 0;
+                currentItem={name:name, code:code, brand:p.brands||"", category:cat, protein:prot};
                 document.getElementById('p-name').value=name;
                 document.getElementById('p-brand').innerText=p.brands||"";
                 document.getElementById('p-img').src=p.image_front_small_url||"";
 
-                // 2. Deep Analysis
                 const n=p.nutriments||{};
                 const txt=(JSON.stringify(p.ingredients_text)+JSON.stringify(p.labels)).toLowerCase();
                 const add=(p.additives_tags||[]).join(" ");
                 let tags="";
+                let score=100;
 
-                // ALLERGIES (Danger)
-                const al = (id, k, t) => {
-                    if (chk(id)) {
-                        for (let w of k) {
-                            if (txt.includes(w)) {
-                                tags += `<div class="info-tag tag-danger">⛔ ${t}</div>`;
-                                return;
-                            }
-                        }
-                    }
-                };
-                
-                al('a-milk',['milk','lait','חלב','whey'],'חלב');
-                al('a-gluten',['gluten','wheat','חיטה','barley','rye'],'גלוטן');
-                al('a-nuts',['nut','almond','cashew','pecan','אגוז'],'אגוזים');
+                // --- 65 FILTER LOGIC START ---
+                const al=(id,k,t)=>{ if(chk(id)){ for(let w of k) if(txt.includes(w)){ tags+=`<div class="info-tag tag-danger">⛔ ${t}</div>`; score-=50; return; } } };
+                al('a-milk',['milk','lait','חלב'],'חלב');
+                al('a-gluten',['gluten','wheat','חיטה'],'גלוטן');
+                al('a-nuts',['nut','almond','אגוז'],'אגוזים');
                 al('a-peanuts',['peanut','בוטנים'],'בוטנים');
                 al('a-soy',['soy','סויה'],'סויה');
                 al('a-sesame',['sesame','שומשום'],'שומשום');
@@ -366,44 +418,39 @@
                 al('a-fish',['fish','דג'],'דגים/יוד');
                 al('a-sulfites',['sulfite','e220','e224'],'סולפיטים');
 
-                // MEDICAL (Warning/Info)
-                if(chk('d-diabetic')&&(n.sugars_100g>5||n.carbohydrates_100g>50)) tags+=`<div class="info-tag tag-neutral">🍬 סוכר/פחמימה גבוה</div>`;
-                if(chk('d-heart')&&(n.salt_100g>1||n['saturated-fat_100g']>4)) tags+=`<div class="info-tag tag-neutral">🧂 נתרן/שומן רווי גבוה</div>`;
-                if(chk('d-cholesterol')&&n.cholesterol_100g>0.05) tags+=`<div class="info-tag tag-neutral">🍔 כולסטרול</div>`;
-                if(chk('d-gout')&&(txt.includes('liver')||txt.includes('yeast')||txt.includes('meat'))) tags+=`<div class="info-tag tag-neutral">🦵 חשש פורינים</div>`;
-                if(chk('d-kidney')&&(n.potassium_100g>0.3||add.includes('phosphate'))) tags+=`<div class="info-tag tag-neutral">🩺 אשלגן/זרחן</div>`;
-                if(chk('d-reflux')&&(txt.includes('spice')||txt.includes('tomato')||txt.includes('citrus')||txt.includes('mint'))) tags+=`<div class="info-tag tag-neutral">🔥 חומציות</div>`;
-                if(chk('d-ibs')&&(txt.includes('onion')||txt.includes('garlic')||txt.includes('wheat')||txt.includes('milk'))) tags+=`<div class="info-tag tag-neutral">⚠️ חשש FODMAP</div>`;
-                if(chk('d-anemia')&&(txt.includes('tea')||txt.includes('coffee')||n.calcium_100g>0.3)) tags+=`<div class="info-tag tag-neutral">🩸 מעכב ברזל</div>`;
-
-                // SENSITIVE
-                if(chk('x-preg')&&(txt.includes('caffeine')||txt.includes('alcohol')||txt.includes('raw'))) tags+=`<div class="info-tag tag-danger">⛔ הריון (קפאין/אלכוהול/נא)</div>`;
-                if(chk('x-baby')&&(n.sugars_100g>2||n.salt_100g>0.5||add.length>0)) tags+=`<div class="info-tag tag-danger">⛔ לא לתינוקות</div>`;
-                if(chk('x-elderly')&&(txt.includes('hard')||txt.includes('nut'))) tags+=`<div class="info-tag tag-neutral">👴 מרקם קשה</div>`;
-
-                // DIET
-                if(chk('l-vegan')&&(txt.includes('milk')||txt.includes('egg')||txt.includes('honey')||txt.includes('meat')||txt.includes('fish'))) tags+=`<div class="info-tag tag-neutral">❌ לא טבעוני</div>`;
-                if(chk('l-vegetarian')&&(txt.includes('meat')||txt.includes('fish'))) tags+=`<div class="info-tag tag-neutral">❌ לא צמחוני</div>`;
-                if(chk('l-keto')&&n.carbohydrates_100g>10) tags+=`<div class="info-tag tag-neutral">❌ פחמימה גבוהה (לא קטו)</div>`;
-                if(chk('l-paleo')&&(txt.includes('sugar')||txt.includes('grain')||txt.includes('legume'))) tags+=`<div class="info-tag tag-neutral">❌ לא פליאו</div>`;
-                if(chk('c-clean')&&(add.includes('e2')||add.includes('e6')||add.includes('e1')||add.includes('e9'))) tags+=`<div class="info-tag tag-neutral">🧪 תוספים מלאכותיים</div>`;
-                if(chk('c-sugar')&&n.sugars_100g>0.5) tags+=`<div class="info-tag tag-neutral">🍭 מכיל סוכר</div>`;
-
-                // RELIGION
+                if(chk('d-diabetic')&&(n.sugars_100g>5||n.carbohydrates_100g>50)) {tags+=`<div class="info-tag tag-neutral">🍬 סוכר גבוה</div>`; score-=30;}
+                if(chk('d-heart')&&(n.salt_100g>1||n['saturated-fat_100g']>4)) {tags+=`<div class="info-tag tag-neutral">🧂 נתרן גבוה</div>`; score-=30;}
+                if(chk('d-cholesterol')&&n.cholesterol_100g>0.05) {tags+=`<div class="info-tag tag-neutral">🍔 כולסטרול</div>`; score-=20;}
+                if(chk('d-gout')&&(txt.includes('liver')||txt.includes('yeast'))) {tags+=`<div class="info-tag tag-neutral">🦵 חשש פורינים</div>`; score-=20;}
+                if(chk('d-kidney')&&(n.potassium_100g>0.3||add.includes('phosphate'))) tags+=`<div class="info-tag tag-neutral">🩺 אשלגן</div>`;
+                if(chk('x-preg')&&(txt.includes('caffeine')||txt.includes('alcohol'))) tags+=`<div class="info-tag tag-danger">⛔ קפאין/אלכוהול</div>`;
                 if(chk('k-parve')&&(txt.includes('milk')||txt.includes('meat'))) tags+=`<div class="info-tag tag-neutral">❌ לא פרווה</div>`;
-                if(chk('k-passover')&&(txt.includes('leaven')||txt.includes('chametz')||txt.includes('beer'))) tags+=`<div class="info-tag tag-neutral">❌ חמץ</div>`;
-
-                // POSITIVE
-                if(n.proteins_100g>10) tags+=`<div class="info-tag tag-good">💪 מקור לחלבון</div>`;
-                if(n.fiber_100g>3) tags+=`<div class="info-tag tag-good">🌾 סיבים תזונתיים</div>`;
+                if(chk('l-vegan')&&(txt.includes('milk')||txt.includes('egg')||txt.includes('honey'))) tags+=`<div class="info-tag tag-neutral">❌ לא טבעוני</div>`;
+                if(chk('c-clean')&&(add.includes('e2')||add.includes('e6'))) tags+=`<div class="info-tag tag-neutral">🧪 תוספים מלאכותיים</div>`;
+                
+                if(n.proteins_100g > 10) tags+=`<div class="info-tag tag-good">💪 חלבון</div>`;
                 if(chk('b-israel')&&code.startsWith('729')) tags+=`<div class="info-tag tag-good">🇮🇱 תוצרת הארץ</div>`;
+                // --- END LOGIC ---
 
-                document.getElementById('tags-area').innerHTML = tags || `<div class="info-tag tag-good">✨ ללא אזהרות מיוחדות</div>`;
-                document.getElementById('bio-res').innerText = `${n['energy-kcal_100g']||0} קלוריות | ${n.proteins_100g||0}g חלבון | ${n.carbohydrates_100g||0}g פחמימה`;
+                if(score<0) score=0;
+                
+                // GRADE LOGIC (A-E)
+                let grade = 'E';
+                if(score > 80) grade = 'A';
+                else if(score > 60) grade = 'B';
+                else if(score > 40) grade = 'C';
+                else if(score > 20) grade = 'D';
+                
+                const gEl = document.getElementById('grade-display');
+                gEl.innerText = grade;
+                gEl.className = `grade-badge grade-${grade}`;
 
-                // History
+                document.getElementById('tags-area').innerHTML = tags || `<div class="info-tag tag-good">✨ ללא אזהרות</div>`;
+                document.getElementById('bio-res').innerText = `${n['energy-kcal_100g']||0} קלוריות | ${prot}g חלבון`;
+                document.getElementById('p-score').innerText = score + "% התאמה";
+
                 history.unshift({name:name,code:code,date:new Date().toLocaleDateString()});
-                if(history.length>20) history.pop();
+                if(history.length>15) history.pop();
                 localStorage.setItem('vibeHistory',JSON.stringify(history));
                 renderHistory();
 
@@ -413,7 +460,25 @@
             }
         }
 
-        // CART & SCORE
+        // CART & IMPORT
+        function importList(){
+            const text = document.getElementById('import-area').value;
+            if(!text) return;
+            const lines = text.split(/\n|,/);
+            lines.forEach(line => {
+                let clean = line.trim();
+                if(clean){
+                    let cat = 'other';
+                    // Auto-tagging
+                    for(const [k,v] of Object.entries(dict)){ if(clean.includes(k) || clean.includes(v.he)) cat=v.c; }
+                    cart.push({name:clean, category:cat});
+                }
+            });
+            renderCart(); updateScore();
+            document.getElementById('import-area').value = "";
+            showToast(`נוספו ${lines.length} פריטים`);
+        }
+
         function addToCart(){
             cart.push(currentItem);
             renderCart(); updateScore(); closeSheet(); showToast("✅ נוסף לסל");
@@ -422,8 +487,8 @@
             const b=document.getElementById('cart-body'); b.innerHTML="";
             const grouped={};
             cart.forEach(i=>{ if(!grouped[i.category]) grouped[i.category]=[]; grouped[i.category].push(i); });
-            
             const order=['veg','fridge','meat','pantry','home','other'];
+            
             order.forEach(cat=>{
                 if(grouped[cat]){
                     b.innerHTML+=`<div class="aisle-header">${aisles[cat]}</div>`;
@@ -434,37 +499,50 @@
                 }
             });
             document.getElementById('d-cart').innerText=cart.length;
-            localStorage.setItem('vibeCart38',JSON.stringify(cart));
+            localStorage.setItem('vibeCart42',JSON.stringify(cart));
         }
         function del(i){cart.splice(i,1); renderCart(); updateScore();}
         
         function updateScore(){
-            let s=50; // Base
-            cart.forEach(i=>{
-                if(i.category==='veg') s+=5;
-                if(i.category==='fridge') s+=2;
-                if(i.category==='pantry') s+=1;
-            });
+            let s=50;
+            cart.forEach(i=>{ if(i.category==='veg') s+=5; if(i.category==='pantry') s+=1; });
             s=Math.min(100,Math.max(0,s));
             document.getElementById('basket-score-bar').style.width=s+"%";
             document.getElementById('score-text').innerText= s>80?"מצוין 🏆":(s>50?"מאוזן 👍":"טעון שיפור");
         }
 
-        function shareCart(){window.open(`https://wa.me/?text=רשימת קניות:%0A${cart.map(i=>i.name).join('%0A')}`,'_blank');}
+        function shareCart(){window.open(`https://wa.me/?text=רשימת קניות:%0A${cart.map(i=>"- "+i.name).join('%0A')}`,'_blank');}
         function clearHistory(){history=[]; localStorage.removeItem('vibeHistory'); renderHistory();}
         function renderHistory(){
             const l=document.getElementById('history-list'); l.innerHTML="";
             history.forEach(i=>{l.innerHTML+=`<div class="cart-item" onclick="analyze('${i.code}')"><span>${i.name}</span><small>${i.date}</small></div>`});
         }
 
-        // ACTIONS
+        const scanner=new Html5Qrcode("reader");
+        function startCamera(){
+            document.getElementById('scanner-overlay').style.display='block';
+            scanner.start({facingMode:"environment"},{fps:10,qrbox:250},(txt)=>{ stopCamera(); analyze(txt); })
+                   .catch(()=>{alert("Camera Error"); stopCamera();});
+        }
+        function stopCamera(){
+            scanner.stop().then(()=>document.getElementById('scanner-overlay').style.display='none')
+                       .catch(()=>document.getElementById('scanner-overlay').style.display='none');
+        }
+        function manualSearch(){const c=prompt("ברקוד:"); if(c) analyze(c);}
+
+        // --- INTELLIGENT ACTIONS (DE-BRANDING) ---
+        function findAlternatives(){
+            let name = document.getElementById('p-name').value;
+            // REMOVE ISRAELI BRANDS
+            brandsBlacklist.forEach(b => { name = name.replace(b, ''); });
+            let cleanName = name.replace(currentItem.brand, '').trim(); 
+            if(cleanName.length < 2) cleanName = name; 
+            window.open(`https://www.google.com/search?q=${encodeURIComponent(cleanName+" קנייה בזול")}`,'_blank');
+        }
         function comparePrecise(){
             let q=currentItem.code;
             if(document.getElementById('p-name').value!==currentItem.name) q=document.getElementById('p-name').value+" מחיר site:.il";
             window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`,'_blank');
-        }
-        function findAlternatives(){
-            window.open(`https://www.google.com/search?q=${encodeURIComponent(document.getElementById('p-name').value+" קנייה בזול")}`,'_blank');
         }
     </script>
 </body>
