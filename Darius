@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe OS - Real Barcode Scanner</title>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <style>
+        :root { --vibe-green: #0B7517; --vibe-neon: #39FF14; --vibe-red: #8b0000; }
+        body { background-color: #000; color: white; font-family: 'Segoe UI', sans-serif; margin: 0; overflow: hidden; height: 100vh; }
+        
+        #reader { width: 100%; height: 100vh; position: absolute; top: 0; left: 0; z-index: 1; }
+        #overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); z-index: 2; pointer-events: none; }
+
+        .ui-layer { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; padding-top: 40px; pointer-events: none; }
+        .side-metrics { position: absolute; top: 40px; right: 20px; background: rgba(0,0,0,0.8); padding: 15px; border-radius: 20px; border-right: 3px solid var(--vibe-green); }
+        
+        #result-card {
+            position: absolute; bottom: 100px; left: 50%; transform: translateX(-50%) scale(0);
+            background: rgba(20, 20, 20, 0.98); padding: 25px; border-radius: 30px;
+            z-index: 20; width: 85%; max-width: 350px; text-align: center; border: 2px solid #444; pointer-events: auto;
+        }
+
+        .scan-btn {
+            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+            background: var(--vibe-green); color: white; border: none; padding: 18px 60px;
+            font-size: 18px; border-radius: 50px; cursor: pointer; z-index: 30; pointer-events: auto;
+        }
+        
+        /* סימון מרכז הסריקה */
+        .scanner-focus {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 250px; height: 150px; border: 2px solid var(--vibe-neon);
+            border-radius: 15px; box-shadow: 0 0 20px var(--vibe-neon); z-index: 5;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="reader"></div>
+    <div id="overlay"></div>
+    <div class="scanner-focus" id="focusFrame" style="display:none;"></div>
+
+    <div class="ui-layer">
+        <div class="side-metrics">
+            <div style="font-size: 10px; opacity: 0.7;">BODY</div>
+            <div style="font-size: 32px; font-weight: bold;">84%</div>
+        </div>
+
+        <div id="result-card">
+            <h2 id="res-title"></h2>
+            <p id="res-code" style="font-size: 12px; opacity: 0.5;"></p>
+            <div id="res-badge" style="margin: 15px 0;"></div>
+            <p id="res-desc"></p>
+            <button onclick="location.reload()" style="background:var(--vibe-green); color:white; border:none; padding:10px 20px; border-radius:10px; cursor:pointer;">סרוק מוצר נוסף</button>
+        </div>
+    </div>
+
+    <button class="scan-btn" id="startBtn" onclick="startBarcodeEngine()">START SCANNER</button>
+
+    <script>
+        const html5QrCode = new Html5Qrcode("reader");
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playBeep(freq) {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.frequency.value = freq;
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.2);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.2);
+        }
+
+        function startBarcodeEngine() {
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('focusFrame').style.display = 'block';
+
+            const config = { fps: 10, qrbox: { width: 250, height: 150 } };
+
+            html5QrCode.start({ facingMode: "environment" }, config, (decodedText) => {
+                // הצלחה - הברקוד זוהה!
+                html5QrCode.stop();
+                playBeep(1200);
+                showResult(decodedText);
+            });
+        }
+
+        function showResult(code) {
+            const card = document.getElementById('result-card');
+            const title = document.getElementById('res-title');
+            const desc = document.getElementById('res-desc');
+            const badge = document.getElementById('res-badge');
+            
+            document.getElementById('res-code').innerText = "קוד מוצר: " + code;
+            document.getElementById('focusFrame').style.display = 'none';
+
+            // לוגיקה דמו: אם הקוד נגמר בספרה זוגית - מתאים. אי זוגית - מכיל חלב.
+            const isMatch = parseInt(code.slice(-1)) % 2 === 0;
+
+            if (isMatch) {
+                title.innerText = "Vibe Match! ✅";
+                badge.innerHTML = '<div style="background:var(--vibe-green); padding:15px; border-radius:50%; display:inline-block; border:2px solid white;">ירוק</div>';
+                desc.innerText = "המוצר נבדק במאגר. ללא חלב ותואם למדד ה-84% שלך.";
+                card.style.borderColor = var(--vibe-neon);
+            } else {
+                playBeep(200);
+                title.innerText = "אזהרה: מכיל חלב ⚠️";
+                badge.innerHTML = '<div style="background:var(--vibe-red); padding:15px; border-radius:50%; display:inline-block; border:2px solid white;">אדום</div>';
+                desc.innerText = "זוהה רכיב לקטוז. מומלץ להימנע כדי לשמור על יציבות המדד.";
+                card.style.borderColor = "red";
+            }
+            card.style.transform = 'translateX(-50%) scale(1)';
+        }
+    </script>
+</body>
+</html>
