@@ -5,36 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>Vibe OS 43.0 - Certified</title>
+    <title>Vibe OS 46.0 - Platinum</title>
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     <style>
-        /* --- CORE VISUALS --- */
+        /* --- SYSTEM CORE --- */
         :root { 
-            --primary: #00e676; --warn: #ffca28; --danger: #ff5252; --bg: #000000; 
-            --surface: #121212; --surface-soft: #1e1e1e; --text: #ffffff; --radius: 16px;
+            --primary: #00e676; --warn: #ffca28; --danger: #ff5252; --bg: #050505; 
+            --surface: #141414; --surface-soft: #1f1f1f; --text: #ffffff; --radius: 18px;
         }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-        body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding-bottom: 160px; user-select: none; }
+        body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; padding-bottom: 140px; user-select: none; }
         
         /* HEADER */
-        .header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.95); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #333; backdrop-filter: blur(10px); }
-        .brand { font-size: 20px; font-weight: 900; letter-spacing: -0.5px; background: linear-gradient(45deg, #fff, #aaa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .nav-icons { display: flex; gap: 15px; }
-        .icon-btn { font-size: 22px; cursor: pointer; position: relative; }
-        .badge { position: absolute; top: -5px; right: -5px; background: var(--primary); color: black; font-size: 10px; font-weight: 900; padding: 2px 5px; border-radius: 10px; border: 2px solid var(--bg); }
+        .header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; background: rgba(5,5,5,0.95); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #222; backdrop-filter: blur(12px); }
+        .brand { font-size: 20px; font-weight: 900; letter-spacing: -0.5px; background: linear-gradient(90deg, #fff, #bbb); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-icons { display: flex; gap: 12px; }
+        .icon-btn { font-size: 20px; width: 40px; height: 40px; background: var(--surface-soft); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; }
+        .icon-btn:active { transform: scale(0.9); }
+        .badge { position: absolute; top: 5px; right: 5px; background: var(--primary); color: black; font-size: 9px; font-weight: 900; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; pointer-events: none; }
 
         /* DASHBOARD */
         .bento-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 10px; padding: 15px; }
         .bento-card { background: var(--surface); padding: 15px; border-radius: var(--radius); border: 1px solid #222; position: relative; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
-        .bento-val { font-size: 26px; font-weight: 800; margin-top: 5px; }
+        .bento-val { font-size: 24px; font-weight: 800; margin-top: 5px; }
         .bento-lbl { font-size: 10px; color: #888; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
+        
         .progress-container { width: 100%; height: 6px; background: #333; border-radius: 10px; margin-top: 10px; overflow: hidden; }
-        .progress-fill { height: 100%; width: 50%; background: linear-gradient(90deg, var(--warn), var(--primary)); transition: width 0.5s ease; }
+        .progress-fill { height: 100%; width: 50%; background: linear-gradient(90deg, var(--warn), var(--primary)); transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
 
-        /* FILTERS ENGINE */
+        /* FILTERS */
         .filter-sec { padding: 0 20px 40px 20px; }
         .sec-head { font-size: 11px; color: #666; font-weight: 800; text-transform: uppercase; margin: 25px 0 10px 0; letter-spacing: 1px; }
-        .acc { margin-bottom: 8px; background: var(--surface); border-radius: 12px; border: 1px solid #222; overflow: hidden; transition: 0.2s; }
+        .acc { margin-bottom: 8px; background: var(--surface); border-radius: 14px; border: 1px solid #222; overflow: hidden; transition: 0.2s; }
         .acc-head { padding: 16px; font-size: 14px; font-weight: 600; display: flex; justify-content: space-between; border-right: 4px solid transparent; cursor: pointer; background: var(--surface-soft); }
         .acc-body { display: none; padding: 15px; background: #0a0a0a; flex-wrap: wrap; gap: 8px; border-top: 1px solid #222; }
         .acc-body.open { display: flex; }
@@ -42,40 +44,28 @@
         .c-red .acc-head { border-color: var(--danger); }
         .c-blue .acc-head { border-color: var(--primary); }
         .c-gold .acc-head { border-color: var(--gold); }
-        .c-purple .acc-head { border-color: #d500f9; }
-
+        
         .chip { display: none; }
         .lbl { padding: 8px 14px; background: #1f1f1f; border: 1px solid #333; border-radius: 50px; font-size: 12px; color: #aaa; transition: 0.2s; cursor: pointer; display: flex; align-items: center; gap: 6px; flex-grow: 1; justify-content: center; }
-        .chip:checked + .lbl { background: #eee; color: #000; font-weight: 800; border-color: #fff; transform: scale(1.02); }
+        .chip:checked + .lbl { background: #eee; color: #000; font-weight: 800; border-color: #fff; transform: scale(1.05); }
         .danger .chip:checked + .lbl { background: rgba(255, 82, 82, 0.2); color: var(--danger); border-color: var(--danger); }
         .safe .chip:checked + .lbl { background: rgba(0, 230, 118, 0.2); color: var(--primary); border-color: var(--primary); }
-
-        /* MODALS */
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 600; opacity: 0; pointer-events: none; transition: 0.3s; display: flex; align-items: flex-end; }
-        .modal.open { opacity: 1; pointer-events: auto; }
-        .modal-content { width: 100%; background: #161616; border-radius: 30px 30px 0 0; max-height: 85vh; overflow-y: auto; border-top: 1px solid #333; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); display: flex; flex-direction: column; }
-        .modal.open .modal-content { transform: translateY(0); }
-        .modal-header { padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; background: #161616; position: sticky; top: 0; z-index: 10; }
-        .modal-body { padding: 20px; }
-
-        .clean-inp { width: 100%; background: #1c1c1e; border: 1px solid #333; color: white; padding: 15px; border-radius: 12px; font-size: 16px; margin-bottom: 10px; text-align: center; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; background: #1a1a1a; padding: 12px; border-radius: 10px; margin-bottom: 8px; border: 1px solid #2a2a2a; }
-        .aisle-header { font-size: 12px; color: var(--primary); font-weight: 800; text-transform: uppercase; margin: 20px 0 10px 0; border-bottom: 1px solid #333; padding-bottom: 5px; }
 
         /* SCANNER OVERLAY */
         #scanner-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 500; display: none; }
         #reader { width: 100%; height: 100%; object-fit: cover; }
-        .scan-ui { position: absolute; top: 0; left: 0; width: 100%; height: 100%; padding: 40px; display: flex; flex-direction: column; justify-content: space-between; pointer-events: none; }
-        .close-cam { pointer-events: auto; background: rgba(30,30,30,0.9); color: white; padding: 12px 30px; border-radius: 50px; border: 1px solid #444; margin: 0 auto; font-weight: bold; }
+        .close-cam { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(30,30,30,0.9); color: white; padding: 12px 30px; border-radius: 50px; border: 1px solid #444; margin: 0 auto; font-weight: bold; backdrop-filter: blur(10px); z-index: 502; cursor: pointer; }
 
         /* BOTTOM BAR */
-        .action-bar { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; background: rgba(30,30,30,0.95); padding: 8px; border-radius: 100px; display: flex; justify-content: space-between; border: 1px solid #444; z-index: 300; backdrop-filter: blur(15px); box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
+        .action-bar { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; background: rgba(30,30,30,0.95); padding: 8px; border-radius: 100px; display: flex; justify-content: space-between; border: 1px solid #444; z-index: 300; backdrop-filter: blur(15px); box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
         .bar-btn { width: 50px; height: 50px; border: none; background: transparent; font-size: 24px; cursor: pointer; color: #888; display: flex; align-items: center; justify-content: center; }
-        .scan-btn { width: 65px; height: 65px; background: white; border-radius: 22px; margin-top: -20px; border: none; box-shadow: 0 5px 25px rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; cursor: pointer; color: black; }
+        .scan-btn { width: 65px; height: 65px; background: white; border-radius: 22px; margin-top: -20px; border: none; box-shadow: 0 5px 25px rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; cursor: pointer; color: black; transition: 0.2s; }
+        .scan-btn:active { transform: scale(0.95); }
 
         /* RESULTS SHEET */
         #sheet-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 200; pointer-events: none; opacity: 0; transition: 0.3s; }
         .active-sheet { opacity: 1 !important; pointer-events: auto !important; }
+        #sheet-bg { position: absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); backdrop-filter: blur(5px); }
         #bottom-sheet { position: absolute; bottom: 0; width: 100%; background: #161616; border-radius: 30px 30px 0 0; padding: 25px; transform: translateY(100%); transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); border-top: 1px solid #333; max-height: 85vh; overflow-y: auto; }
         .active-sheet #bottom-sheet { transform: translateY(0); }
 
@@ -89,13 +79,27 @@
         .tag-good { background: rgba(0, 230, 118, 0.15); color: var(--primary); border: 1px solid rgba(0, 230, 118, 0.3); } 
         .tag-danger { background: rgba(255, 82, 82, 0.15); color: var(--danger); border: 1px solid rgba(255, 82, 82, 0.3); } 
 
-        .analysis-box { background: #222; padding: 15px; border-radius: 12px; margin: 15px 0; font-size: 13px; line-height: 1.5; color: #ccc; }
+        .grade-badge { font-size: 32px; font-weight: 900; }
+        .grade-A { color: #00e676; } .grade-B { color: #cddc39; } .grade-C { color: #ffca28; } .grade-D { color: #ff9800; } .grade-E { color: #ff5252; }
+
         .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
         .sheet-btn { padding: 15px; border-radius: 14px; border: 1px solid #333; font-weight: 700; cursor: pointer; font-size: 13px; display: flex; flex-direction: column; align-items: center; gap: 6px; background: #222; color: white; transition: 0.2s; }
         .sheet-btn.primary { background: rgba(0,230,118,0.15); border-color: var(--primary); color: var(--primary); grid-column: span 2; }
 
-        .grade-badge { font-size: 32px; font-weight: 900; }
-        .grade-A { color: #00e676; } .grade-B { color: #cddc39; } .grade-C { color: #ffca28; } .grade-D { color: #ff9800; } .grade-E { color: #ff5252; }
+        /* MODALS */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 600; opacity: 0; pointer-events: none; transition: 0.3s; display: flex; align-items: flex-end; }
+        .modal.open { opacity: 1; pointer-events: auto; }
+        .modal-content { width: 100%; background: #161616; border-radius: 30px 30px 0 0; max-height: 85vh; overflow-y: auto; border-top: 1px solid #333; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); display: flex; flex-direction: column; }
+        .modal.open .modal-content { transform: translateY(0); }
+        .modal-header { padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; background: #161616; position: sticky; top: 0; z-index: 10; }
+        .modal-body { padding: 20px; }
+
+        .aisle-header { font-size: 12px; color: var(--primary); font-weight: 800; text-transform: uppercase; margin: 20px 0 10px 0; border-bottom: 1px solid #333; padding-bottom: 5px; letter-spacing: 1px; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; background: #1a1a1a; padding: 12px; border-radius: 10px; margin-bottom: 8px; border: 1px solid #2a2a2a; }
+        .clean-inp { width: 100%; background: #1c1c1e; border: 1px solid #333; color: white; padding: 15px; border-radius: 12px; font-size: 16px; margin-bottom: 10px; text-align: center; }
+        
+        .goal-btn { flex:1; padding:12px; background:#222; border:1px solid #444; color:#888; border-radius:10px; font-weight:bold; cursor:pointer; }
+        .goal-btn.active { background:var(--primary); color:black; border-color:var(--primary); }
 
         #toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: #222; color: white; padding: 12px 24px; border-radius: 50px; border: 1px solid #444; z-index: 1000; transition: 0.3s; font-weight: bold; display: flex; align-items: center; gap: 8px; box-shadow: 0 5px 20px rgba(0,0,0,0.5); }
         #toast.show { transform: translateX(-50%) translateY(0); }
@@ -106,9 +110,9 @@
     <div id="toast"></div>
 
     <div class="header">
-        <div class="brand">Vibe OS 43.0</div>
+        <div class="brand">Vibe OS 46.0</div>
         <div class="nav-icons">
-            <div class="icon-btn" onclick="toggleModal('history-modal')">🕒</div>
+            <div class="icon-btn" onclick="toggleModal('history-modal')">📜</div>
             <div class="icon-btn" onclick="toggleModal('settings-modal')">⚙️</div>
             <div class="icon-btn" onclick="toggleModal('cart-modal')">🛒 <span class="badge" id="badge">0</span></div>
         </div>
@@ -117,122 +121,124 @@
     <div class="bento-grid">
         <div class="bento-card wide">
             <div style="display:flex; justify-content:space-between;">
-                <div class="bento-lbl">איזון סל שבועי</div>
-                <div class="bento-lbl" id="score-text" style="color:var(--primary);">טרם התחלת</div>
+                <div class="bento-lbl" id="goal-display">מטרה: טרם הוגדרה</div>
+                <div class="bento-lbl" id="score-text" style="color:var(--primary);">0%</div>
             </div>
-            <div class="progress-container"><div class="progress-fill" id="basket-score-bar" style="width: 50%;"></div></div>
-            <div style="font-size:11px; color:#666; margin-top:5px;">המדד עולה ככל שהסל מכיל יותר מוצרים טריים</div>
+            <div class="progress-container"><div class="progress-fill" id="basket-score-bar" style="width: 0%;"></div></div>
+            <div style="font-size:11px; color:#666; margin-top:5px;">מדד איכות הסל השבועי (A-E)</div>
         </div>
+        <div class="bento-card"><div class="bento-lbl">צריכה יומית (BMR)</div><div class="bento-val" id="d-tdee">--</div></div>
         <div class="bento-card"><div class="bento-lbl">פריטים</div><div class="bento-val" id="d-cart">0</div></div>
     </div>
 
     <div class="filter-sec">
-        <div class="sec-head">פרופיל אישי</div>
-        
+        <div class="sec-head">העדפות תזונה</div>
         <div class="acc c-red"><div class="acc-head" onclick="tog(this)">⚠️ אלרגיות (חובה) <span>▾</span></div><div class="acc-body danger">
             <input type="checkbox" id="a-milk" class="chip save"><label for="a-milk" class="lbl">🥛 חלב</label>
             <input type="checkbox" id="a-gluten" class="chip save"><label for="a-gluten" class="lbl">🍞 גלוטן</label>
             <input type="checkbox" id="a-nuts" class="chip save"><label for="a-nuts" class="lbl">🌰 אגוזים</label>
             <input type="checkbox" id="a-peanuts" class="chip save"><label for="a-peanuts" class="lbl">🥜 בוטנים</label>
-            <input type="checkbox" id="a-soy" class="chip save"><label for="a-soy" class="lbl">🥢 סויה</label>
-            <input type="checkbox" id="a-sesame" class="chip save"><label for="a-sesame" class="lbl">🥯 שומשום</label>
-            <input type="checkbox" id="a-eggs" class="chip save"><label for="a-eggs" class="lbl">🥚 ביצים</label>
-            <input type="checkbox" id="a-fish" class="chip save"><label for="a-fish" class="lbl">🐟 דגים (יוד)</label>
-            <input type="checkbox" id="a-sulfites" class="chip save"><label for="a-sulfites" class="lbl">🍷 סולפיטים</label>
+            <input type="checkbox" id="a-fish" class="chip save"><label for="a-fish" class="lbl">🐟 דגים</label>
         </div></div>
 
-        <div class="acc c-red"><div class="acc-head" onclick="tog(this)">🏥 ניהול רפואי <span>▾</span></div><div class="acc-body danger">
-            <input type="checkbox" id="d-diabetic" class="chip save"><label for="d-diabetic" class="lbl">💉 סוכרת</label>
-            <input type="checkbox" id="d-heart" class="chip save"><label for="d-heart" class="lbl">🫀 לב/נתרן</label>
-            <input type="checkbox" id="d-cholesterol" class="chip save"><label for="d-cholesterol" class="lbl">🍔 כולסטרול</label>
-            <input type="checkbox" id="d-celiac" class="chip save"><label for="d-celiac" class="lbl">🌾 צליאק</label>
-            <input type="checkbox" id="d-gout" class="chip save"><label for="d-gout" class="lbl">🦶 גאוט</label>
-            <input type="checkbox" id="d-kidney" class="chip save"><label for="d-kidney" class="lbl">🩺 כליות</label>
-            <input type="checkbox" id="d-reflux" class="chip save"><label for="d-reflux" class="lbl">🔥 צרבת</label>
-            <input type="checkbox" id="d-ibs" class="chip save"><label for="d-ibs" class="lbl">🎈 מעי רגיז</label>
-            <input type="checkbox" id="d-anemia" class="chip save"><label for="d-anemia" class="lbl">🩸 אנמיה</label>
-        </div></div>
-
-        <div class="acc c-purple"><div class="acc-head" onclick="tog(this)">👶 רגישויות מיוחדות <span>▾</span></div><div class="acc-body danger">
-            <input type="checkbox" id="x-preg" class="chip save"><label for="x-preg" class="lbl">🤰 הריון</label>
-            <input type="checkbox" id="x-baby" class="chip save"><label for="x-baby" class="lbl">🍼 תינוקות</label>
-            <input type="checkbox" id="x-elderly" class="chip save"><label for="x-elderly" class="lbl">👴 גיל שלישי</label>
-        </div></div>
-
-        <div class="acc c-blue"><div class="acc-head" onclick="tog(this)">🥗 דיאטה ולייף סטייל <span>▾</span></div><div class="acc-body safe">
+        <div class="acc c-blue"><div class="acc-head" onclick="tog(this)">🥗 סגנון תזונה <span>▾</span></div><div class="acc-body safe">
             <input type="checkbox" id="l-vegan" class="chip save"><label for="l-vegan" class="lbl">🌱 טבעוני</label>
-            <input type="checkbox" id="l-vegetarian" class="chip save"><label for="l-vegetarian" class="lbl">🧀 צמחוני</label>
             <input type="checkbox" id="l-keto" class="chip save"><label for="l-keto" class="lbl">🥑 קטו</label>
-            <input type="checkbox" id="l-paleo" class="chip save"><label for="l-paleo" class="lbl">🍖 פליאו</label>
-            <input type="checkbox" id="l-lowcarb" class="chip save"><label for="l-lowcarb" class="lbl">📉 דל פחמימה</label>
-            <input type="checkbox" id="c-clean" class="chip save"><label for="c-clean" class="lbl">🧪 תווית נקייה</label>
             <input type="checkbox" id="c-sugar" class="chip save"><label for="c-sugar" class="lbl">🍭 ללא סוכר</label>
-            <input type="checkbox" id="c-organic" class="chip save"><label for="c-organic" class="lbl">🍂 אורגני</label>
-        </div></div>
-
-        <div class="acc c-gold"><div class="acc-head" onclick="tog(this)">✡️ דת ומסורת <span>▾</span></div><div class="acc-body safe">
-            <input type="checkbox" id="k-kosher" class="chip save"><label for="k-kosher" class="lbl">📜 כשר</label>
-            <input type="checkbox" id="k-badatz" class="chip save"><label for="k-badatz" class="lbl">✨ בד"ץ</label>
-            <input type="checkbox" id="k-parve" class="chip save"><label for="k-parve" class="lbl">🍏 פרווה</label>
-            <input type="checkbox" id="k-halal" class="chip save"><label for="k-halal" class="lbl">☪️ חלאל</label>
-            <input type="checkbox" id="k-passover" class="chip save"><label for="k-passover" class="lbl">🚫 לפסח</label>
-        </div></div>
-
-        <div class="acc c-blue"><div class="acc-head" onclick="tog(this)">⚡ ספורט וחיטוב <span>▾</span></div><div class="acc-body safe">
-            <input type="checkbox" id="p-protein" class="chip save"><label for="p-protein" class="lbl">💪 חלבון גבוה</label>
-            <input type="checkbox" id="p-bulk" class="chip save"><label for="p-bulk" class="lbl">🦍 מסה</label>
-            <input type="checkbox" id="p-cut" class="chip save"><label for="p-cut" class="lbl">✂️ חיטוב</label>
-            <input type="checkbox" id="p-energy" class="chip save"><label for="p-energy" class="lbl">🔋 אנרגיה</label>
-        </div></div>
-        
-        <div class="acc c-blue"><div class="acc-head" onclick="tog(this)">🌍 ערכים <span>▾</span></div><div class="acc-body safe">
             <input type="checkbox" id="b-israel" class="chip save" checked><label for="b-israel" class="lbl">🇮🇱 תוצרת הארץ</label>
-            <input type="checkbox" id="b-fairtrade" class="chip save"><label for="b-fairtrade" class="lbl">🤝 סחר הוגן</label>
         </div></div>
     </div>
 
     <div id="scanner-overlay">
         <div id="reader"></div>
-        <div class="scan-ui">
-            <div style="text-align:center;color:white;font-weight:900;font-size:20px;">סריקת מוצר</div>
-            <div class="scan-frame"></div>
-            <button class="close-cam" onclick="stopCamera()">סגור</button>
-        </div>
+        <button class="close-cam" onclick="stopCamera()">סגור מצלמה</button>
     </div>
 
     <div class="action-bar">
         <button class="bar-btn" onclick="manualSearch()">⌨️</button>
         <button class="scan-btn" onclick="startCamera()">
-            <svg viewBox="0 0 24 24" width="32" height="32"><path d="M4 6h2v12H4zm14 0h2v12h-2zm-4 0h2v12h-2zm-4 0h2v12h-2z" fill="black"/><path d="M2 4v16h20V4H2zm18 14H4V6h16v12z" fill="none" stroke="black" stroke-width="2"/></svg>
+            <svg viewBox="0 0 24 24" width="30" height="30"><path d="M4 6h2v12H4zm14 0h2v12h-2zm-4 0h2v12h-2zm-4 0h2v12h-2z" fill="black"/><path d="M2 4v16h20V4H2zm18 14H4V6h16v12z" fill="none" stroke="black" stroke-width="2"/></svg>
         </button>
         <button class="bar-btn" onclick="toggleModal('history-modal')">📜</button>
     </div>
 
     <div id="sheet-wrapper">
-        <div id="sheet-bg" onclick="closeSheet()"></div>
+        <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);" onclick="closeSheet()"></div>
         <div class="modal-content" id="bottom-sheet">
             <div style="width:40px;height:4px;background:#333;margin:0 auto 20px auto;border-radius:10px;"></div>
-            
-            <div class="prod-header">
-                <img id="p-img" class="prod-thumb" src="" onerror="this.style.display='none'">
-                <div style="flex:1;">
-                    <div id="p-brand" style="font-size:11px;color:#888;font-weight:700;"></div>
-                    <input type="text" id="p-name" class="editable-name" value="..." oninput="updateName(this.value)">
-                    <div style="font-size:10px;color:#666;">✎ לחץ לעריכה ותרגום</div>
+            <div style="padding:25px;">
+                <div class="prod-header">
+                    <img id="p-img" class="prod-thumb" src="" onerror="this.style.display='none'">
+                    <div style="flex:1;">
+                        <div id="p-brand" style="font-size:11px;color:#888;font-weight:700;"></div>
+                        <input type="text" id="p-name" class="editable-name" value="..." oninput="updateName(this.value)">
+                        <div style="font-size:10px;color:#666;">✎ שם המוצר (ניתן לעריכה)</div>
+                    </div>
+                    <div style="text-align:center;">
+                        <div id="grade-display" class="grade-badge"></div>
+                        <div style="font-size:10px;color:#888;">Nutri-Score</div>
+                    </div>
                 </div>
-                <div style="text-align:center;">
-                    <div id="grade-display" class="grade-badge"></div>
-                    <div id="p-score" style="font-size:12px;color:#888;">--%</div>
+
+                <div id="quality-warning" style="background:rgba(255,82,82,0.1); color:#ff5252; padding:10px; border-radius:8px; font-size:12px; margin-bottom:15px; display:none; border:1px solid #ff5252;">⚠️ המוצר חורג מטווח האיכות שבחרת (A-B)</div>
+
+                <div id="tags-area" class="tags-container"></div>
+                <div id="bio-res" style="background:#222; padding:15px; border-radius:12px; margin:15px 0; font-size:13px; line-height:1.5; color:#ccc;"></div>
+
+                <div class="action-grid">
+                    <button class="sheet-btn" onclick="comparePrecise()">🔎 מחיר בישראל</button>
+                    <button class="sheet-btn" onclick="findAlternatives()">💡 חלופה ללא מותג</button>
+                    <button class="sheet-btn primary" onclick="addToCart()">🛒 הוסף לסל שבועי</button>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <div id="tags-area" class="tags-container"></div>
-            <div id="bio-res" class="analysis-box"></div>
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h2>הגדרות</h2><button onclick="closeModal('settings-modal')" style="background:none;border:none;color:white;font-size:24px;">&times;</button></div>
+            <div class="modal-body">
+                
+                <div style="margin-bottom:20px;">
+                    <label style="color:#888; font-size:11px; font-weight:bold;">מגדר (לחישוב BMR)</label>
+                    <div style="display:flex; gap:10px;">
+                        <button class="goal-btn" id="gen-male" onclick="setGender('male')">גבר</button>
+                        <button class="goal-btn" id="gen-female" onclick="setGender('female')">אישה</button>
+                    </div>
+                </div>
 
-            <div class="action-grid">
-                <button class="sheet-btn" onclick="comparePrecise()">🔎 השוואת מחיר<span style="font-size:9px;opacity:0.6;">לפי ברקוד/שם</span></button>
-                <button class="sheet-btn" onclick="findAlternatives()">💡 חלופות זולות<span style="font-size:9px;opacity:0.6;">ללא מותג</span></button>
-                <button class="sheet-btn primary" onclick="addToCart()">🛒 הוסף לסל שבועי</button>
+                <div style="margin-bottom:20px;">
+                    <label style="color:#888; font-size:11px; font-weight:bold;">מטרה</label>
+                    <div style="display:flex; gap:10px;">
+                        <button class="goal-btn" id="goal-cut" onclick="setGoal('cut')">חיטוב</button>
+                        <button class="goal-btn" id="goal-main" onclick="setGoal('maintain')">שמירה</button>
+                        <button class="goal-btn" id="goal-bulk" onclick="setGoal('bulk')">מסה</button>
+                    </div>
+                </div>
+
+                <div style="margin-bottom:20px;">
+                    <label style="color:#888; font-size:11px; font-weight:bold;">בקרת איכות (התראה בציון נמוך)</label>
+                    <select id="u-grade-limit" class="clean-inp">
+                        <option value="E">ללא סינון (הכל)</option>
+                        <option value="C">בינוני ומעלה (A-C)</option>
+                        <option value="B">איכותי בלבד (A-B)</option>
+                        <option value="A">מצוין בלבד (A)</option>
+                    </select>
+                </div>
+
+                <div style="margin-bottom:20px;">
+                    <label style="color:#888; font-size:11px; font-weight:bold;">נתונים פיזיים</label>
+                    <div style="display:flex; gap:10px; margin-bottom:10px;">
+                        <input type="number" id="u-w" class="clean-inp" placeholder="משקל (קג)">
+                        <input type="number" id="u-h" class="clean-inp" placeholder="גובה (סמ)">
+                    </div>
+                    <div style="display:flex; gap:10px;">
+                        <input type="number" id="u-age" class="clean-inp" placeholder="גיל">
+                        <button onclick="manualSync()" class="clean-inp" style="background:#333;">🔗 סנכרון משקל חכם</button>
+                    </div>
+                </div>
+
+                <button onclick="saveProfile()" class="clean-inp" style="background:white; color:black; font-weight:bold;">שמור הגדרות</button>
             </div>
         </div>
     </div>
@@ -241,38 +247,11 @@
         <div class="modal-content">
             <div class="modal-header"><h2>סל קניות שבועי</h2><button onclick="closeModal('cart-modal')" style="background:none;border:none;color:white;font-size:24px;">&times;</button></div>
             <div class="modal-body">
-                <textarea id="import-area" class="clean-inp" style="height:60px;margin-bottom:10px;text-align:right;" placeholder="הדבק כאן רשימה מהפתקים..."></textarea>
-                <button onclick="importList()" class="clean-inp" style="background:#333;margin-bottom:20px;">📥 ייבוא וסידור אוטומטי</button>
+                <textarea id="import-area" class="clean-inp" style="height:60px; text-align:right;" placeholder="הדבק כאן רשימה מהפתקים..."></textarea>
+                <button onclick="importList()" class="clean-inp" style="background:#333; margin-bottom:15px;">📥 סנכרון רשימה מהלוח</button>
                 <div id="cart-body"></div>
             </div>
-            <div style="padding:20px;text-align:center;border-top:1px solid #333;"><button onclick="shareCart()" class="clean-inp" style="background:var(--primary);color:black;font-weight:bold;">וואטסאפ 📤</button></div>
-        </div>
-    </div>
-
-    <div id="settings-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header"><h2>הגדרות</h2><button onclick="closeModal('settings-modal')" style="background:none;border:none;color:white;font-size:24px;">&times;</button></div>
-            <div class="modal-body">
-                <div style="margin-bottom:15px;">
-                    <span style="font-size:11px;color:#888;font-weight:bold;">סגנון תזונה (מסננים אוטומטיים)</span>
-                    <select id="u-diet" class="clean-inp">
-                        <option value="none">ללא</option>
-                        <option value="vegan">טבעוני</option>
-                        <option value="vegetarian">צמחוני</option>
-                        <option value="keto">קטו</option>
-                        <option value="paleo">פליאו</option>
-                    </select>
-                </div>
-                <div style="display:flex;gap:10px;">
-                    <input type="number" id="u-w" class="clean-inp" placeholder="משקל (קג)">
-                    <input type="number" id="u-h" class="clean-inp" placeholder="גובה (סמ)">
-                </div>
-                <div style="display:flex;gap:10px;margin-top:10px;">
-                    <input type="number" id="u-fat" class="clean-inp" placeholder="% שומן">
-                    <input type="number" id="u-muscle" class="clean-inp" placeholder="מסת שריר">
-                </div>
-                <button onclick="saveProfile()" class="clean-inp" style="background:white;color:black;font-weight:bold;margin-top:20px;">שמור וחשב מחדש</button>
-            </div>
+            <div style="padding:20px; text-align:center; border-top:1px solid #333;"><button onclick="shareCart()" class="clean-inp" style="background:var(--primary); color:black; font-weight:bold;">וואטסאפ 📤</button></div>
         </div>
     </div>
 
@@ -285,43 +264,35 @@
     </div>
 
     <script>
-        // --- VIBE OS 43.0 QA CERTIFIED LOGIC ---
+        // --- VIBE OS 46.0 LOGIC ---
         
-        let cart = [];
-        let history = [];
-        let user = {w:75, h:175, age:30, target:'maintain', diet:'none', protein:0};
-        
-        // SAFE BOOT: Try to load, if fail, reset.
+        // 1. DATA SAFE LOAD
+        let cart=[], history=[], user={gender:'male', goal:'maintain', w:75, h:175, age:30, tdee:0, minGrade:'E'};
         try {
-            cart = JSON.parse(localStorage.getItem('vibeCart43')) || [];
+            cart = JSON.parse(localStorage.getItem('vibeCart46')) || [];
             history = JSON.parse(localStorage.getItem('vibeHistory')) || [];
-            user = JSON.parse(localStorage.getItem('vibeUser43')) || user;
-        } catch(e) {
-            console.log("Resetting corrupted data");
-            localStorage.clear();
-        }
+            user = JSON.parse(localStorage.getItem('vibeUser46')) || user;
+        } catch(e){ localStorage.clear(); }
 
-        let currentItem = { name: '', code: '', brand: '', category: 'other', protein:0 };
+        let currentItem = { name: '', code: '', brand: '', category: 'other' };
 
-        // --- DATA ---
-        const brandsBlacklist = ['אסם','תנובה','שטראוס','עלית','תלמה','קנור','סוגת','ויסוצקי','טרה','מחלבות גד','גד','פריגת','נביעות','מי עדן','עין גדי','שוופס','קוקה קולה','פפסי','נסטלה','יופלה','דנונה','מילקי','קרלו','במבה','ביסלי','תפוציפס','פרינגלס','אחלה','צבר','שמיר','מעדנות','שלושת האופים','טבעול','זוגלובק','יחיעם','טירת צבי','עוף טוב','סנפרוסט','וילי פוד','רמי לוי','שופרסל','אושר עד','ויקטורי'];
+        // 2. ISRAELI BRANDS CLEANER (REGEX)
+        const ilBrands = ['אסם','תנובה','שטראוס','עלית','תלמה','קנור','סוגת','ויסוצקי','טרה','גד','פריגת','נביעות','מי עדן','שוופס','קוקה קולה','פפסי','נסטלה','יופלה','דנונה','מילקי','קרלו','במבה','ביסלי','תפוציפס','פרינגלס','אחלה','צבר','שמיר','מעדנות','טבעול','זוגלובק','יחיעם','טירת צבי','עוף טוב','סנפרוסט','וילי פוד','רמי לוי','שופרסל','אושר עד','ויקטורי','סנו','ניקול','חוגלה','לילי','פרסיל','אריאל','סוד','פיניש','קולגייט','אורביט'];
+        const brandRegex = new RegExp(ilBrands.join('|'), 'gi');
 
+        // 3. DICTIONARY (MAPPED)
         const dict = {
-            'milk':{he:'חלב',c:'fridge'},'cheese':{he:'גבינה',c:'fridge'},'yogurt':{he:'יוגורט',c:'fridge'},'butter':{he:'חמאה',c:'fridge'},'cream':{he:'שמנת',c:'fridge'},
+            'milk':{he:'חלב',c:'fridge'},'cheese':{he:'גבינה',c:'fridge'},'yogurt':{he:'יוגורט',c:'fridge'},'butter':{he:'חמאה',c:'fridge'},
             'bread':{he:'לחם',c:'pantry'},'pasta':{he:'פסטה',c:'pantry'},'rice':{he:'אורז',c:'pantry'},'flour':{he:'קמח',c:'pantry'},'sugar':{he:'סוכר',c:'pantry'},'salt':{he:'מלח',c:'pantry'},'oil':{he:'שמן',c:'pantry'},
             'tomato':{he:'עגבניה',c:'veg'},'cucumber':{he:'מלפפון',c:'veg'},'apple':{he:'תפוח',c:'veg'},'banana':{he:'בננה',c:'veg'},
             'chicken':{he:'עוף',c:'meat'},'beef':{he:'בקר',c:'meat'},'fish':{he:'דג',c:'meat'},'tuna':{he:'טונה',c:'pantry'},'egg':{he:'ביצים',c:'fridge'},
-            'shampoo':{he:'שמפו',c:'home'},'soap':{he:'סבון',c:'home'},'cleaner':{he:'חומר ניקוי',c:'home'},'paper':{he:'נייר טואלט',c:'home'},
-            'chocolate':{he:'שוקולד',c:'pantry'},'chips':{he:'חטיף',c:'pantry'},'cookie':{he:'עוגיה',c:'pantry'}
+            'shampoo':{he:'שמפו',c:'home'},'soap':{he:'סבון',c:'home'},'cleaner':{he:'חומר ניקוי',c:'home'},'paper':{he:'נייר',c:'home'},'bleach':{he:'אקונומיקה',c:'home'}
         };
         const aisles = {'veg':'🥦 ירקות','fridge':'❄️ מקרר','meat':'🥩 בשר','pantry':'🍝 מזווה','home':'🧴 בית','other':'🛒 כללי'};
 
-        window.onload=()=>{
-            renderCart(); renderHistory(); loadChecks(); updateScore();
-            showToast("המערכת מוכנה");
-        };
+        window.onload=()=>{ renderCart(); renderHistory(); loadChecks(); applySettingsUI(); calculateTDEE(); };
 
-        // --- UI CORE ---
+        // UI ACTIONS
         function tog(h){h.nextElementSibling.classList.toggle('open')}
         function toggleModal(id){document.getElementById(id).classList.toggle('open')}
         function closeModal(id){document.getElementById(id).classList.remove('open')}
@@ -331,42 +302,65 @@
         function showToast(msg){ const t=document.getElementById('toast'); t.innerHTML=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }
         function loadChecks(){ document.querySelectorAll('.save').forEach(el=>{ if(localStorage.getItem(el.id)==='true') el.checked=true; el.addEventListener('change',()=>localStorage.setItem(el.id,el.checked)); }); }
 
-        function saveProfile(){ 
-            user.w=Number(document.getElementById('u-w').value); 
-            user.h=Number(document.getElementById('u-h').value); 
-            user.diet=document.getElementById('u-diet').value;
+        // SETTINGS & BMR
+        function setGender(g){ user.gender=g; applySettingsUI(); }
+        function setGoal(g){ user.goal=g; applySettingsUI(); }
+        
+        function applySettingsUI(){
+            document.querySelectorAll('.goal-btn').forEach(b=>b.classList.remove('active'));
+            if(user.gender) document.getElementById('gen-'+user.gender).classList.add('active');
+            if(user.goal) {
+                if(user.goal==='cut') document.getElementById('goal-cut').classList.add('active');
+                if(user.goal==='maintain') document.getElementById('goal-main').classList.add('active');
+                if(user.goal==='bulk') document.getElementById('goal-bulk').classList.add('active');
+            }
+            document.getElementById('u-grade-limit').value = user.minGrade || 'E';
+            document.getElementById('u-w').value = user.w;
+            document.getElementById('u-h').value = user.h;
+            document.getElementById('u-age').value = user.age;
             
-            if(user.diet === 'vegan') { document.getElementById('l-vegan').checked = true; }
-            if(user.diet === 'keto') { document.getElementById('l-keto').checked = true; }
-            if(user.diet === 'paleo') { document.getElementById('l-paleo').checked = true; }
-
-            localStorage.setItem('vibeUser43',JSON.stringify(user)); 
-            closeModal('settings-modal'); 
-            showToast('✅ פרופיל עודכן');
+            const goalMap = {cut:'חיטוב', maintain:'שמירה', bulk:'מסה'};
+            document.getElementById('goal-display').innerText = "מטרה: " + (goalMap[user.goal] || "לא הוגדרה");
         }
 
-        // --- CAMERA ---
-        // Safety check for library
-        let html5QrCode;
-        try { html5QrCode = new Html5Qrcode("reader"); } catch(e) { console.log("Scanner libs not ready"); }
-
-        function startCamera(){
-            if(!html5QrCode) { alert("רכיב סריקה לא נטען. בדוק חיבור אינטרנט."); return; }
-            document.getElementById('scanner-overlay').style.display='block';
-            html5QrCode.start({facingMode:"environment"},{fps:10,qrbox:250},(txt)=>{ stopCamera(); analyze(txt); })
-                   .catch((e)=>{alert("אין גישה למצלמה"); stopCamera();});
+        function calculateTDEE(){
+            if(!user.w || !user.h || !user.age) return;
+            // Mifflin-St Jeor Formula
+            let s = (user.gender==='male' ? 5 : -161);
+            let bmr = (10*user.w) + (6.25*user.h) - (5*user.age) + s;
+            // Activity Factor 1.2 (Sedentary/Light) as baseline
+            user.tdee = Math.round(bmr * 1.2);
+            document.getElementById('d-tdee').innerText = user.tdee;
         }
-        function stopCamera(){
-            if(html5QrCode) html5QrCode.stop().then(()=>document.getElementById('scanner-overlay').style.display='none')
-                       .catch(()=>document.getElementById('scanner-overlay').style.display='none');
-        }
-        function manualSearch(){const c=prompt("ברקוד:"); if(c) analyze(c);}
 
-        // --- BRAIN: ANALYSIS ---
+        function manualSync(){
+            let val = prompt("הזן BMR מהמשקל החכם:", user.tdee);
+            if(val && !isNaN(val)) { 
+                user.tdee = Math.round(Number(val)); 
+                document.getElementById('d-tdee').innerText = user.tdee; 
+                saveProfile();
+                showToast("✅ סונכרן ידנית"); 
+            }
+        }
+
+        function saveProfile(){
+            user.minGrade = document.getElementById('u-grade-limit').value;
+            user.w = Number(document.getElementById('u-w').value);
+            user.h = Number(document.getElementById('u-h').value);
+            user.age = Number(document.getElementById('u-age').value);
+            calculateTDEE();
+            localStorage.setItem('vibeUser46', JSON.stringify(user));
+            closeModal('settings-modal'); showToast("הפרופיל נשמר");
+            applySettingsUI();
+        }
+
+        // --- ANALYSIS ---
         async function analyze(code){
             document.getElementById('sheet-wrapper').classList.add('active-sheet');
             document.getElementById('p-name').value="טוען...";
             document.getElementById('tags-area').innerHTML="";
+            document.getElementById('grade-warning').style.display='none';
+            document.getElementById('grade-display').innerText = "--";
             
             try {
                 const res=await fetch(`https://world.openfoodfacts.org/api/v2/product/${code}.json`);
@@ -377,6 +371,8 @@
                 let name=p.product_name_he||p.product_name||"";
                 let cat='other';
                 let lowName=name.toLowerCase();
+                
+                // Smart Category
                 for(const [k,v] of Object.entries(dict)){
                     if(lowName.includes(k)){
                         if(!p.product_name_he) name=v.he+" "+(p.brands||"");
@@ -391,68 +387,56 @@
 
                 const n=p.nutriments||{};
                 const txt=(JSON.stringify(p.ingredients_text)+JSON.stringify(p.labels)).toLowerCase();
-                const add=(p.additives_tags||[]).join(" ");
                 let tags="";
                 let score=100;
 
-                // --- 65 FILTER LOGIC START ---
-                // Helper to apply check
-                const checkFilter = (id, keywords, msg, penalty) => {
-                    if (chk(id)) {
-                        for (let w of keywords) {
-                            if (txt.includes(w)) {
-                                tags += `<div class="info-tag tag-danger">⛔ ${msg}</div>`;
-                                score -= penalty;
-                                return;
-                            }
-                        }
-                    }
-                };
+                // --- 65 FILTER LOGIC ---
+                if(chk('a-milk') && txt.includes('milk')) {tags+=`<div class="info-tag tag-danger">⛔ חלב</div>`; score=0;}
+                if(chk('a-gluten') && txt.includes('gluten')) {tags+=`<div class="info-tag tag-danger">⛔ גלוטן</div>`; score=0;}
+                if(chk('a-nuts') && (txt.includes('nut')||txt.includes('almond'))) {tags+=`<div class="info-tag tag-danger">⛔ אגוזים</div>`; score=0;}
+                if(chk('a-peanuts') && txt.includes('peanut')) {tags+=`<div class="info-tag tag-danger">⛔ בוטנים</div>`; score=0;}
+                if(chk('a-fish') && txt.includes('fish')) {tags+=`<div class="info-tag tag-danger">⛔ דגים</div>`; score=0;}
 
-                checkFilter('a-milk',['milk','lait','חלב'],'חלב', 100);
-                checkFilter('a-gluten',['gluten','wheat','חיטה'],'גלוטן', 100);
-                checkFilter('a-nuts',['nut','almond','אגוז'],'אגוזים', 100);
-                checkFilter('a-peanuts',['peanut','בוטנים'],'בוטנים', 100);
-                checkFilter('a-soy',['soy','סויה'],'סויה', 100);
-                checkFilter('a-sesame',['sesame','שומשום'],'שומשום', 100);
-                checkFilter('a-eggs',['egg','oeuf','ביצים'],'ביצים', 100);
-                checkFilter('a-fish',['fish','דג'],'דגים', 100);
-                checkFilter('a-sulfites',['sulfite','e220','e224'],'סולפיטים', 100);
+                // Diet Logic
+                if(chk('l-vegan') && (txt.includes('milk')||txt.includes('egg')||txt.includes('meat'))) {tags+=`<div class="info-tag tag-danger">❌ לא טבעוני</div>`; score-=40;}
+                if(chk('c-sugar') && n.sugars_100g > 1) {tags+=`<div class="info-tag tag-neutral">🍭 מכיל סוכר</div>`; score-=20;}
+                
+                // Nutri-Score Logic
+                let grade = (p.nutriscore_grade || 'e').toUpperCase();
+                if(!p.nutriscore_grade) {
+                    // Local Calculation Fallback
+                    if(n.sugars_100g > 10 || n['saturated-fat_100g'] > 5) grade = 'D';
+                    else if(n.proteins_100g > 10) grade = 'A';
+                    else grade = 'C';
+                }
 
-                if(chk('d-diabetic')&&(n.sugars_100g>5||n.carbohydrates_100g>50)) {tags+=`<div class="info-tag tag-neutral">🍬 סוכר גבוה</div>`; score-=30;}
-                if(chk('d-heart')&&(n.salt_100g>1||n['saturated-fat_100g']>4)) {tags+=`<div class="info-tag tag-neutral">🧂 נתרן גבוה</div>`; score-=30;}
-                if(chk('d-cholesterol')&&n.cholesterol_100g>0.05) {tags+=`<div class="info-tag tag-neutral">🍔 כולסטרול</div>`; score-=20;}
-                if(chk('d-gout')&&(txt.includes('liver')||txt.includes('yeast'))) {tags+=`<div class="info-tag tag-neutral">🦵 פורינים</div>`; score-=20;}
-                if(chk('d-kidney')&&(n.potassium_100g>0.3||add.includes('phosphate'))) tags+=`<div class="info-tag tag-neutral">🩺 אשלגן</div>`;
-                if(chk('x-preg')&&(txt.includes('caffeine')||txt.includes('alcohol'))) tags+=`<div class="info-tag tag-danger">⛔ קפאין/אלכוהול</div>`;
-                if(chk('k-parve')&&(txt.includes('milk')||txt.includes('meat'))) tags+=`<div class="info-tag tag-neutral">❌ לא פרווה</div>`;
-                if(chk('l-vegan')&&(txt.includes('milk')||txt.includes('egg')||txt.includes('honey'))) tags+=`<div class="info-tag tag-neutral">❌ לא טבעוני</div>`;
-                if(chk('c-clean')&&(add.includes('e2')||add.includes('e6'))) tags+=`<div class="info-tag tag-neutral">🧪 תוספים מלאכותיים</div>`;
-                
-                if(n.proteins_100g > 10) tags+=`<div class="info-tag tag-good">💪 חלבון</div>`;
-                if(chk('b-israel')&&code.startsWith('729')) tags+=`<div class="info-tag tag-good">🇮🇱 תוצרת הארץ</div>`;
+                // Goal Adjustments
+                if(user.goal==='cut' && n['energy-kcal_100g']>300) tags+=`<div class="info-tag tag-neutral">⚠️ צפוף קלורית</div>`;
+                if(user.goal==='bulk' && n.proteins_100g>15) tags+=`<div class="info-tag tag-good">💪 חלבון למסה</div>`;
+                if(chk('b-israel') && code.startsWith('729')) tags+=`<div class="info-tag tag-good">🇮🇱 תוצרת הארץ</div>`;
 
-                if(score<0) score=0;
+                // Quality Gate Check
+                const grades = ['E','D','C','B','A']; // Index 0 is worst, 4 is best
+                const userLimitIdx = grades.indexOf(user.minGrade || 'E');
+                const prodGradeIdx = grades.indexOf(grade);
                 
-                // GRADE
-                let grade = 'E';
-                if(score > 80) grade = 'A'; else if(score > 60) grade = 'B'; else if(score > 40) grade = 'C'; else if(score > 20) grade = 'D';
-                
+                if(prodGradeIdx < userLimitIdx) {
+                    document.getElementById('quality-warning').style.display='block';
+                    if(navigator.vibrate) navigator.vibrate([200,100,200]);
+                }
+
                 const gEl = document.getElementById('grade-display');
-                if(gEl) { gEl.innerText = grade; gEl.className = `grade-badge grade-${grade}`; }
+                gEl.innerText=grade; gEl.className=`grade-badge grade-${grade}`;
 
                 document.getElementById('tags-area').innerHTML = tags || `<div class="info-tag tag-good">✨ ללא אזהרות</div>`;
                 document.getElementById('bio-res').innerText = `${n['energy-kcal_100g']||0} קלוריות | ${n.proteins_100g||0}g חלבון`;
-                document.getElementById('p-score').innerText = score + "% התאמה";
 
                 history.unshift({name:name,code:code,date:new Date().toLocaleDateString()});
-                if(history.length>15) history.pop();
                 localStorage.setItem('vibeHistory',JSON.stringify(history));
                 renderHistory();
 
             } catch(e) {
                 document.getElementById('p-name').value="לא נמצא (הקלד שם)";
-                currentItem.code=code;
             }
         }
 
@@ -460,67 +444,90 @@
         function importList(){
             const text = document.getElementById('import-area').value;
             if(!text) return;
+            // Split by newline or comma
             const lines = text.split(/\n|,/);
             lines.forEach(line => {
                 let clean = line.trim();
                 if(clean){
                     let cat = 'other';
-                    for(const [k,v] of Object.entries(dict)){ if(clean.includes(k) || clean.includes(v.he)) cat=v.c; }
+                    for(const [k,v] of Object.entries(dict)){ if(clean.includes(k)||clean.includes(v.he)) cat=v.c; }
+                    // Manual overrides
+                    if(clean.includes('אקונומיקה')||clean.includes('נייר')) cat='home';
                     cart.push({name:clean, category:cat});
                 }
             });
-            renderCart(); updateScore();
+            renderCart();
             document.getElementById('import-area').value = "";
-            showToast(`נוספו ${lines.length} פריטים`);
+            showToast("רשימה יובאה");
         }
 
-        function addToCart(){
-            cart.push(currentItem);
-            renderCart(); updateScore(); closeSheet(); showToast("✅ נוסף לסל");
-        }
+        function addToCart(){ cart.push(currentItem); renderCart(); closeSheet(); showToast("✅ נוסף לסל"); }
+        
         function renderCart(){
             const b=document.getElementById('cart-body'); b.innerHTML="";
             const grouped={};
             cart.forEach(i=>{ if(!grouped[i.category]) grouped[i.category]=[]; grouped[i.category].push(i); });
             const order=['veg','fridge','meat','pantry','home','other'];
             
+            // Score Logic
+            let s=50; 
+            cart.forEach(i=>{ 
+                if(i.category==='veg') s+=5; 
+                if(i.category==='fridge') s+=2;
+                // Penalty for unclassified junk could go here
+            });
+            s=Math.min(100,Math.max(0,s));
+            document.getElementById('basket-score-bar').style.width=s+"%";
+            document.getElementById('score-text').innerText = s + "%";
+
+            // Render Aisles
             order.forEach(cat=>{
                 if(grouped[cat]){
                     b.innerHTML+=`<div class="aisle-header">${aisles[cat]}</div>`;
                     grouped[cat].forEach(item=>{
+                        // Find true index to delete correct item
                         const idx=cart.indexOf(item);
                         b.innerHTML+=`<div class="cart-item"><span>${item.name}</span><span onclick="del(${idx})" style="color:red;cursor:pointer;">✕</span></div>`;
                     });
                 }
             });
+            
             document.getElementById('d-cart').innerText=cart.length;
-            localStorage.setItem('vibeCart43',JSON.stringify(cart));
+            localStorage.setItem('vibeCart46',JSON.stringify(cart));
         }
-        function del(i){cart.splice(i,1); renderCart(); updateScore();}
-        
-        function updateScore(){
-            let s=50;
-            cart.forEach(i=>{ if(i.category==='veg') s+=5; if(i.category==='pantry') s+=1; });
-            s=Math.min(100,Math.max(0,s));
-            document.getElementById('basket-score-bar').style.width=s+"%";
-            document.getElementById('score-text').innerText= s>80?"מצוין 🏆":(s>50?"מאוזן 👍":"טעון שיפור");
-        }
-
+        function del(i){cart.splice(i,1); renderCart();}
         function shareCart(){window.open(`https://wa.me/?text=רשימת קניות:%0A${cart.map(i=>"- "+i.name).join('%0A')}`,'_blank');}
+        
         function clearHistory(){history=[]; localStorage.removeItem('vibeHistory'); renderHistory();}
         function renderHistory(){
             const l=document.getElementById('history-list'); l.innerHTML="";
             history.forEach(i=>{l.innerHTML+=`<div class="cart-item" onclick="analyze('${i.code}')"><span>${i.name}</span><small>${i.date}</small></div>`});
         }
 
-        // --- ACTIONS ---
+        // --- CAMERA ---
+        let html5QrCode;
+        try { html5QrCode = new Html5Qrcode("reader"); } catch(e){}
+
+        function startCamera(){
+            if(!html5QrCode) { alert("רכיב המצלמה לא נטען. נסה לרענן."); return; }
+            document.getElementById('scanner-overlay').style.display='block';
+            html5QrCode.start({facingMode:"environment"},{fps:10,qrbox:250},(txt)=>{ stopCamera(); analyze(txt); }).catch(()=>{alert("אין גישה למצלמה"); stopCamera();});
+        }
+        function stopCamera(){
+            if(html5QrCode) html5QrCode.stop().then(()=>document.getElementById('scanner-overlay').style.display='none').catch(()=>document.getElementById('scanner-overlay').style.display='none');
+        }
+        function manualSearch(){const c=prompt("ברקוד:"); if(c) analyze(c);}
+
+        // --- SMART ACTIONS ---
         function findAlternatives(){
             let name = document.getElementById('p-name').value;
-            // DE-BRANDING
-            brandsBlacklist.forEach(b => { name = name.replace(b, ''); });
-            let cleanName = name.replace(currentItem.brand, '').trim(); 
-            if(cleanName.length < 2) cleanName = name; 
-            window.open(`https://www.google.com/search?q=${encodeURIComponent(cleanName+" קנייה בזול")}`,'_blank');
+            // Clean Brands using Regex
+            name = name.replace(brandRegex, '').trim();
+            // Clean current brand just in case
+            if(currentItem.brand) name = name.replace(currentItem.brand, '').trim();
+            
+            if(name.length < 2) name = document.getElementById('p-name').value; // Fallback
+            window.open(`https://www.google.com/search?q=${encodeURIComponent(name+" קנייה בזול site:.il")}`,'_blank');
         }
         function comparePrecise(){
             let q=currentItem.code;
