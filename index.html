@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vibe OS - Debug Scanner</title>
+    <title>Vibe OS - Universal Scanner</title>
     <script src="https://unpkg.com/html5-qrcode"></script>
     <style>
         :root { --vibe-green: #0B7517; --vibe-red: #8b0000; --vibe-neon: #39FF14; }
@@ -11,111 +11,139 @@
         
         #reader { width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: 1; object-fit: cover; }
         
-        /* אזור התוצאות הצף */
         #result-panel {
-            position: absolute; bottom: 50px; width: 90%; max-width: 350px;
-            background: rgba(20, 20, 20, 0.95); padding: 20px; border-radius: 20px;
-            text-align: center; z-index: 10; border: 1px solid #444; display: none;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
+            position: absolute; bottom: 30px; width: 90%; max-width: 350px;
+            background: rgba(10, 10, 10, 0.95); padding: 25px; border-radius: 25px;
+            text-align: center; z-index: 10; border: 1px solid #333; display: none;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.8);
         }
 
+        /* כוונת סריקה משופרת */
         .scan-frame {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 250px; height: 150px; border: 2px solid rgba(255,255,255,0.7);
-            border-radius: 15px; z-index: 5; box-shadow: 0 0 0 9999px rgba(0,0,0,0.5);
+            width: 280px; height: 180px; 
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px; z-index: 5;
+            box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5); /* החשכת הרקע */
         }
         
+        /* פס לייזר */
         .scan-line {
             width: 100%; height: 2px; background: var(--vibe-neon);
-            position: absolute; top: 10%; animation: scan 2s infinite;
+            box-shadow: 0 0 10px var(--vibe-neon);
+            position: absolute; top: 10%; animation: scan 1.5s infinite alternate;
         }
-        @keyframes scan { 0% { top: 10%; } 50% { top: 90%; } 100% { top: 10%; } }
+        @keyframes scan { from { top: 10%; } to { top: 90%; } }
 
-        button { background: var(--vibe-green); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-size: 16px; margin-top: 10px; cursor: pointer; }
+        .btn-retry { background: transparent; border: 1px solid white; color: white; padding: 10px 25px; border-radius: 50px; margin-top: 15px; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div id="reader"></div>
-    <div class="scan-frame"><div class="scan-line"></div></div>
+    <div class="scan-frame" id="frame"><div class="scan-line"></div></div>
 
     <div id="result-panel">
-        <h2 id="p-title" style="margin: 0 0 10px 0;">מעבד נתונים...</h2>
-        <div id="p-code" style="font-family: monospace; color: var(--vibe-neon); font-size: 18px;"></div>
-        <p id="p-desc" style="font-size: 14px; color: #ccc;">בודק מול השרת העולמי...</p>
-        <button onclick="location.reload()">סרוק שוב</button>
+        <h2 id="p-title" style="margin: 0 0 5px 0;"></h2>
+        <div id="p-code" style="font-family: monospace; color: #888; font-size: 14px; margin-bottom: 10px;"></div>
+        <p id="p-desc" style="font-size: 16px;"></p>
+        <button class="btn-retry" onclick="location.reload()">סרוק מוצר הבא</button>
     </div>
 
     <script>
-        // הפעלת צליל (ביפ)
+        const html5QrCode = new Html5Qrcode("reader");
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        function beep() {
+
+        function beep(type) {
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.connect(gain); gain.connect(audioCtx.destination);
-            osc.frequency.value = 1200;
+            
+            if (type === 'success') {
+                osc.frequency.value = 1200; // צליל גבוה
+            } else {
+                osc.frequency.value = 200; // צליל נמוך
+            }
+            
             gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.1);
-            osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+            gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.15);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.15);
         }
 
-        // הגדרת הסורק
-        const html5QrCode = new Html5Qrcode("reader");
-        const config = { fps: 10, qrbox: { width: 250, height: 150 } };
+        // הגדרה אוניברסלית לקריאת כל סוגי הברקודים
+        const config = { 
+            fps: 10, 
+            qrbox: { width: 250, height: 150 },
+            experimentalFeatures: {
+                useBarCodeDetectorIfSupported: true
+            }
+        };
 
-        html5QrCode.start({ facingMode: "environment" }, config, (decodedText) => {
-            // ברגע שיש זיהוי
-            html5QrCode.stop();
-            beep();
-            document.querySelector('.scan-frame').style.display = 'none'; // הסתרת מסגרת
-            showResult(decodedText);
-        }).catch(err => {
-            // אם המצלמה האחורית נכשלת (לפטופ), נסה מצלמת משתמש
+        // התחלת סריקה
+        html5QrCode.start(
+            { facingMode: "environment" }, 
+            config, 
+            (decodedText) => {
+                html5QrCode.stop();
+                handleScan(decodedText);
+            }
+        ).catch(err => {
+            // אם אין מצלמה אחורית (לפטופ), נסה קדמית
             html5QrCode.start({ facingMode: "user" }, config, (decodedText) => {
                 html5QrCode.stop();
-                beep();
-                showResult(decodedText);
+                handleScan(decodedText);
             });
         });
 
-        async function showResult(barcode) {
+        async function handleScan(barcode) {
             const panel = document.getElementById('result-panel');
+            const frame = document.getElementById('frame');
             const title = document.getElementById('p-title');
-            const codeDisplay = document.getElementById('p-code');
             const desc = document.getElementById('p-desc');
-            
+            const codeDisp = document.getElementById('p-code');
+
+            frame.style.display = 'none';
             panel.style.display = 'block';
-            codeDisplay.innerText = "BARCODE: " + barcode;
-            
+            codeDisp.innerText = "BARCODE: " + barcode;
+            title.innerText = "בודק נתונים...";
+
             try {
-                // בדיקה מול Open Food Facts
                 const response = await fetch(`https://world.openfoodfacts.org/api/v2/product/${barcode}.json`);
                 const data = await response.json();
 
                 if (data.status === 1) {
                     const product = data.product;
-                    title.innerText = product.product_name_he || product.product_name || "מוצר ללא שם";
+                    const pName = product.product_name_he || product.product_name || "מוצר ללא שם";
+                    title.innerText = pName;
                     
                     // בדיקת רכיבים
                     const ingredients = (product.ingredients_text || "").toLowerCase();
-                    if (ingredients.includes('חלב') || ingredients.includes('milk')) {
-                        desc.innerHTML = "<span style='color:red; font-weight:bold;'>⚠️ מכיל חלב - לא מתאים</span>";
-                        panel.style.border = "2px solid red";
+                    const allergens = (product.allergens || "").toLowerCase();
+
+                    if (ingredients.includes('חלב') || ingredients.includes('milk') || allergens.includes('milk') || allergens.includes('en:milk')) {
+                        // מכיל חלב
+                        beep('fail');
+                        desc.innerHTML = "<span style='color:#ff4444; font-weight:bold; font-size:18px;'>⚠️ מכיל חלב</span><br>לא מתאים לפרופיל התזונתי שלך.";
+                        panel.style.border = "2px solid #ff4444";
                     } else {
-                        desc.innerHTML = "<span style='color:#39FF14; font-weight:bold;'>✅ Vibe Match - ללא חלב</span>";
+                        // מתאים
+                        beep('success');
+                        desc.innerHTML = "<span style='color:#39FF14; font-weight:bold; font-size:18px;'>✅ Vibe Match</span><br>ללא רכיבי חלב. מאושר.";
                         panel.style.border = "2px solid #39FF14";
                     }
                 } else {
-                    // מוצר לא נמצא במאגר
-                    title.innerText = "מוצר לא מוכר במאגר";
-                    desc.innerText = "הסורק תקין! אך הנתונים על הקינואה הזו חסרים במאגר החינמי.";
-                    panel.style.border = "2px solid orange";
+                    // מוצר לא נמצא
+                    beep('success'); // צפצוף חיובי כי הסריקה הצליחה
+                    title.innerText = "מוצר חדש זוהה";
+                    desc.innerHTML = "הברקוד נקלט בהצלחה, אך אין עליו מידע במאגר הפתוח.";
+                    panel.style.border = "2px solid white";
                 }
             } catch (err) {
                 title.innerText = "שגיאת רשת";
-                desc.innerText = "בדוק חיבור לאינטרנט.";
+                desc.innerText = "בדוק את החיבור לאינטרנט.";
             }
         }
     </script>
 </body>
 </html>
+
