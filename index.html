@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>Vibe OS 37.0</title>
+    <title>Vibe OS 38.0 - Stable</title>
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     <style>
         :root { 
@@ -105,7 +105,7 @@
     <div id="toast"></div>
 
     <div class="header">
-        <div class="brand">Vibe OS 37.0</div>
+        <div class="brand">Vibe OS 38.0</div>
         <div class="nav-icons">
             <div class="icon-btn" onclick="toggleModal('history-modal')">🕒</div>
             <div class="icon-btn" onclick="toggleModal('settings-modal')">⚙️</div>
@@ -222,7 +222,6 @@
             </div>
 
             <div id="tags-area" class="tags-container"></div>
-
             <div id="bio-res" class="analysis-box"></div>
 
             <div class="action-grid">
@@ -262,37 +261,22 @@
     </div>
 
     <script>
-        // --- VIBE OS 37.0 GOLD LOGIC ---
+        // --- VIBE OS 38.0 STABLE LOGIC ---
         
-        let cart = JSON.parse(localStorage.getItem('vibeCart37')) || [];
+        let cart = JSON.parse(localStorage.getItem('vibeCart38')) || [];
         let history = JSON.parse(localStorage.getItem('vibeHistory')) || [];
-        let user = JSON.parse(localStorage.getItem('vibeUser37')) || {w:75, h:175, age:30};
+        let user = JSON.parse(localStorage.getItem('vibeUser38')) || {w:75, h:175, age:30};
         let currentItem = { name: '', code: '', brand: '', category: 'other' };
 
-        // --- HYPER DICTIONARY (Complete) ---
+        // 1. MASSIVE DICTIONARY
         const dict = {
-            // DAIRY & FRIDGE
-            'milk':{he:'חלב',c:'fridge'},'cheese':{he:'גבינה',c:'fridge'},'yogurt':{he:'יוגורט',c:'fridge'},'butter':{he:'חמאה',c:'fridge'},'cream':{he:'שמנת',c:'fridge'},'pudding':{he:'מעדן',c:'fridge'},'probiotic':{he:'פרוביוטי',c:'fridge'},'mozzarella':{he:'מוצרלה',c:'fridge'},'cheddar':{he:'צדר',c:'fridge'},'parmesan':{he:'פרמזן',c:'fridge'},'labane':{he:'לבנה',c:'fridge'},'cottage':{he:'קוטג',c:'fridge'},
-            
-            // PANTRY STAPLES
+            'milk':{he:'חלב',c:'fridge'},'cheese':{he:'גבינה',c:'fridge'},'yogurt':{he:'יוגורט',c:'fridge'},'butter':{he:'חמאה',c:'fridge'},'cream':{he:'שמנת',c:'fridge'},
             'bread':{he:'לחם',c:'pantry'},'pasta':{he:'פסטה',c:'pantry'},'rice':{he:'אורז',c:'pantry'},'flour':{he:'קמח',c:'pantry'},'sugar':{he:'סוכר',c:'pantry'},'salt':{he:'מלח',c:'pantry'},'oil':{he:'שמן',c:'pantry'},'olive':{he:'זית',c:'pantry'},'canola':{he:'קנולה',c:'pantry'},'couscous':{he:'קוסקוס',c:'pantry'},'quinoa':{he:'קינואה',c:'pantry'},'lentil':{he:'עדשים',c:'pantry'},'bean':{he:'שעועית',c:'pantry'},'chickpea':{he:'חומוס',c:'pantry'},'tahini':{he:'טחינה',c:'pantry'},'corn':{he:'תירס',c:'pantry'},'cereal':{he:'דגני בוקר',c:'pantry'},'oat':{he:'שיבולת שועל',c:'pantry'},'granola':{he:'גרנולה',c:'pantry'},'honey':{he:'דבש',c:'pantry'},'jam':{he:'ריבה',c:'pantry'},'spread':{he:'ממרח',c:'pantry'},'chocolate':{he:'שוקולד',c:'pantry'},'halva':{he:'חלבה',c:'pantry'},
-            
-            // VEG & FRUIT
             'tomato':{he:'עגבניה',c:'veg'},'cucumber':{he:'מלפפון',c:'veg'},'apple':{he:'תפוח',c:'veg'},'banana':{he:'בננה',c:'veg'},'lemon':{he:'לימון',c:'veg'},'pepper':{he:'פלפל',c:'veg'},'carrot':{he:'גזר',c:'veg'},'onion':{he:'בצל',c:'veg'},'garlic':{he:'שום',c:'veg'},'potato':{he:'תפוח אדמה',c:'veg'},'lettuce':{he:'חסה',c:'veg'},'cabbage':{he:'כרוב',c:'veg'},'herb':{he:'עשבי תיבול',c:'veg'},'avocado':{he:'אבוקדו',c:'veg'},'orange':{he:'תפוז',c:'veg'},'grape':{he:'ענבים',c:'veg'},'melon':{he:'מלון',c:'veg'},'berry':{he:'פירות יער',c:'veg'},'date':{he:'תמר',c:'veg'},
-            
-            // PROTEIN
             'chicken':{he:'עוף',c:'meat'},'beef':{he:'בקר',c:'meat'},'fish':{he:'דג',c:'meat'},'tuna':{he:'טונה',c:'pantry'},'egg':{he:'ביצים',c:'fridge'},'salami':{he:'נקניק',c:'meat'},'sausage':{he:'נקניקיה',c:'meat'},'tofu':{he:'טופו',c:'fridge'},'seitan':{he:'סייטן',c:'fridge'},'salmon':{he:'סלמון',c:'meat'},
-            
-            // DRINKS
             'water':{he:'מים',c:'pantry'},'juice':{he:'מיץ',c:'fridge'},'soda':{he:'משקה מוגז',c:'pantry'},'cola':{he:'קולה',c:'pantry'},'coffee':{he:'קפה',c:'pantry'},'tea':{he:'תה',c:'pantry'},'beer':{he:'בירה',c:'pantry'},'wine':{he:'יין',c:'pantry'},'drink':{he:'משקה',c:'pantry'},
-            
-            // SNACKS
             'chips':{he:'חטיף צ׳יפס',c:'pantry'},'snack':{he:'חטיף',c:'pantry'},'cookie':{he:'עוגיה',c:'pantry'},'cake':{he:'עוגה',c:'pantry'},'biscuit':{he:'ביסקוויט',c:'pantry'},'wafer':{he:'וופל',c:'pantry'},'cracker':{he:'קרקר',c:'pantry'},'pretzel':{he:'בייגלה',c:'pantry'},'nut':{he:'אגוזים',c:'pantry'},'gum':{he:'מסטיק',c:'pantry'},'candy':{he:'סוכריה',c:'pantry'},
-            
-            // HOME & HYGIENE
             'shampoo':{he:'שמפו',c:'home'},'soap':{he:'סבון',c:'home'},'cleaner':{he:'חומר ניקוי',c:'home'},'detergent':{he:'אבקת כביסה',c:'home'},'softener':{he:'מרכך כביסה',c:'home'},'bleach':{he:'אקונומיקה',c:'home'},'paper':{he:'נייר טואלט',c:'home'},'towel':{he:'מגבת נייר',c:'home'},'paste':{he:'משחת שיניים',c:'home'},'brush':{he:'מברשת',c:'home'},'deodorant':{he:'דאודורנט',c:'home'},'wipe':{he:'מגבונים',c:'home'},'diaper':{he:'חיתולים',c:'home'},
-            
-            // SAUCES & SPICES
             'sauce':{he:'רוטב',c:'pantry'},'ketchup':{he:'קטשופ',c:'fridge'},'mayo':{he:'מיונז',c:'fridge'},'mustard':{he:'חרדל',c:'fridge'},'vinegar':{he:'חומץ',c:'pantry'},'soy':{he:'סויה',c:'pantry'},'spice':{he:'תבלין',c:'pantry'},'salt':{he:'מלח',c:'pantry'},'pepper':{he:'פלפל',c:'pantry'},'paprika':{he:'פפריקה',c:'pantry'},'cumin':{he:'כמון',c:'pantry'},'turmeric':{he:'כורכום',c:'pantry'}
         };
         const aisles = {'veg':'🥦 ירקות','fridge':'❄️ מקרר','meat':'🥩 בשר','pantry':'🍝 מזווה','home':'🧴 בית','other':'🛒 כללי'};
@@ -310,7 +294,7 @@
         function loadChecks(){ document.querySelectorAll('.save').forEach(el=>{ if(localStorage.getItem(el.id)==='true') el.checked=true; el.addEventListener('change',()=>localStorage.setItem(el.id,el.checked)); }); }
         function saveProfile(){ 
             user.w=document.getElementById('u-w').value; user.h=document.getElementById('u-h').value; user.age=document.getElementById('u-age').value;
-            localStorage.setItem('vibeUser37',JSON.stringify(user)); closeModal('settings-modal'); showToast('פרופיל נשמר');
+            localStorage.setItem('vibeUser38',JSON.stringify(user)); closeModal('settings-modal'); showToast('פרופיל נשמר');
         }
 
         // CAMERA
@@ -361,7 +345,17 @@
                 let tags="";
 
                 // ALLERGIES (Danger)
-                const al={(id,k,t)=>{ if(chk(id)){ for(let w of k) if(txt.includes(w)){ tags+=`<div class="info-tag tag-danger">⛔ ${t}</div>`; return; } } }};
+                const al = (id, k, t) => {
+                    if (chk(id)) {
+                        for (let w of k) {
+                            if (txt.includes(w)) {
+                                tags += `<div class="info-tag tag-danger">⛔ ${t}</div>`;
+                                return;
+                            }
+                        }
+                    }
+                };
+                
                 al('a-milk',['milk','lait','חלב','whey'],'חלב');
                 al('a-gluten',['gluten','wheat','חיטה','barley','rye'],'גלוטן');
                 al('a-nuts',['nut','almond','cashew','pecan','אגוז'],'אגוזים');
@@ -440,7 +434,7 @@
                 }
             });
             document.getElementById('d-cart').innerText=cart.length;
-            localStorage.setItem('vibeCart37',JSON.stringify(cart));
+            localStorage.setItem('vibeCart38',JSON.stringify(cart));
         }
         function del(i){cart.splice(i,1); renderCart(); updateScore();}
         
