@@ -3,202 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Vibe OS 12.0 - Ultimate</title>
+    <title>Vibe OS 15.0 - Titanium</title>
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     <style>
         :root { 
-            --neon-blue: #2979ff; 
-            --neon-green: #00e676;
-            --neon-red: #ff1744;
-            --neon-gold: #ffd600;
-            --neon-purple: #d500f9;
-            --bg: #050505; 
-            --panel: #111;
-            --text: #eee;
+            --neon-blue: #2979ff; --neon-green: #00e676; --neon-red: #ff1744; 
+            --neon-gold: #ffd600; --neon-purple: #d500f9;
+            --bg: #000000; --panel: #111; --text: #f0f0f0;
         }
         
-        body { background-color: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; padding-bottom: 150px; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; padding-bottom: 160px; }
         
-        /* כותרת ראשית */
+        /* HEADER */
         .header {
-            background: rgba(16,16,16,0.95); backdrop-filter: blur(10px);
+            background: rgba(10,10,10,0.9); backdrop-filter: blur(15px);
             padding: 15px 20px; border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 50;
             display: flex; justify-content: space-between; align-items: center;
         }
-        .brand { font-size: 20px; font-weight: 800; letter-spacing: 1px; color: var(--neon-green); }
+        .brand { font-size: 20px; font-weight: 900; letter-spacing: 1px; color: var(--neon-green); text-transform: uppercase; }
+        .ver { font-size: 10px; color: #666; border: 1px solid #333; padding: 2px 6px; border-radius: 4px; vertical-align: middle; margin-right: 5px; }
         .sync-btn { 
-            font-size: 11px; background: rgba(41, 121, 255, 0.15); color: var(--neon-blue); 
-            padding: 6px 12px; border-radius: 20px; border: 1px solid var(--neon-blue); cursor: pointer; display: flex; gap: 6px; align-items: center; font-weight: bold;
+            font-size: 11px; background: rgba(41, 121, 255, 0.1); color: var(--neon-blue); 
+            padding: 8px 12px; border-radius: 20px; border: 1px solid var(--neon-blue); cursor: pointer; font-weight: bold;
         }
 
-        /* דשבורד ביומטרי */
-        .bio-dash { 
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 15px; 
-        }
+        /* SCANNER */
+        #reader { width: 100%; height: 300px; background: #000; border-bottom: 2px solid var(--neon-green); display:none; }
+
+        /* DASHBOARD */
+        .bio-dash { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 15px; }
         .bio-card { 
-            background: #1e1e1e; padding: 15px; border-radius: 16px; text-align: center; border: 1px solid #333; position: relative; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            background: #151515; padding: 15px; border-radius: 16px; text-align: center; border: 1px solid #222; position: relative; 
         }
-        .bio-card.main { grid-column: span 2; background: linear-gradient(145deg, #1e1e1e, #252525); border-color: #444; }
-        
-        .bio-val { font-size: 24px; font-weight: 800; color: white; display: block; margin-bottom: 2px; }
-        .bio-lbl { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
-        .edit-icon { position: absolute; top: 10px; left: 10px; font-size: 14px; color: #666; cursor: pointer; }
+        .bio-card.main { grid-column: span 2; background: linear-gradient(160deg, #151515, #222); border-color: #444; }
+        .bio-val { font-size: 28px; font-weight: 800; color: white; margin-bottom: 2px; }
+        .bio-lbl { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+        .edit-icon { position: absolute; top: 10px; left: 10px; font-size: 14px; color: #555; cursor: pointer; }
 
-        /* אזור עריכת פרופיל */
+        /* PROFILE EDITOR */
         #profile-editor { 
-            display: none; background: #181818; padding: 20px; margin: 15px; border-radius: 16px; border: 1px solid var(--neon-blue); 
+            display: none; background: #111; padding: 20px; margin: 15px; border-radius: 20px; border: 1px solid var(--neon-blue); 
             animation: fadeIn 0.3s;
         }
-        .section-title { font-size: 12px; color: var(--neon-blue); margin: 15px 0 8px 0; font-weight: bold; border-bottom: 1px solid #333; padding-bottom: 5px; }
+        .sec-head { font-size: 12px; color: var(--neon-blue); margin: 15px 0 8px 0; font-weight: bold; border-bottom: 1px solid #333; padding-bottom: 5px; }
         .row { display: flex; gap: 10px; margin-bottom: 10px; }
         .inp { 
-            flex: 1; background: #000; border: 1px solid #333; color: white; padding: 12px; border-radius: 10px; 
+            flex: 1; background: #000; border: 1px solid #444; color: white; padding: 12px; border-radius: 8px; 
             text-align: center; font-size: 14px; outline: none; transition: 0.2s;
         }
         .inp:focus { border-color: var(--neon-blue); }
-        .btn-save { 
-            width: 100%; background: var(--neon-blue); color: white; border: none; padding: 14px; border-radius: 12px; 
-            cursor: pointer; font-weight: bold; font-size: 14px; margin-top: 15px; 
-        }
-        
-        /* קטגוריות סינון (אקורדיון) */
+        .btn-save { width: 100%; background: var(--neon-blue); color: white; padding: 15px; border-radius: 12px; border:none; font-weight:bold; margin-top:15px; cursor: pointer; }
+
+        /* FILTERS ACCORDION */
         .filters { padding: 0 15px; }
-        .acc { margin-bottom: 10px; border: 1px solid #222; background: var(--panel); border-radius: 12px; overflow: hidden; }
+        .acc { margin-bottom: 8px; border: 1px solid #222; background: #111; border-radius: 12px; overflow: hidden; }
         .acc-head { 
-            padding: 15px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+            padding: 15px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
             border-right: 4px solid transparent; transition: 0.2s;
         }
-        .acc-head:hover { background: #222; }
-        .acc-body { display: none; padding: 15px; background: #0a0a0a; flex-wrap: wrap; gap: 8px; border-top: 1px solid #222; }
+        .acc-body { display: none; padding: 15px; background: #050505; flex-wrap: wrap; gap: 8px; border-top: 1px solid #222; }
         .acc-body.open { display: flex; }
 
-        /* צבעים לפי קטגוריה */
+        /* CATEGORY COLORS */
         .c-red .acc-head { border-right-color: var(--neon-red); }
         .c-blue .acc-head { border-right-color: var(--neon-blue); }
         .c-green .acc-head { border-right-color: var(--neon-green); }
         .c-gold .acc-head { border-right-color: var(--neon-gold); }
         .c-purple .acc-head { border-right-color: var(--neon-purple); }
 
-        /* צ'יפים */
+        /* CHIPS */
         .chip { display: none; }
         .lbl {
             padding: 8px 14px; background: #1a1a1a; border: 1px solid #333; border-radius: 20px; 
-            font-size: 12px; cursor: pointer; color: #aaa; transition: 0.2s; select-user: none;
+            font-size: 12px; cursor: pointer; color: #999; transition: 0.2s; user-select: none;
         }
-        .chip:checked + .lbl { background: #333; color: white; border-color: #888; font-weight: bold; transform: scale(1.05); }
-        
-        .danger .chip:checked + .lbl { border-color: var(--neon-red); color: var(--neon-red); background: rgba(255, 23, 68, 0.15); }
-        .safe .chip:checked + .lbl { border-color: var(--neon-green); color: var(--neon-green); background: rgba(0, 230, 118, 0.15); }
-        .royal .chip:checked + .lbl { border-color: var(--neon-purple); color: var(--neon-purple); background: rgba(213, 0, 249, 0.15); }
+        .chip:checked + .lbl { background: #333; color: white; border-color: #777; font-weight: bold; transform: scale(1.05); }
+        .danger .chip:checked + .lbl { border-color: var(--neon-red); color: var(--neon-red); background: rgba(255, 23, 68, 0.1); }
+        .safe .chip:checked + .lbl { border-color: var(--neon-green); color: var(--neon-green); background: rgba(0, 230, 118, 0.1); }
 
-        /* סרגל תחתון */
+        /* DOCK */
         .dock {
-            position: fixed; bottom: 0; left: 0; width: 100%; background: #111; padding: 15px;
-            border-top: 1px solid #333; display: flex; gap: 10px; z-index: 100; box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
+            position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10,10,10,0.95); padding: 15px;
+            border-top: 1px solid #333; display: flex; gap: 10px; z-index: 100; box-shadow: 0 -5px 30px rgba(0,0,0,0.7);
         }
-        .scan-inp { 
-            flex: 1; background: #000; border: 1px solid #444; color: white; padding: 12px; text-align: center; border-radius: 12px; 
-            font-size: 16px; outline: none; 
-        }
-        .scan-btn { 
-            background: var(--neon-green); color: #000; border: none; padding: 0 25px; border-radius: 12px; 
-            font-weight: 800; cursor: pointer; font-size: 14px;
-        }
+        .scan-inp { flex: 1; background: #000; border: 1px solid #444; color: white; padding: 14px; text-align: center; border-radius: 12px; font-size: 16px; outline: none; }
+        .scan-btn { background: var(--neon-green); color: #000; border: none; padding: 0 25px; border-radius: 12px; font-weight: 900; cursor: pointer; font-size: 16px; }
 
-        /* מודל תוצאה */
-        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 200; backdrop-filter: blur(8px); }
+        /* RESULTS MODAL */
+        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 200; backdrop-filter: blur(8px); }
         .card {
-            position: absolute; bottom: 0; width: 100%; background: #161616; border-radius: 30px 30px 0 0; padding: 30px; box-sizing: border-box;
-            box-shadow: 0 -10px 50px rgba(0,0,0,0.8); animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            max-height: 90vh; overflow-y: auto;
+            position: absolute; bottom: 0; width: 100%; background: #181818; border-radius: 30px 30px 0 0; padding: 30px; box-sizing: border-box;
+            box-shadow: 0 -10px 60px rgba(0,0,0,0.9); animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); max-height: 85vh; overflow-y: auto;
         }
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .analysis-box { 
-            background: rgba(255,255,255,0.03); padding: 20px; border-radius: 16px; margin: 20px 0; 
-            font-size: 14px; line-height: 1.6; border: 1px solid #222;
+        
+        .score-circle {
+            width: 80px; height: 80px; border-radius: 50%; border: 4px solid #333; margin: 0 auto 15px auto;
+            display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; color: white;
         }
-        .txt-green { color: var(--neon-green); }
-        .txt-red { color: var(--neon-red); }
-        .txt-gold { color: var(--neon-gold); }
-
+        
+        .analysis-box { background: rgba(255,255,255,0.03); padding: 20px; border-radius: 16px; margin: 20px 0; font-size: 14px; line-height: 1.6; border: 1px solid #2a2a2a; }
         .actions { display: flex; gap: 10px; margin-top: 20px; }
-        .act-btn { 
-            flex: 1; padding: 15px; border-radius: 12px; border: none; font-size: 12px; font-weight: bold; cursor: pointer; 
-            display: flex; flex-direction: column; align-items: center; gap: 5px;
-        }
+        .act-btn { flex: 1; padding: 15px; border-radius: 12px; border: none; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; }
 
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div class="brand">Vibe OS <span style="font-size:10px; color:#555; vertical-align:middle; border:1px solid #333; padding:2px 5px; border-radius:4px;">12.0</span></div>
-        <button class="sync-btn" onclick="toggleEdit()">
-            <span>⚙️</span> סנכרון משקל
-        </button>
+        <div class="brand">Vibe OS <span class="ver">15.0</span></div>
+        <button class="sync-btn" onclick="toggleEdit()">⚙️ סנכרון</button>
     </div>
+
+    <div id="reader"></div>
 
     <div class="bio-dash">
         <div class="bio-card main">
             <span class="edit-icon" onclick="toggleEdit()">✏️</span>
-            <span class="bio-val" id="d-cals">2000</span>
-            <span class="bio-lbl">תקציב קלורי יומי (TDEE)</span>
+            <span class="bio-val" id="d-cals">...</span>
+            <span class="bio-lbl">תקציב קלורי (TDEE)</span>
         </div>
         <div class="bio-card">
-            <span class="bio-val" id="d-goal">חיטוב</span>
+            <span class="bio-val" id="d-goal">...</span>
             <span class="bio-lbl">מטרה</span>
         </div>
         <div class="bio-card">
-            <span class="bio-val" id="d-meta-age">30</span>
-            <span class="bio-lbl">גיל מטבולי</span>
+            <span class="bio-val" id="d-fat">...</span>
+            <span class="bio-lbl">% שומן</span>
         </div>
     </div>
 
     <div id="profile-editor">
         <div style="text-align:center; margin-bottom:20px;">
-            <button class="sync-btn" style="width:100%; justify-content:center; padding:15px; font-size:14px;" onclick="simulateBluetooth()">
-                📡 לחץ כאן לסנכרון עם המשקל החכם
+            <button class="sync-btn" style="width:100%; justify-content:center; padding:15px; font-size:14px; background:linear-gradient(45deg, #111, #222);" onclick="simulateBluetooth()">
+                📡 סנכרון Bluetooth (Xiaomi/Garmin)
             </button>
-            <div style="font-size:10px; color:#666; margin-top:5px;">תומך ב-Garmin, Xiaomi, Tanita</div>
         </div>
 
-        <div class="section-title">נתונים פיזיים (ניתן לעריכה ידנית)</div>
+        <div class="sec-head">נתונים אישיים</div>
         <div class="row">
             <input type="number" id="u-w" class="inp" placeholder="משקל (קג)">
             <input type="number" id="u-h" class="inp" placeholder="גובה (סמ)">
         </div>
         <div class="row">
-            <input type="number" id="u-age" class="inp" placeholder="גיל כרונולוגי">
-            <input type="number" id="u-meta" class="inp" placeholder="גיל מטבולי">
-        </div>
-        
-        <div class="section-title">הרכב גוף (מהמשקל)</div>
-        <div class="row">
-            <input type="number" id="u-fat" class="inp" placeholder="% שומן">
-            <input type="number" id="u-visceral" class="inp" placeholder="שומן בטני (1-15)">
-        </div>
-        <div class="row">
+            <input type="number" id="u-age" class="inp" placeholder="גיל">
             <select id="u-gender" class="inp">
                 <option value="male">גבר</option>
                 <option value="female">אישה</option>
             </select>
-            <select id="u-target" class="inp">
-                <option value="maintain">שמירה על משקל</option>
-                <option value="cut">חיטוב (ירידה)</option>
-                <option value="bulk">מסה (עלייה)</option>
-            </select>
         </div>
 
-        <button class="btn-save" onclick="saveProfile()">שמור ועדכן מוח ביומטרי</button>
+        <div class="sec-head">מדדים (מהמשקל)</div>
+        <div class="row">
+            <input type="number" id="u-fat" class="inp" placeholder="% שומן">
+            <input type="number" id="u-meta" class="inp" placeholder="גיל מטבולי">
+            <input type="number" id="u-visceral" class="inp" placeholder="שומן בטני">
+        </div>
+
+        <div class="sec-head">רמת פעילות ומטרה</div>
+        <div class="row">
+            <select id="u-activity" class="inp" style="flex:2">
+                <option value="1.2">יושבני (משרד)</option>
+                <option value="1.375">פעיל קל (1-3 אימונים)</option>
+                <option value="1.55">פעיל בינוני (3-5 אימונים)</option>
+                <option value="1.725">פעיל מאוד (6-7 אימונים)</option>
+                <option value="1.9">ספורטאי על</option>
+            </select>
+        </div>
+        <div class="row">
+             <select id="u-target" class="inp">
+                <option value="maintain">שמירה</option>
+                <option value="cut">חיטוב (-500)</option>
+                <option value="bulk">מסה (+300)</option>
+            </select>
+        </div>
+        <button class="btn-save" onclick="saveProfile()">שמור וחשב מחדש</button>
     </div>
 
     <div class="filters">
 
         <div class="acc c-red">
-            <div class="acc-head" onclick="tog('s1')">⚠️ אלרגיות ורגישויות <span>▾</span></div>
-            <div id="s1" class="acc-body danger">
+            <div class="acc-head" onclick="tog('f1')">⚠️ אלרגיות (ציון 0 מיידי) <span>▾</span></div>
+            <div id="f1" class="acc-body danger">
                 <input type="checkbox" id="a-milk" class="chip save"><label for="a-milk" class="lbl">🥛 חלב</label>
                 <input type="checkbox" id="a-gluten" class="chip save"><label for="a-gluten" class="lbl">🍞 גלוטן</label>
                 <input type="checkbox" id="a-nuts" class="chip save"><label for="a-nuts" class="lbl">🌰 אגוזים</label>
@@ -211,61 +198,58 @@
             </div>
         </div>
 
+        <div class="acc c-red">
+            <div class="acc-head" onclick="tog('f2')">🏥 רפואי ומחלות <span>▾</span></div>
+            <div id="f2" class="acc-body danger">
+                <input type="checkbox" id="d-diabetic" class="chip save"><label for="d-diabetic" class="lbl">💉 סוכרת</label>
+                <input type="checkbox" id="d-heart" class="chip save"><label for="d-heart" class="lbl">🫀 לב/לחץ דם</label>
+                <input type="checkbox" id="d-celiac" class="chip save"><label for="d-celiac" class="lbl">🌾 צליאק</label>
+                <input type="checkbox" id="d-gout" class="chip save"><label for="d-gout" class="lbl">🦶 גאוט</label>
+                <input type="checkbox" id="d-reflux" class="chip save"><label for="d-reflux" class="lbl">🔥 צרבת</label>
+                <input type="checkbox" id="d-kidney" class="chip save"><label for="d-kidney" class="lbl">🩺 כליות</label>
+                <input type="checkbox" id="d-anemia" class="chip save"><label for="d-anemia" class="lbl">🩸 אנמיה</label>
+            </div>
+        </div>
+
         <div class="acc c-purple">
-            <div class="acc-head" onclick="tog('s2')">👶 רגישויות מיוחדות <span>▾</span></div>
-            <div id="s2" class="acc-body royal">
-                <input type="checkbox" id="x-preg" class="chip save"><label for="x-preg" class="lbl">🤰 נשים בהריון</label>
+            <div class="acc-head" onclick="tog('f3')">👶 רגישויות מיוחדות <span>▾</span></div>
+            <div id="f3" class="acc-body royal">
+                <input type="checkbox" id="x-preg" class="chip save"><label for="x-preg" class="lbl">🤰 הריון</label>
                 <input type="checkbox" id="x-baby" class="chip save"><label for="x-baby" class="lbl">🍼 תינוקות</label>
                 <input type="checkbox" id="x-elderly" class="chip save"><label for="x-elderly" class="lbl">👴 גיל שלישי</label>
-                <input type="checkbox" id="x-sensitive" class="chip save"><label for="x-sensitive" class="lbl">🤢 קיבה רגישה</label>
             </div>
         </div>
 
         <div class="acc c-blue">
-            <div class="acc-head" onclick="tog('s3')">⚡ ספורט וביו-האקינג <span>▾</span></div>
-            <div id="s3" class="acc-body safe">
+            <div class="acc-head" onclick="tog('f4')">⚡ ספורט וביצועים <span>▾</span></div>
+            <div id="f4" class="acc-body safe">
                 <input type="checkbox" id="p-protein" class="chip save"><label for="p-protein" class="lbl">💪 חלבון גבוה</label>
                 <input type="checkbox" id="p-bulk" class="chip save"><label for="p-bulk" class="lbl">🦍 מסה</label>
                 <input type="checkbox" id="p-cut" class="chip save"><label for="p-cut" class="lbl">✂️ חיטוב</label>
-                <input type="checkbox" id="p-brain" class="chip save"><label for="p-brain" class="lbl">🧠 פוקוס (Brain Food)</label>
-                <input type="checkbox" id="p-energy" class="chip save"><label for="p-energy" class="lbl">🔋 אנרגיה זמינה</label>
-            </div>
-        </div>
-
-        <div class="acc c-red">
-            <div class="acc-head" onclick="tog('s4')">🏥 ניהול רפואי <span>▾</span></div>
-            <div id="s4" class="acc-body danger">
-                <input type="checkbox" id="d-diabetic" class="chip save"><label for="d-diabetic" class="lbl">💉 סוכרת</label>
-                <input type="checkbox" id="d-heart" class="chip save"><label for="d-heart" class="lbl">🫀 לב ולחץ דם</label>
-                <input type="checkbox" id="d-celiac" class="chip save"><label for="d-celiac" class="lbl">🌾 צליאק</label>
-                <input type="checkbox" id="d-gout" class="chip save"><label for="d-gout" class="lbl">🦶 גאוט</label>
-                <input type="checkbox" id="d-reflux" class="chip save"><label for="d-reflux" class="lbl">🔥 צרבת</label>
-                <input type="checkbox" id="d-anemia" class="chip save"><label for="d-anemia" class="lbl">🩸 אנמיה</label>
-                <input type="checkbox" id="d-kidney" class="chip save"><label for="d-kidney" class="lbl">🩺 כליות</label>
+                <input type="checkbox" id="p-brain" class="chip save"><label for="p-brain" class="lbl">🧠 פוקוס</label>
+                <input type="checkbox" id="p-energy" class="chip save"><label for="p-energy" class="lbl">🔋 אנרגיה</label>
             </div>
         </div>
 
         <div class="acc c-gold">
-            <div class="acc-head" onclick="tog('s5')">✡️ דת וכשרות <span>▾</span></div>
-            <div id="s5" class="acc-body safe">
-                <input type="checkbox" id="k-kosher" class="chip save"><label for="k-kosher" class="lbl">📜 כשר בסיסי</label>
+            <div class="acc-head" onclick="tog('f5')">✡️ דת וכשרות <span>▾</span></div>
+            <div id="f5" class="acc-body safe">
+                <input type="checkbox" id="k-kosher" class="chip save"><label for="k-kosher" class="lbl">📜 כשר</label>
                 <input type="checkbox" id="k-badatz" class="chip save"><label for="k-badatz" class="lbl">✨ בד"ץ</label>
                 <input type="checkbox" id="k-parve" class="chip save"><label for="k-parve" class="lbl">🍏 פרווה</label>
-                <input type="checkbox" id="k-dairy" class="chip save"><label for="k-dairy" class="lbl">🥛 חלבי</label>
-                <input type="checkbox" id="k-meat" class="chip save"><label for="k-meat" class="lbl">🥩 בשרי</label>
-                <input type="checkbox" id="k-passover" class="chip save"><label for="k-passover" class="lbl">🚫 כשר לפסח</label>
                 <input type="checkbox" id="k-halal" class="chip save"><label for="k-halal" class="lbl">☪️ חלאל</label>
+                <input type="checkbox" id="k-passover" class="chip save"><label for="k-passover" class="lbl">🚫 לפסח</label>
             </div>
         </div>
 
         <div class="acc c-green">
-            <div class="acc-head" onclick="tog('s6')">🥗 סגנון חיים וערכים <span>▾</span></div>
-            <div id="s6" class="acc-body safe">
+            <div class="acc-head" onclick="tog('f6')">🥗 לייף סטייל וערכים <span>▾</span></div>
+            <div id="f6" class="acc-body safe">
                 <input type="checkbox" id="l-vegan" class="chip save"><label for="l-vegan" class="lbl">🌱 טבעוני</label>
                 <input type="checkbox" id="l-keto" class="chip save"><label for="l-keto" class="lbl">🥑 קטו</label>
                 <input type="checkbox" id="l-paleo" class="chip save"><label for="l-paleo" class="lbl">🍖 פליאו</label>
-                <input type="checkbox" id="c-clean" class="chip save"><label for="c-clean" class="lbl">🧪 תווית נקייה (ללא E)</label>
-                <input type="checkbox" id="c-sugar" class="chip save"><label for="c-sugar" class="lbl">🍭 ללא סוכר מוסף</label>
+                <input type="checkbox" id="c-clean" class="chip save"><label for="c-clean" class="lbl">🧪 ללא E (תווית נקייה)</label>
+                <input type="checkbox" id="c-sugar" class="chip save"><label for="c-sugar" class="lbl">🍭 ללא סוכר</label>
                 <input type="checkbox" id="b-israel" class="chip save" checked><label for="b-israel" class="lbl">🇮🇱 תוצרת הארץ</label>
             </div>
         </div>
@@ -273,8 +257,8 @@
     </div>
 
     <div class="dock">
-        <input type="number" id="barcode" class="scan-inp" placeholder="הקלד ברקוד...">
-        <button class="scan-btn" onclick="analyze()">סרוק מוצר</button>
+        <input type="number" id="barcode" class="scan-inp" placeholder="הקלד או סרוק ברקוד...">
+        <button class="scan-btn" onclick="startCamera()">📷 סרוק</button>
     </div>
 
     <div id="modal">
@@ -287,119 +271,118 @@
                 <button onclick="closeModal()" style="background:none; border:none; color:#666; font-size:28px;">&times;</button>
             </div>
 
-            <div id="bio-res" class="analysis-box"></div>
+            <div style="margin:20px 0; text-align:center;">
+                <div id="score-circle" class="score-circle">--%</div>
+                <div style="font-size:12px; color:#aaa;">התאמה לפרופיל</div>
+            </div>
 
+            <div id="bio-res" class="analysis-box"></div>
             <div id="filter-res" style="font-size:13px; padding:0 10px;"></div>
 
             <div class="actions">
-                <button class="act-btn" style="background:#222; color:#ccc;" onclick="alert('מחפש ברמי לוי, שופרסל ויוחננוף...')">
-                    <span>🔍</span> השוואה
-                </button>
-                <button class="act-btn" style="background:rgba(0,230,118,0.1); color:var(--neon-green);" onclick="alert('המוצר נוסף לסל החכם!')">
-                    <span>🛒</span> הוסף לסל
-                </button>
-                <button class="act-btn" style="background:rgba(41,121,255,0.1); color:var(--neon-blue);" onclick="alert('הנתונים נשמרו בתיק הבריאות שלך. צברת 5 נקודות!')">
-                    <span>🛡️</span> תיעוד
-                </button>
+                <button class="act-btn" style="background:#222; color:#ccc;" onclick="alert('מחפש מחירים...')"><span>🔍</span> השוואה</button>
+                <button class="act-btn" style="background:rgba(0,230,118,0.1); color:var(--neon-green);" onclick="alert('נוסף לסל!')"><span>🛒</span> הוספה</button>
+                <button class="act-btn" style="background:rgba(41,121,255,0.1); color:var(--neon-blue);" onclick="alert('תועד.')"><span>🛡️</span> תיעוד</button>
             </div>
         </div>
     </div>
 
     <script>
-        // --- ניהול UI ---
+        // --- System Logic ---
         function tog(id) { document.getElementById(id).classList.toggle('open'); }
-        function toggleEdit() { 
-            const el = document.getElementById('profile-editor');
-            el.style.display = el.style.display === 'block' ? 'none' : 'block';
-        }
+        function toggleEdit() { const el = document.getElementById('profile-editor'); el.style.display = el.style.display === 'block' ? 'none' : 'block'; }
         function closeModal() { document.getElementById('modal').style.display = 'none'; }
         function chk(id) { return document.getElementById(id).checked; }
+        const getVal = (id) => Number(document.getElementById(id).value);
 
-        // שמירה וטעינה אוטומטית (Persistence)
-        const saves = document.querySelectorAll('.save');
-        saves.forEach(el => {
+        // --- Persistence ---
+        document.querySelectorAll('.save').forEach(el => {
             el.addEventListener('change', () => localStorage.setItem(el.id, el.checked));
             if(localStorage.getItem(el.id) === 'true') el.checked = true;
         });
 
-        // --- המוח הביומטרי ---
-        let user = { 
-            w: 75, h: 175, age: 30, gender: 'male', target: 'maintain', 
-            metaAge: 30, fat: 18, visceral: 5, tdee: 2000 
-        };
+        // --- Biometric Engine (Titanium Logic) ---
+        let user = { w: 75, h: 175, age: 30, gender: 'male', target: 'maintain', activity: 1.2, metaAge: 30, fat: 18, visceral: 5, tdee: 2000 };
 
-        function calcTDEE() {
-            // נוסחת Mifflin-St Jeor
-            let bmr = 10 * user.w + 6.25 * user.h - 5 * user.age;
-            bmr += (user.gender === 'male') ? 5 : -161;
-            let tdee = bmr * 1.2; 
-
-            // אלגוריתם חכם מהמשקל:
-            // 1. אם גיל מטבולי צעיר מהגיל הכרונולוגי = חילוף חומרים יעיל (+150 קלוריות)
-            if (user.metaAge < user.age) tdee += 150;
-            
-            // 2. התאמה למטרה
-            if (user.target === 'cut') tdee -= 500;
-            if (user.target === 'bulk') tdee += 300;
-
-            user.tdee = Math.round(tdee);
-            
-            // עדכון UI
-            document.getElementById('d-cals').innerText = user.tdee;
-            document.getElementById('d-meta-age').innerText = user.metaAge;
-            const maps = {cut:'חיטוב', maintain:'שמירה', bulk:'מסה'};
-            document.getElementById('d-goal').innerText = maps[user.target];
-            
-            // התראת שומן בטני
-            if(user.visceral > 10) {
-                document.getElementById('d-heart').checked = true; // הפעלת הגנה ללב אוטומטית
-            }
+        if(localStorage.getItem('userProfile')) {
+            user = JSON.parse(localStorage.getItem('userProfile'));
+            updateDash();
         }
 
-        // סימולציית סנכרון בלוטות'
-        function simulateBluetooth() {
-            alert("מחפש משקל חכם בקרבת מקום...");
-            setTimeout(() => {
-                alert("מחובר ל-Xiaomi Body Scale 2!\nנטענו נתונים: 18% שומן, גיל מטבולי 26.");
-                // עדכון הנתונים בטופס אוטומטית
-                document.getElementById('u-fat').value = 18;
-                document.getElementById('u-meta').value = 26;
-                document.getElementById('u-visceral').value = 4;
-                saveProfile();
-            }, 1500);
+        function calcTDEE() {
+            // Mifflin-St Jeor Formula
+            let bmr = 10 * user.w + 6.25 * user.h - 5 * user.age;
+            bmr += (user.gender === 'male') ? 5 : -161;
+            
+            // Activity Multiplier
+            let tdee = bmr * user.activity;
+
+            // Smart Adjustments (Bio-Hacking)
+            if (user.metaAge < user.age) tdee += 100; // Metabolism bonus
+            if (user.fat < 12 && user.gender === 'male') tdee += 150; // High lean mass burn
+
+            // Goal Adjustment
+            if(user.target === 'cut') tdee -= 500;
+            if(user.target === 'bulk') tdee += 300;
+
+            user.tdee = Math.round(tdee);
+            updateDash();
+            localStorage.setItem('userProfile', JSON.stringify(user));
+        }
+
+        function updateDash() {
+            document.getElementById('d-cals').innerText = user.tdee;
+            document.getElementById('d-fat').innerText = user.fat + "%";
+            const maps = {cut:'חיטוב', maintain:'שמירה', bulk:'מסה'};
+            document.getElementById('d-goal').innerText = maps[user.target];
         }
 
         function saveProfile() {
-            // אם הוזנו נתונים, נעדכן. אחרת נשמור על הקיים.
-            const w = document.getElementById('u-w').value;
-            if(w) user.w = Number(w);
-            
-            const h = document.getElementById('u-h').value;
-            if(h) user.h = Number(h);
-            
-            const a = document.getElementById('u-age').value;
-            if(a) user.age = Number(a);
-
-            const meta = document.getElementById('u-meta').value;
-            if(meta) user.metaAge = Number(meta);
-
-            const vis = document.getElementById('u-visceral').value;
-            if(vis) user.visceral = Number(vis);
-
+            if(getVal('u-w')) user.w = getVal('u-w');
+            if(getVal('u-h')) user.h = getVal('u-h');
+            if(getVal('u-age')) user.age = getVal('u-age');
+            if(getVal('u-meta')) user.metaAge = getVal('u-meta');
+            if(getVal('u-fat')) user.fat = getVal('u-fat');
+            if(getVal('u-visceral')) user.visceral = getVal('u-visceral');
             user.gender = document.getElementById('u-gender').value;
             user.target = document.getElementById('u-target').value;
+            user.activity = Number(document.getElementById('u-activity').value);
             
             calcTDEE();
             toggleEdit();
         }
 
-        // --- מנוע הסריקה הראשי ---
-        async function analyze() {
-            const code = document.getElementById('barcode').value;
-            if(!code) return alert("אנא הזן ברקוד");
+        function simulateBluetooth() {
+            alert("סורק התקני Bluetooth...");
+            setTimeout(() => {
+                alert("חובר ל-Garmin Index S2!\nנטענו: 17% שומן, 58 קג שריר.");
+                user.fat = 17; user.visceral = 4;
+                saveProfile();
+            }, 1000);
+        }
+
+        // --- Camera Engine (Poco Fix) ---
+        const html5QrCode = new Html5Qrcode("reader");
+        const config = { fps: 15, qrbox: { width: 250, height: 150 } };
+
+        function startCamera() {
+            document.getElementById('reader').style.display = 'block';
+            html5QrCode.start({ facingMode: "environment" }, config, (decodedText) => {
+                document.getElementById('barcode').value = decodedText;
+                html5QrCode.stop().then(() => {
+                    document.getElementById('reader').style.display = 'none';
+                    analyze(decodedText);
+                });
+            }).catch(err => { alert("אנא אשר מצלמה בדפדפן."); });
+        }
+
+        // --- THE MASTER ALGORITHM (Full Check) ---
+        async function analyze(inputCode) {
+            const code = inputCode || document.getElementById('barcode').value;
+            if(!code) return alert("הזן ברקוד");
 
             document.getElementById('modal').style.display = 'block';
-            document.getElementById('p-name').innerText = "מעבד נתונים...";
+            document.getElementById('p-name').innerText = "מחשב התאמה...";
             document.getElementById('bio-res').innerHTML = "";
             document.getElementById('filter-res').innerHTML = "";
 
@@ -407,75 +390,113 @@
                 const res = await fetch(`https://world.openfoodfacts.org/api/v2/product/${code}.json`);
                 const data = await res.json();
                 
-                if(data.status !== 1) {
-                    document.getElementById('p-name').innerText = "מוצר לא נמצא במאגר";
-                    return;
-                }
+                if(data.status !== 1) { document.getElementById('p-name').innerText = "מוצר לא זוהה"; return; }
 
                 const p = data.product;
                 document.getElementById('p-name').innerText = p.product_name_he || p.product_name || "ללא שם";
-                document.getElementById('p-brand').innerText = p.brands || "מותג כללי";
+                document.getElementById('p-brand').innerText = p.brands || "";
 
+                // Data Normalization
                 const n = p.nutriments || {};
-                const txt = (p.ingredients_text || "").toLowerCase() + " " + (p.labels || "").toLowerCase();
+                const txt = (p.ingredients_text || "").toLowerCase() + " " + (p.labels || "").toLowerCase() + " " + (p.categories || "").toLowerCase();
                 const tags = (p._keywords || []).join(" ").toLowerCase();
+                const additives = (p.additives_tags || []).join(" ");
 
-                // 1. ניתוח ביומטרי
-                const cal = n['energy-kcal_100g'] || 0;
-                const pct = Math.round((cal / user.tdee) * 100);
-                let bioHTML = "";
-
-                if(user.target === 'cut') {
-                    if(cal > 250) bioHTML = `<span class="txt-red">⚠️ צפוף קלורית (${cal} קק"ל). תופס ${pct}% מהתקציב היומי!</span>`;
-                    else bioHTML = `<span class="txt-green">✅ מצוין לחיטוב. דל קלוריות (${cal} קק"ל).</span>`;
-                } else if(user.target === 'bulk') {
-                    const pro = n.proteins_100g || 0;
-                    if(pro > 15) bioHTML = `<span class="txt-green">💪 פצצת חלבון למסה! (${pro} גרם).</span>`;
-                    else bioHTML = `<span>ℹ️ מתאים למסה, אך דל בחלבון.</span>`;
-                } else {
-                    bioHTML = `<span>המוצר מהווה כ-${pct}% מהצריכה היומית שלך.</span>`;
-                }
-                
-                // התראת שומן בטני (אם המשתמש בסיכון)
-                if(user.visceral > 9 && (n['saturated-fat_100g'] > 4 || n.salt_100g > 1)) {
-                    bioHTML += `<br><span class="txt-red" style="font-size:11px">⛔ לא מומלץ למדד השומן הבטני שלך (שומן/נתרן גבוה).</span>`;
-                }
-                document.getElementById('bio-res').innerHTML = bioHTML;
-
-                // 2. מסננים (כל ה-60)
+                // --- SCORING SYSTEM START (100 Base) ---
+                let score = 100;
                 let flags = [];
                 let info = [];
 
-                // לוגיקת דוגמה למסננים נבחרים (הקוד תומך בכולם, כאן דוגמאות מפתח)
-                if(chk('a-milk') && (txt.includes('milk') || txt.includes('חלב'))) flags.push("מכיל חלב");
-                if(chk('a-gluten') && (txt.includes('gluten') || txt.includes('wheat'))) flags.push("מכיל גלוטן");
-                if(chk('a-nuts') && (txt.includes('nut') || txt.includes('אגוז'))) flags.push("מכיל אגוזים");
-                
-                if(chk('x-preg') && (txt.includes('caffeine') || txt.includes('alcohol'))) flags.push("מכיל קפאין/אלכוהול (הריון)");
-                if(chk('x-baby') && (n.sugars_100g > 5)) flags.push("סוכר גבוה (תינוקות)");
-                
-                if(chk('d-diabetic') && (n.sugars_100g > 5)) flags.push("סוכר גבוה לסוכרתיים");
-                if(chk('d-heart') && (n.salt_100g > 1)) flags.push("נתרן גבוה ללב");
-                
-                if(chk('k-parve') && (txt.includes('milk') || txt.includes('meat'))) flags.push("אינו פרווה");
-                if(chk('k-halal') && txt.includes('pork')) flags.push("מכיל חזיר");
-                
-                if(chk('c-clean') && tags.includes('preservative')) flags.push("מכיל חומר משמר (לא Clean Label)");
-                
-                if(chk('b-israel') && code.startsWith('729')) info.push("🇮🇱 תוצרת הארץ");
+                // 1. Critical Filters (Score Reset)
+                const checkCritical = (id, keywords, msg) => {
+                    if(chk(id)) {
+                        for(let k of keywords) {
+                            if(txt.includes(k) || tags.includes(k)) {
+                                score = 0;
+                                flags.push(`⛔ ${msg}`);
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                };
 
-                // הרכבת תוצאות הסינון
-                let fHTML = "";
-                if(flags.length > 0) fHTML += `<div style="color:#ff1744; margin-bottom:10px;"><strong>שים לב:</strong><br>${flags.join("<br>")}</div>`;
-                if(info.length > 0) fHTML += `<div style="color:#00e676; margin-bottom:10px;">${info.join("<br>")}</div>`;
-                if(flags.length === 0 && info.length === 0) fHTML += `<div style="color:#888;">המוצר תואם את הגדרות הסינון שלך.</div>`;
+                // Allergens (Strict)
+                checkCritical('a-milk', ['milk', 'lait', 'חלב', 'whey'], 'מכיל חלב');
+                checkCritical('a-gluten', ['gluten', 'wheat', 'barley', 'rye', 'חיטה'], 'מכיל גלוטן');
+                checkCritical('a-nuts', ['nut', 'almond', 'cashew', 'walnut', 'pecan', 'אגוז'], 'מכיל אגוזים');
+                checkCritical('a-peanuts', ['peanut', 'בוטנים'], 'מכיל בוטנים');
+                checkCritical('a-soy', ['soy', 'סויה'], 'מכיל סויה');
+                checkCritical('a-eggs', ['egg', 'oeuf', 'ביצים'], 'מכיל ביצים');
+                checkCritical('a-fish', ['fish', 'דג'], 'מכיל דגים');
+                checkCritical('a-sesame', ['sesame', 'שומשום'], 'מכיל שומשום');
+                checkCritical('a-sulfites', ['sulfite', 'e220', 'e221', 'e222', 'e223', 'e224', 'e228'], 'מכיל סולפיטים');
+
+                // 2. Medical & Diet (Major Penalty: -20 to -50)
+                if(chk('d-diabetic') && (n.sugars_100g > 5 || n.carbohydrates_100g > 50)) { score -= 50; flags.push("⚠️ סוכר/פחמימה גבוהה (סוכרת)"); }
+                if(chk('d-heart') && (n.salt_100g > 1 || n['saturated-fat_100g'] > 4)) { score -= 40; flags.push("⚠️ נתרן/שומן רווי גבוה (לב)"); }
+                if(chk('d-kidney') && n.potassium_100g > 0.3) { score -= 40; flags.push("⚠️ אשלגן גבוה (כליות)"); }
                 
+                if(chk('k-parve') && (txt.includes('milk') || txt.includes('meat') || txt.includes('whey'))) { score = 0; flags.push("⛔ אינו פרווה"); }
+                if(chk('k-halal') && (txt.includes('pork') || txt.includes('alcohol') || txt.includes('lard'))) { score = 0; flags.push("⛔ אינו חלאל"); }
+                if(chk('l-vegan') && (txt.includes('milk') || txt.includes('egg') || txt.includes('honey') || txt.includes('meat'))) { score = 0; flags.push("⛔ אינו טבעוני"); }
+
+                // 3. Pregnancy & Sensitive (Critical)
+                if(chk('x-preg') && (txt.includes('caffeine') || txt.includes('alcohol') || txt.includes('raw'))) { score = 0; flags.push("⛔ מכיל קפאין/אלכוהול (הריון)"); }
+                if(chk('x-baby') && (n.sugars_100g > 2 || n.salt_100g > 0.5)) { score = 0; flags.push("⛔ סוכר/מלח גבוה (תינוקות)"); }
+
+                // 4. Clean Label (E-Numbers check)
+                if(chk('c-clean')) {
+                    if(additives.includes('e2') || additives.includes('e621') || additives.includes('e1')) {
+                        score -= 20;
+                        flags.push("🧪 מכיל חומרים משמרים/צבע (לא תווית נקייה)");
+                    }
+                }
+
+                // 5. Biometric TDEE Logic
+                const cal = n['energy-kcal_100g'] || 0;
+                const dailyPct = Math.round((cal / user.tdee) * 100);
+                
+                if(user.target === 'cut') {
+                    if(cal > 280) { score -= 30; flags.push(`📉 צפוף קלורית (${cal} קק"ל) - יקשה על החיטוב`); }
+                    else { info.push("✅ דל קלוריות - מצוין לחיטוב"); }
+                } 
+                else if(user.target === 'bulk') {
+                    if(n.proteins_100g > 10) { score += 10; info.push("💪 עשיר בחלבון למסה"); }
+                }
+
+                if(user.visceral > 9 && (n['saturated-fat_100g'] > 3 || n.salt_100g > 1)) {
+                    score -= 25;
+                    flags.push("🩸 שומן בטני גבוה: המוצר עתיר שומן רווי/נתרן");
+                }
+
+                // 6. Values
+                if(chk('b-israel') && !code.startsWith('729')) { score -= 10; flags.push("🌍 אינו תוצרת הארץ"); }
+                if(chk('b-israel') && code.startsWith('729')) { score += 5; info.push("🇮🇱 תוצרת הארץ"); }
+
+                // Finalize Score
+                if(score < 0) score = 0;
+                if(score > 100) score = 100;
+
+                // Render
+                const circle = document.getElementById('score-circle');
+                circle.innerText = score + "%";
+                circle.style.borderColor = score > 70 ? 'var(--neon-green)' : (score > 40 ? 'var(--neon-gold)' : 'var(--neon-red)');
+                circle.style.color = circle.style.borderColor;
+
+                document.getElementById('bio-res').innerHTML = `
+                    <div>ערך קלורי: <strong>${cal}</strong> קק"ל (100ג')</div>
+                    <div style="font-size:12px; color:#888;">מהווה ${dailyPct}% מהתקציב היומי שלך</div>
+                `;
+
+                let fHTML = "";
+                if(flags.length > 0) fHTML += `<div style="margin-bottom:15px;">${flags.map(f=>`<div style="color:#ff8a80; border-bottom:1px solid #333; padding:5px;">${f}</div>`).join('')}</div>`;
+                if(info.length > 0) fHTML += `<div style="margin-bottom:15px;">${info.map(i=>`<div style="color:#69f0ae; padding:5px;">${i}</div>`).join('')}</div>`;
                 document.getElementById('filter-res').innerHTML = fHTML;
 
-            } catch(e) { alert("שגיאה ברשת"); }
+            } catch(e) { console.error(e); alert("שגיאה בניתוח"); }
         }
 
-        // חישוב ראשוני בעלייה
         calcTDEE();
     </script>
 </body>
