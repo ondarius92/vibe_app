@@ -5,601 +5,579 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>Vibe OS 60.0 - God Mode</title>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Vibe OS X</title>
+    
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    
     <style>
+        /* --- MASTERPIECE DESIGN SYSTEM --- */
         :root { 
-            --primary: #00e676; --warn: #ffca28; --danger: #ff5252; --bg: #000000; 
-            --surface: #111111; --surface-soft: #1e1e1e; --text: #ffffff; --radius: 16px;
+            --primary: #00e676; 
+            --primary-dim: rgba(0, 230, 118, 0.15);
+            --bg: #000000;
+            --surface: #111111;
+            --card: #1c1c1e;
+            --text: #ffffff;
+            --border: #333333;
+            --danger: #ff453a;
+            --warning: #ffd60a;
+            
+            /* GRADES COLORS */
+            --g-a-plus: #00e676; --g-a: #32d74b;
+            --g-b-plus: #a4e400; --g-b: #c0eb34;
+            --g-c-plus: #ffd60a; --g-c: #ffce00;
+            --g-d: #ff9f0a; --g-e: #ff453a;
+            
+            --radius: 20px;
         }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-        body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding-bottom: 160px; user-select: none; }
-        
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; user-select: none; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+        body { background: var(--bg); color: var(--text); margin: 0; padding-bottom: 140px; min-height: 100vh; overflow-x: hidden; }
+
         /* HEADER */
-        .header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.95); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #333; backdrop-filter: blur(10px); }
-        .brand { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; background: linear-gradient(90deg, #fff, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .nav-icons { display: flex; gap: 15px; }
-        .icon-btn { font-size: 22px; cursor: pointer; position: relative; }
-        .badge { position: absolute; top: -5px; right: -5px; background: var(--primary); color: black; font-size: 10px; font-weight: 900; padding: 2px 5px; border-radius: 10px; border: 2px solid var(--bg); }
+        .app-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border); }
+        .logo { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; background: linear-gradient(90deg, #fff, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .header-icons { display: flex; gap: 12px; }
+        .icon-btn { width: 40px; height: 40px; border-radius: 50%; background: #222; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; position: relative; transition: 0.2s; }
+        .icon-btn:active { transform: scale(0.9); background: #333; }
+        .badge { position: absolute; top: -2px; right: -2px; background: var(--primary); color: #000; font-size: 10px; font-weight: 900; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
 
         /* DASHBOARD */
-        .bento-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 10px; padding: 15px; }
-        .bento-card { background: var(--surface); padding: 15px; border-radius: var(--radius); border: 1px solid #222; position: relative; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
-        .bento-val { font-size: 28px; font-weight: 800; margin-top: 5px; }
-        .bento-lbl { font-size: 11px; color: #888; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
-        .progress-container { width: 100%; height: 6px; background: #333; border-radius: 10px; margin-top: 10px; overflow: hidden; }
-        .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--warn), var(--primary)); transition: width 0.6s ease; }
+        .dashboard { display: grid; grid-template-columns: 2fr 1fr; gap: 12px; padding: 20px; }
+        .card { background: var(--card); border-radius: var(--radius); padding: 18px; border: 1px solid var(--border); display: flex; flex-direction: column; justify-content: space-between; }
+        .card.main { grid-column: span 2; background: linear-gradient(145deg, #1c1c1e, #0a0a0a); }
+        .card-label { font-size: 11px; color: #888; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: flex; justify-content: space-between; }
+        .card-val { font-size: 32px; font-weight: 800; margin-top: 5px; letter-spacing: -1px; }
+        .progress-track { width: 100%; height: 6px; background: #333; border-radius: 10px; margin-top: 15px; overflow: hidden; }
+        .progress-bar { height: 100%; width: 0%; background: var(--primary); transition: width 1s ease; box-shadow: 0 0 10px var(--primary-dim); }
 
-        /* FILTERS */
-        .filter-sec { padding: 0 20px 40px 20px; }
-        .sec-head { font-size: 11px; color: var(--primary); font-weight: 800; text-transform: uppercase; margin: 30px 0 10px 0; border-bottom: 1px solid #333; padding-bottom: 5px; }
-        .acc { margin-bottom: 8px; background: var(--surface); border-radius: 12px; border: 1px solid #222; overflow: hidden; transition: 0.2s; }
-        .acc-head { padding: 16px; font-size: 14px; font-weight: 600; display: flex; justify-content: space-between; border-right: 4px solid transparent; cursor: pointer; background: var(--surface-soft); }
-        .acc-body { display: none; padding: 15px; background: #000; flex-wrap: wrap; gap: 8px; border-top: 1px solid #222; }
+        /* FILTERS ACCORDION */
+        .filter-sec { padding: 0 20px 30px 20px; }
+        .sec-title { font-size: 12px; color: var(--primary); font-weight: 900; margin: 30px 0 15px 0; border-bottom: 1px solid #333; padding-bottom: 5px; }
+        .acc { background: var(--surface); border-radius: 14px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 10px; }
+        .acc-head { padding: 18px; font-weight: 700; font-size: 15px; display: flex; justify-content: space-between; cursor: pointer; background: #181818; }
+        .acc-body { display: none; padding: 15px; background: #000; flex-wrap: wrap; gap: 8px; border-top: 1px solid #333; }
         .acc-body.open { display: flex; }
         
-        .c-red .acc-head { border-color: var(--danger); }
-        .c-blue .acc-head { border-color: var(--primary); }
-        .c-gold .acc-head { border-color: var(--gold); }
-        .c-purple .acc-head { border-color: #d500f9; }
+        .c-red .acc-head { border-right: 4px solid var(--danger); }
+        .c-blue .acc-head { border-right: 4px solid var(--primary); }
+        .c-gold .acc-head { border-right: 4px solid var(--warning); }
 
+        /* CHIPS */
         .chip { display: none; }
-        .lbl { padding: 8px 14px; background: #1f1f1f; border: 1px solid #333; border-radius: 50px; font-size: 13px; color: #aaa; transition: 0.2s; cursor: pointer; display: flex; align-items: center; gap: 6px; flex-grow: 1; justify-content: center; }
-        .chip:checked + .lbl { background: #eee; color: #000; font-weight: 800; border-color: #fff; transform: scale(1.02); box-shadow: 0 0 10px rgba(255,255,255,0.1); }
-        .danger .chip:checked + .lbl { background: rgba(255, 82, 82, 0.2); color: var(--danger); border-color: var(--danger); }
-        .safe .chip:checked + .lbl { background: rgba(0, 230, 118, 0.2); color: var(--primary); border-color: var(--primary); }
+        .chip-lbl { padding: 10px 16px; background: #1a1a1a; border: 1px solid #333; border-radius: 50px; font-size: 13px; color: #888; font-weight: 500; cursor: pointer; transition: 0.2s; }
+        .chip:checked + .chip-lbl { background: #eee; color: #000; font-weight: 800; border-color: #fff; transform: scale(1.05); }
+        .danger .chip:checked + .chip-lbl { background: rgba(255, 69, 58, 0.2); color: var(--danger); border-color: var(--danger); }
+        .safe .chip:checked + .chip-lbl { background: var(--primary-dim); color: var(--primary); border-color: var(--primary); }
 
-        /* SCANNER */
-        #scanner-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 500; display: none; }
+        /* SCANNER & UI */
+        #scanner-ui { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 500; display: none; }
         #reader { width: 100%; height: 100%; object-fit: cover; }
-        .scan-ui { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 80px; pointer-events: none; }
-        .close-cam { pointer-events: auto; background: rgba(30,30,30,0.9); color: white; padding: 15px 40px; border-radius: 50px; border: 1px solid #555; margin: 0 auto; font-weight: bold; backdrop-filter: blur(10px); cursor: pointer; }
+        .close-cam { position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%); background: rgba(30,30,30,0.9); color: white; padding: 15px 40px; border-radius: 50px; border: 1px solid #555; font-weight: bold; cursor: pointer; }
 
-        /* BOTTOM BAR */
-        .action-bar { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; background: rgba(30,30,30,0.95); padding: 10px; border-radius: 100px; display: flex; justify-content: space-between; border: 1px solid #444; z-index: 300; backdrop-filter: blur(20px); box-shadow: 0 10px 40px rgba(0,0,0,0.7); }
-        .bar-btn { width: 50px; height: 50px; border: none; background: transparent; font-size: 24px; cursor: pointer; color: #888; display: flex; align-items: center; justify-content: center; }
-        .scan-btn { width: 70px; height: 70px; background: white; border-radius: 25px; margin-top: -30px; border: none; box-shadow: 0 5px 30px rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; color: black; transition: 0.2s; }
-        .scan-btn:active { transform: scale(0.95); }
+        /* BOTTOM NAV */
+        .dock { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; height: 70px; background: rgba(20,20,20,0.95); backdrop-filter: blur(25px); border-radius: 100px; border: 1px solid rgba(255,255,255,0.15); display: flex; justify-content: space-between; align-items: center; padding: 0 15px; z-index: 400; box-shadow: 0 10px 40px rgba(0,0,0,0.7); }
+        .dock-btn { font-size: 24px; background: none; border: none; cursor: pointer; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; }
+        .scan-fab { width: 80px; height: 80px; background: #fff; border-radius: 28px; margin-top: -40px; border: none; box-shadow: 0 5px 30px rgba(255,255,255,0.25); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .scan-fab:active { transform: scale(0.92); }
 
         /* RESULTS SHEET */
-        #sheet-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 200; pointer-events: none; opacity: 0; transition: 0.3s; }
-        .active-sheet { opacity: 1 !important; pointer-events: auto !important; }
-        #sheet-bg { position: absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); backdrop-filter: blur(8px); }
-        #bottom-sheet { position: absolute; bottom: 0; width: 100%; background: #161616; border-radius: 30px 30px 0 0; padding: 25px; transform: translateY(100%); transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); border-top: 1px solid #333; max-height: 85vh; overflow-y: auto; }
-        .active-sheet #bottom-sheet { transform: translateY(0); }
+        #sheet-wrap { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 600; pointer-events: none; opacity: 0; transition: 0.3s; }
+        #sheet-wrap.active { opacity: 1; pointer-events: auto; }
+        .backdrop { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
+        .sheet { position: absolute; bottom: 0; width: 100%; background: #161616; border-radius: 35px 35px 0 0; padding: 30px; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); border-top: 1px solid #333; max-height: 90vh; overflow-y: auto; }
+        #sheet-wrap.active .sheet { transform: translateY(0); }
 
-        .prod-header { display: flex; gap: 15px; margin-bottom: 20px; align-items: flex-start; }
-        .prod-thumb { width: 90px; height: 90px; background: white; border-radius: 20px; object-fit: contain; padding: 5px; }
-        .editable-name { background: transparent; border: none; border-bottom: 1px dashed #555; color: white; font-size: 20px; font-weight: 800; width: 100%; font-family: inherit; margin-bottom: 5px; padding: 5px 0; border-radius: 0; }
+        .prod-grid { display: flex; gap: 15px; margin-bottom: 25px; align-items: flex-start; }
+        .thumb { width: 90px; height: 90px; background: white; border-radius: 20px; object-fit: contain; padding: 5px; }
+        .prod-info { flex: 1; }
+        .p-brand { font-size: 11px; color: #888; font-weight: 700; text-transform: uppercase; margin-bottom: 5px; }
+        .p-edit { background: transparent; border: none; border-bottom: 1px dashed #444; color: white; font-size: 22px; font-weight: 800; width: 100%; font-family: inherit; }
         
-        .tags-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
-        .info-tag { padding: 8px 14px; border-radius: 10px; font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 5px; }
-        .tag-neutral { background: rgba(255, 202, 40, 0.1); color: var(--warn); border: 1px solid rgba(255, 202, 40, 0.3); } 
-        .tag-good { background: rgba(0, 230, 118, 0.1); color: var(--primary); border: 1px solid rgba(0, 230, 118, 0.3); } 
-        .tag-danger { background: rgba(255, 82, 82, 0.1); color: var(--danger); border: 1px solid rgba(255, 82, 82, 0.3); } 
+        .grade-badge { font-size: 48px; font-weight: 900; line-height: 1; }
+        .g-A_PLUS { color: var(--g-a-plus); text-shadow: 0 0 20px var(--g-a-plus); }
+        .g-A { color: var(--g-a); } .g-B_PLUS { color: var(--g-b-plus); } .g-B { color: var(--g-b); }
+        .g-C_PLUS { color: var(--g-c-plus); } .g-C { color: var(--g-c); }
+        .g-D { color: var(--g-d); } .g-E { color: var(--g-e); text-shadow: 0 0 20px var(--g-e); }
 
-        .analysis-box { background: #222; padding: 15px; border-radius: 16px; margin: 15px 0; font-size: 14px; line-height: 1.6; color: #ddd; border: 1px solid #333; }
-        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
-        .sheet-btn { padding: 16px; border-radius: 16px; border: 1px solid #333; font-weight: 700; cursor: pointer; font-size: 13px; display: flex; flex-direction: column; align-items: center; gap: 6px; background: #222; color: white; transition: 0.2s; }
-        .sheet-btn.primary { background: var(--primary); color: black; border-color: var(--primary); grid-column: span 2; }
+        /* ALERTS & TAGS */
+        .alert-box { background: rgba(255, 69, 58, 0.1); border: 1px solid var(--danger); padding: 15px; border-radius: 14px; margin-bottom: 20px; display: none; }
+        .alert-head { color: var(--danger); font-weight: 800; font-size: 13px; display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+        .alert-body { color: #ff8a80; font-size: 12px; margin: 0; padding-right: 20px; line-height: 1.4; }
 
-        .grade-badge { font-size: 40px; font-weight: 900; }
-        .grade-A { color: #00e676; } .grade-B { color: #cddc39; } .grade-C { color: #ffca28; } .grade-D { color: #ff9800; } .grade-E { color: #ff5252; }
-        
-        .quality-warning { background: rgba(255,82,82,0.15); border: 1px solid var(--danger); padding: 15px; border-radius: 12px; margin-bottom: 20px; display: none; align-items: center; gap: 10px; font-size: 13px; color: #ff8a80; animation: shake 0.5s; }
-        @keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-5px);} 75% {transform: translateX(5px);} }
+        .tags-area { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+        .tag { padding: 8px 14px; border-radius: 10px; font-size: 12px; font-weight: 700; }
+        .t-bad { background: rgba(255,69,58,0.15); color: var(--danger); border: 1px solid rgba(255,69,58,0.3); }
+        .t-mid { background: rgba(255,214,10,0.15); color: var(--warning); border: 1px solid rgba(255,214,10,0.3); }
+        .t-good { background: var(--primary-dim); color: var(--primary); border: 1px solid var(--primary-dim); }
+
+        .analysis { background: #222; padding: 15px; border-radius: 16px; margin-bottom: 20px; font-size: 13px; color: #ccc; line-height: 1.5; border: 1px solid #333; }
+
+        .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .act-btn { padding: 18px; background: #222; border: 1px solid #333; border-radius: 16px; color: white; font-weight: 700; cursor: pointer; text-align: center; font-size: 14px; transition: 0.2s; }
+        .act-btn:active { transform: scale(0.98); background: #333; }
+        .act-btn.primary { background: var(--primary); color: black; border-color: var(--primary); grid-column: span 2; font-size: 16px; }
 
         /* MODALS */
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 600; opacity: 0; pointer-events: none; transition: 0.3s; display: flex; align-items: flex-end; }
-        .modal.open { opacity: 1; pointer-events: auto; }
-        .modal-content { width: 100%; background: #161616; border-radius: 30px 30px 0 0; max-height: 90vh; overflow-y: auto; border-top: 1px solid #333; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); display: flex; flex-direction: column; }
-        .modal.open .modal-content { transform: translateY(0); }
-        .modal-header { padding: 25px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; background: #161616; position: sticky; top: 0; z-index: 10; }
-        .modal-body { padding: 25px; }
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 800; opacity: 0; pointer-events: none; transition: 0.3s; display: flex; flex-direction: column; justify-content: flex-end; }
+        .modal.active { opacity: 1; pointer-events: auto; }
+        .modal-body { width: 100%; height: 95%; background: #161616; border-radius: 30px 30px 0 0; border-top: 1px solid #333; display: flex; flex-direction: column; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .modal.active .modal-body { transform: translateY(0); }
+        .m-head { padding: 25px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; font-size: 20px; font-weight: 900; }
+        .m-content { padding: 25px; overflow-y: auto; flex: 1; }
 
-        .aisle-header { font-size: 13px; color: var(--primary); font-weight: 900; text-transform: uppercase; margin: 25px 0 10px 0; border-bottom: 1px solid #333; padding-bottom: 5px; letter-spacing: 1px; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; background: #1f1f1f; padding: 15px; border-radius: 12px; margin-bottom: 8px; border: 1px solid #333; }
-        .clean-inp { width: 100%; background: #252525; border: 1px solid #444; color: white; padding: 16px; border-radius: 14px; font-size: 16px; margin-bottom: 15px; text-align: center; font-weight: 500; }
-        
-        .goal-btn { flex: 1; padding: 15px; background: #222; border: 1px solid #444; color: #888; border-radius: 12px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-        .goal-btn.active { background: var(--primary); color: black; border-color: var(--primary); box-shadow: 0 0 15px rgba(0,230,118,0.3); }
+        /* SETTINGS UI */
+        .grade-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 25px; }
+        .g-btn { padding: 14px 0; background: #222; border: 1px solid #444; border-radius: 12px; color: #666; font-weight: 900; text-align: center; cursor: pointer; transition: 0.2s; }
+        .g-btn.active { color: #000; border: none; transform: scale(1.05); }
+        .g-btn[data-g="A+"].active { background: var(--g-a-plus); }
+        .g-btn[data-g="A"].active { background: var(--g-a); }
+        .g-btn[data-g="B+"].active { background: var(--g-b-plus); }
+        .g-btn[data-g="B"].active { background: var(--g-b); }
+        .g-btn[data-g="C+"].active { background: var(--g-c-plus); }
+        .g-btn[data-g="C"].active { background: var(--g-c); }
+        .g-btn[data-g="D"].active { background: var(--g-d); }
+        .g-btn[data-g="E"].active { background: var(--g-e); }
 
-        #toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: #222; color: white; padding: 12px 24px; border-radius: 50px; border: 1px solid #444; z-index: 1000; transition: 0.3s; font-weight: bold; display: flex; align-items: center; gap: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        #toast.show { transform: translateX(-50%) translateY(0); }
+        .inp { width: 100%; background: #252525; border: 1px solid #444; color: white; padding: 16px; border-radius: 14px; font-size: 16px; text-align: center; font-weight: 600; margin-bottom: 10px; }
+        .row { display: flex; gap: 10px; margin-bottom: 20px; }
+        .toggle { flex: 1; padding: 14px; background: #222; border: 1px solid #444; border-radius: 12px; color: #888; font-weight: 700; text-align: center; cursor: pointer; }
+        .toggle.active { background: var(--primary); color: black; border-color: var(--primary); box-shadow: 0 0 15px var(--primary-dim); }
+
+        /* CART & HISTORY */
+        .aisle { margin-bottom: 20px; }
+        .aisle-h { font-size: 12px; color: var(--primary); font-weight: 900; margin-bottom: 8px; border-bottom: 1px solid #333; padding-bottom: 4px; }
+        .item { display: flex; justify-content: space-between; align-items: center; background: #1f1f1f; padding: 16px; border-radius: 14px; margin-bottom: 8px; border: 1px solid #333; }
+        .item-g { font-weight: 900; font-size: 18px; width: 45px; text-align: center; }
+
+        /* TOAST */
+        #toast { position: fixed; top: 20px; left: 50%; transform: translate(-50%, -100px); background: #222; border: 1px solid #444; color: white; padding: 14px 28px; border-radius: 50px; font-weight: bold; z-index: 2000; box-shadow: 0 10px 30px rgba(0,0,0,0.6); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; align-items: center; gap: 10px; }
+        #toast.show { transform: translate(-50%, 0); }
+
+        /* MANUAL INPUT MODAL */
+        #manual-modal { z-index: 900; }
     </style>
 </head>
 <body>
 
     <div id="toast"></div>
 
-    <div class="header">
-        <div class="brand">Vibe OS 60.0</div>
-        <div class="nav-icons">
-            <div class="icon-btn" onclick="toggleModal('history-modal')">📜</div>
-            <div class="icon-btn" onclick="toggleModal('settings-modal')">⚙️</div>
-            <div class="icon-btn" onclick="toggleModal('cart-modal')">🛒 <span class="badge" id="badge">0</span></div>
+    <div class="app-header">
+        <div class="logo">Vibe OS X</div>
+        <div class="header-icons">
+            <div class="icon-btn" onclick="openModal('history')">📜</div>
+            <div class="icon-btn" onclick="openModal('settings')">⚙️</div>
+            <div class="icon-btn" onclick="openModal('cart')">🛒 <div class="badge" id="badge">0</div></div>
         </div>
     </div>
 
-    <div class="bento-grid">
-        <div class="bento-card wide">
-            <div style="display:flex; justify-content:space-between;">
-                <div class="bento-lbl" id="goal-display">מטרה: כללי</div>
-                <div class="bento-lbl" id="score-text" style="color:var(--primary);">0%</div>
-            </div>
-            <div class="progress-container"><div class="progress-fill" id="basket-score-bar" style="width: 0%;"></div></div>
-            <div style="font-size:11px; color:#666; margin-top:5px;">מדד איכות הסל (מבוסס על ערכים תזונתיים)</div>
+    <div class="dashboard">
+        <div class="card main">
+            <div class="card-label"><span>איכות הסל</span> <span id="goal-txt" style="color:var(--primary);">...</span></div>
+            <div class="progress-track"><div class="progress-bar" id="score-bar"></div></div>
+            <div style="font-size:11px;color:#666;margin-top:10px;">מדד משוקלל בזמן אמת</div>
         </div>
-        <div class="bento-card"><div class="bento-lbl">צריכה (BMR)</div><div class="bento-val" id="d-tdee">--</div></div>
-        <div class="bento-card"><div class="bento-lbl">פריטים</div><div class="bento-val" id="d-cart">0</div></div>
+        <div class="card">
+            <div class="card-label">BMR</div>
+            <div class="card-val" id="val-bmr">--</div>
+        </div>
+        <div class="card">
+            <div class="card-label">פריטים</div>
+            <div class="card-val" id="val-count">0</div>
+        </div>
     </div>
 
     <div class="filter-sec">
-        <div class="sec-head">פרופיל תזונתי</div>
+        <div class="sec-title">פרופיל אישי</div>
         
-        <div class="acc c-red"><div class="acc-head" onclick="tog(this)">⚠️ אלרגיות (ציון 0) <span>▾</span></div><div class="acc-body danger">
-            <input type="checkbox" id="a-milk" class="chip save"><label for="a-milk" class="lbl">🥛 חלב</label>
-            <input type="checkbox" id="a-gluten" class="chip save"><label for="a-gluten" class="lbl">🍞 גלוטן</label>
-            <input type="checkbox" id="a-nuts" class="chip save"><label for="a-nuts" class="lbl">🌰 אגוזים</label>
-            <input type="checkbox" id="a-peanuts" class="chip save"><label for="a-peanuts" class="lbl">🥜 בוטנים</label>
-            <input type="checkbox" id="a-soy" class="chip save"><label for="a-soy" class="lbl">🥢 סויה</label>
-            <input type="checkbox" id="a-sesame" class="chip save"><label for="a-sesame" class="lbl">🥯 שומשום</label>
-            <input type="checkbox" id="a-eggs" class="chip save"><label for="a-eggs" class="lbl">🥚 ביצים</label>
-            <input type="checkbox" id="a-fish" class="chip save"><label for="a-fish" class="lbl">🐟 דגים</label>
-            <input type="checkbox" id="a-sulfites" class="chip save"><label for="a-sulfites" class="lbl">🍷 סולפיטים</label>
+        <div class="acc c-red"><div class="acc-head" onclick="tog(this)">⚠️ אלרגיות (חובה) <span>▼</span></div><div class="acc-body danger">
+            <input type="checkbox" id="a-milk" class="chip save"><label for="a-milk" class="chip-lbl">🥛 חלב</label>
+            <input type="checkbox" id="a-gluten" class="chip save"><label for="a-gluten" class="chip-lbl">🍞 גלוטן</label>
+            <input type="checkbox" id="a-nuts" class="chip save"><label for="a-nuts" class="chip-lbl">🌰 אגוזים</label>
+            <input type="checkbox" id="a-peanuts" class="chip save"><label for="a-peanuts" class="chip-lbl">🥜 בוטנים</label>
+            <input type="checkbox" id="a-sesame" class="chip save"><label for="a-sesame" class="chip-lbl">🥯 שומשום</label>
+            <input type="checkbox" id="a-soy" class="chip save"><label for="a-soy" class="chip-lbl">🥢 סויה</label>
+            <input type="checkbox" id="a-eggs" class="chip save"><label for="a-eggs" class="chip-lbl">🥚 ביצים</label>
+            <input type="checkbox" id="a-fish" class="chip save"><label for="a-fish" class="chip-lbl">🐟 דגים</label>
+            <input type="checkbox" id="a-sulfites" class="chip save"><label for="a-sulfites" class="chip-lbl">🍷 סולפיטים</label>
+            <input type="checkbox" id="a-mustard" class="chip save"><label for="a-mustard" class="chip-lbl">🌭 חרדל</label>
         </div></div>
 
-        <div class="acc c-red"><div class="acc-head" onclick="tog(this)">🏥 ניהול רפואי <span>▾</span></div><div class="acc-body danger">
-            <input type="checkbox" id="d-diabetic" class="chip save"><label for="d-diabetic" class="lbl">💉 סוכרת</label>
-            <input type="checkbox" id="d-heart" class="chip save"><label for="d-heart" class="lbl">🫀 לב/נתרן</label>
-            <input type="checkbox" id="d-cholesterol" class="chip save"><label for="d-cholesterol" class="lbl">🍔 כולסטרול</label>
-            <input type="checkbox" id="d-celiac" class="chip save"><label for="d-celiac" class="lbl">🌾 צליאק</label>
-            <input type="checkbox" id="d-gout" class="chip save"><label for="d-gout" class="lbl">🦶 גאוט</label>
-            <input type="checkbox" id="d-kidney" class="chip save"><label for="d-kidney" class="lbl">🩺 כליות</label>
-            <input type="checkbox" id="d-reflux" class="chip save"><label for="d-reflux" class="lbl">🔥 צרבת</label>
-            <input type="checkbox" id="d-ibs" class="chip save"><label for="d-ibs" class="lbl">🎈 מעי רגיז</label>
-            <input type="checkbox" id="d-anemia" class="chip save"><label for="d-anemia" class="lbl">🩸 אנמיה</label>
+        <div class="acc c-red"><div class="acc-head" onclick="tog(this)">🏥 רפואי <span>▼</span></div><div class="acc-body danger">
+            <input type="checkbox" id="d-diabetic" class="chip save"><label for="d-diabetic" class="chip-lbl">💉 סוכרת</label>
+            <input type="checkbox" id="d-heart" class="chip save"><label for="d-heart" class="chip-lbl">🫀 לב/נתרן</label>
+            <input type="checkbox" id="d-cholesterol" class="chip save"><label for="d-cholesterol" class="chip-lbl">🍔 כולסטרול</label>
+            <input type="checkbox" id="d-celiac" class="chip save"><label for="d-celiac" class="chip-lbl">🌾 צליאק</label>
+            <input type="checkbox" id="d-gout" class="chip save"><label for="d-gout" class="chip-lbl">🦶 גאוט</label>
+            <input type="checkbox" id="d-kidney" class="chip save"><label for="d-kidney" class="chip-lbl">🩺 כליות</label>
+            <input type="checkbox" id="d-reflux" class="chip save"><label for="d-reflux" class="chip-lbl">🔥 צרבת</label>
+            <input type="checkbox" id="d-ibs" class="chip save"><label for="d-ibs" class="chip-lbl">🎈 מעי רגיז</label>
         </div></div>
 
-        <div class="acc c-purple"><div class="acc-head" onclick="tog(this)">👶 ילדים ורגישויות <span>▾</span></div><div class="acc-body danger">
-            <input type="checkbox" id="x-kids" class="chip save"><label for="x-kids" class="lbl">🧸 ללא צבעי מאכל מזיקים (E)</label>
-            <input type="checkbox" id="x-preg" class="chip save"><label for="x-preg" class="lbl">🤰 הריון</label>
-            <input type="checkbox" id="x-baby" class="chip save"><label for="x-baby" class="lbl">🍼 תינוקות</label>
-            <input type="checkbox" id="x-elderly" class="chip save"><label for="x-elderly" class="lbl">👴 גיל שלישי</label>
+        <div class="acc c-purple"><div class="acc-head" onclick="tog(this)">👶 ילדים ורגישויות <span>▼</span></div><div class="acc-body danger">
+            <input type="checkbox" id="x-kids" class="chip save"><label for="x-kids" class="chip-lbl">🧸 צבע מאכל מזיק</label>
+            <input type="checkbox" id="x-preg" class="chip save"><label for="x-preg" class="chip-lbl">🤰 הריון</label>
+            <input type="checkbox" id="x-baby" class="chip save"><label for="x-baby" class="chip-lbl">🍼 תינוקות</label>
+            <input type="checkbox" id="x-elderly" class="chip save"><label for="x-elderly" class="chip-lbl">👴 גיל שלישי</label>
         </div></div>
 
-        <div class="acc c-blue"><div class="acc-head" onclick="tog(this)">🥗 דיאטה ולייף סטייל <span>▾</span></div><div class="acc-body safe">
-            <input type="checkbox" id="l-vegan" class="chip save"><label for="l-vegan" class="lbl">🌱 טבעוני</label>
-            <input type="checkbox" id="l-vegetarian" class="chip save"><label for="l-vegetarian" class="lbl">🧀 צמחוני</label>
-            <input type="checkbox" id="l-keto" class="chip save"><label for="l-keto" class="lbl">🥑 קטו</label>
-            <input type="checkbox" id="l-paleo" class="chip save"><label for="l-paleo" class="lbl">🍖 פליאו</label>
-            <input type="checkbox" id="l-lowcarb" class="chip save"><label for="l-lowcarb" class="lbl">📉 דל פחמימה</label>
-            <input type="checkbox" id="c-clean" class="chip save"><label for="c-clean" class="lbl">🧪 תווית נקייה</label>
-            <input type="checkbox" id="c-sugar" class="chip save"><label for="c-sugar" class="lbl">🍭 ללא סוכר</label>
-            <input type="checkbox" id="c-organic" class="chip save"><label for="c-organic" class="lbl">🍂 אורגני</label>
+        <div class="acc c-blue"><div class="acc-head" onclick="tog(this)">🥗 דיאטה <span>▼</span></div><div class="acc-body safe">
+            <input type="checkbox" id="l-vegan" class="chip save"><label for="l-vegan" class="chip-lbl">🌱 טבעוני</label>
+            <input type="checkbox" id="l-keto" class="chip save"><label for="l-keto" class="chip-lbl">🥑 קטו</label>
+            <input type="checkbox" id="l-paleo" class="chip save"><label for="l-paleo" class="chip-lbl">🍖 פליאו</label>
+            <input type="checkbox" id="c-sugar" class="chip save"><label for="c-sugar" class="chip-lbl">🍭 ללא סוכר</label>
+            <input type="checkbox" id="c-clean" class="chip save"><label for="c-clean" class="chip-lbl">🧪 תווית נקייה</label>
+            <input type="checkbox" id="b-israel" class="chip save" checked><label for="b-israel" class="chip-lbl">🇮🇱 תוצרת הארץ</label>
         </div></div>
 
-        <div class="acc c-gold"><div class="acc-head" onclick="tog(this)">✡️ דת ומסורת <span>▾</span></div><div class="acc-body safe">
-            <input type="checkbox" id="k-kosher" class="chip save"><label for="k-kosher" class="lbl">📜 כשר</label>
-            <input type="checkbox" id="k-badatz" class="chip save"><label for="k-badatz" class="lbl">✨ בד"ץ</label>
-            <input type="checkbox" id="k-parve" class="chip save"><label for="k-parve" class="lbl">🍏 פרווה</label>
-            <input type="checkbox" id="k-halal" class="chip save"><label for="k-halal" class="lbl">☪️ חלאל</label>
-            <input type="checkbox" id="k-passover" class="chip save"><label for="k-passover" class="lbl">🚫 לפסח</label>
-        </div></div>
-
-        <div class="acc c-blue"><div class="acc-head" onclick="tog(this)">⚡ ספורט וחיטוב <span>▾</span></div><div class="acc-body safe">
-            <input type="checkbox" id="p-protein" class="chip save"><label for="p-protein" class="lbl">💪 חלבון גבוה</label>
-            <input type="checkbox" id="p-bulk" class="chip save"><label for="p-bulk" class="lbl">🦍 מסה</label>
-            <input type="checkbox" id="p-cut" class="chip save"><label for="p-cut" class="lbl">✂️ חיטוב</label>
-            <input type="checkbox" id="p-energy" class="chip save"><label for="p-energy" class="lbl">🔋 אנרגיה</label>
-        </div></div>
-        
-        <div class="acc c-blue"><div class="acc-head" onclick="tog(this)">🌍 ערכים <span>▾</span></div><div class="acc-body safe">
-            <input type="checkbox" id="b-israel" class="chip save" checked><label for="b-israel" class="lbl">🇮🇱 תוצרת הארץ</label>
-            <input type="checkbox" id="b-fairtrade" class="chip save"><label for="b-fairtrade" class="lbl">🤝 סחר הוגן</label>
+        <div class="acc c-gold"><div class="acc-head" onclick="tog(this)">✡️ כשרות <span>▼</span></div><div class="acc-body safe">
+            <input type="checkbox" id="k-kosher" class="chip save"><label for="k-kosher" class="chip-lbl">📜 כשר</label>
+            <input type="checkbox" id="k-badatz" class="chip save"><label for="k-badatz" class="chip-lbl">✨ בד"ץ</label>
+            <input type="checkbox" id="k-parve" class="chip save"><label for="k-parve" class="chip-lbl">🍏 פרווה</label>
         </div></div>
     </div>
 
-    <div id="scanner-overlay">
+    <div id="scanner-ui">
         <div id="reader"></div>
-        <button class="close-cam" onclick="stopCamera()">סגור מצלמה</button>
+        <div class="close-cam" onclick="stopCam()">סגור מצלמה</div>
     </div>
 
-    <div class="action-bar">
-        <button class="bar-btn" onclick="manualSearch()">⌨️</button>
-        <button class="scan-btn" onclick="startCamera()">
-            <svg viewBox="0 0 24 24" width="30" height="30"><path d="M4 6h2v12H4zm14 0h2v12h-2zm-4 0h2v12h-2zm-4 0h2v12h-2z" fill="black"/><path d="M2 4v16h20V4H2zm18 14H4V6h16v12z" fill="none" stroke="black" stroke-width="2"/></svg>
+    <div class="dock">
+        <button class="dock-btn" onclick="openModal('manual')">⌨️</button>
+        <button class="scan-fab" onclick="startCam()">
+            <svg width="32" height="32" viewBox="0 0 24 24"><path d="M4 6h2v12H4zm14 0h2v12h-2zm-4 0h2v12h-2zm-4 0h2v12h-2z" fill="black"/><path d="M2 4v16h20V4H2zm18 14H4V6h16v12z" fill="none" stroke="black" stroke-width="2"/></svg>
         </button>
-        <button class="bar-btn" onclick="toggleModal('history-modal')">📜</button>
+        <button class="dock-btn" onclick="openModal('history')">📜</button>
     </div>
 
-    <div id="sheet-wrapper">
-        <div id="sheet-bg" onclick="closeSheet()"></div>
-        <div class="modal-content" id="bottom-sheet">
+    <div id="sheet-wrap">
+        <div class="backdrop" onclick="closeSheet()"></div>
+        <div class="sheet">
             <div style="width:40px;height:4px;background:#333;margin:0 auto 20px auto;border-radius:10px;"></div>
+            
+            <div class="prod-grid">
+                <img id="p-img" class="thumb">
+                <div class="prod-info">
+                    <div id="p-brand" class="p-brand"></div>
+                    <input type="text" id="p-name" class="p-edit" oninput="liveUp(this.value)">
+                    <div style="font-size:10px;color:#666;margin-top:2px;">✎ לחץ לעריכה</div>
+                </div>
+                <div style="text-align:center;">
+                    <div id="p-grade" class="grade-badge">--</div>
+                    <div style="font-size:9px;color:#888;">Nutri-Score</div>
+                </div>
+            </div>
+
+            <div id="fail-box" class="alert-box">
+                <div class="alert-head">⚠️ המוצר נדחה:</div>
+                <ul id="fail-list" class="alert-body"></ul>
+            </div>
+
+            <div id="tags-box" class="tags-area"></div>
+            <div id="bio-txt" class="analysis"></div>
+
+            <div class="actions">
+                <div class="act-btn" onclick="comp()">🔎 השוואה<br><span style="font-size:10px;opacity:0.6;">מחיר בישראל</span></div>
+                <div class="act-btn" onclick="alt()">💡 חלופה<br><span style="font-size:10px;opacity:0.6;">ללא מותג</span></div>
+                <div class="act-btn primary" onclick="add()">🛒 הוסף לסל</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-manual" class="modal">
+        <div class="backdrop" onclick="closeModal('manual')"></div>
+        <div class="modal-body" style="height:auto;padding-bottom:40px;">
+            <div class="m-head">חיפוש ידני <span onclick="closeModal('manual')">✕</span></div>
             <div style="padding:25px;">
-                <div class="prod-header">
-                    <img id="p-img" class="prod-thumb" src="" onerror="this.style.display='none'">
-                    <div style="flex:1;">
-                        <div id="p-brand" style="font-size:11px;color:#888;font-weight:700;"></div>
-                        <input type="text" id="p-name" class="editable-name" value="..." oninput="updateName(this.value)">
-                        <div style="font-size:10px;color:#666;">✎ לחץ לתיקון שם לצורך השוואה</div>
-                    </div>
-                    <div style="text-align:center;">
-                        <div id="grade-display" class="grade-badge"></div>
-                        <div style="font-size:10px;color:#888;">Nutri-Score</div>
-                    </div>
-                </div>
-
-                <div id="quality-warning" class="quality-warning">⚠️ המוצר חורג מטווח האיכות שבחרת (A-B)</div>
-
-                <div id="tags-area" class="tags-container"></div>
-                <div id="bio-res" class="analysis-box"></div>
-
-                <div class="action-grid">
-                    <button class="sheet-btn" onclick="comparePrecise()">🔎 השוואת מחיר<br><span style="font-size:10px;opacity:0.6;">בישראל</span></button>
-                    <button class="sheet-btn" onclick="findAlternatives()">💡 חלופה זולה<br><span style="font-size:10px;opacity:0.6;">ללא מותג</span></button>
-                    <button class="sheet-btn primary" onclick="addToCart()">🛒 הוסף לסל שבועי</button>
-                </div>
+                <input id="manual-code" class="inp" type="number" placeholder="הקלד ברקוד">
+                <button class="act-btn primary" style="width:100%;margin-top:10px;" onclick="runManual()">חפש מוצר</button>
             </div>
         </div>
     </div>
 
-    <div id="settings-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header"><h2>הגדרות פרופיל</h2><button onclick="closeModal('settings-modal')" style="background:none;border:none;color:white;font-size:24px;">&times;</button></div>
-            <div class="modal-body">
-                
-                <div style="margin-bottom:20px;">
-                    <label style="color:#888; font-size:11px; font-weight:bold;">מין (לחישוב BMR)</label>
-                    <div style="display:flex; gap:10px;">
-                        <button class="goal-btn" id="gen-male" onclick="setGender('male')">גבר</button>
-                        <button class="goal-btn" id="gen-female" onclick="setGender('female')">אישה</button>
+    <div id="modal-settings" class="modal">
+        <div class="backdrop" onclick="closeModal('settings')"></div>
+        <div class="modal-body">
+            <div class="m-head">הגדרות <span onclick="closeModal('settings')">✕</span></div>
+            <div class="m-content">
+                <div class="set-group">
+                    <span style="font-size:11px;color:#888;font-weight:900;display:block;margin-bottom:10px;">בקרת איכות (סמן ציונים מותרים)</span>
+                    <div class="grade-grid">
+                        <div class="g-btn" data-g="A+" onclick="togG('A+')">A+</div>
+                        <div class="g-btn" data-g="A" onclick="togG('A')">A</div>
+                        <div class="g-btn" data-g="B+" onclick="togG('B+')">B+</div>
+                        <div class="g-btn" data-g="B" onclick="togG('B')">B</div>
+                        <div class="g-btn" data-g="C+" onclick="togG('C+')">C+</div>
+                        <div class="g-btn" data-g="C" onclick="togG('C')">C</div>
+                        <div class="g-btn" data-g="D" onclick="togG('D')">D</div>
+                        <div class="g-btn" data-g="E" onclick="togG('E')">E</div>
                     </div>
                 </div>
 
-                <div style="margin-bottom:20px;">
-                    <label style="color:#888; font-size:11px; font-weight:bold;">מטרה</label>
-                    <div style="display:flex; gap:10px;">
-                        <button class="goal-btn" id="goal-cut" onclick="setGoal('cut')">חיטוב</button>
-                        <button class="goal-btn" id="goal-main" onclick="setGoal('maintain')">שמירה</button>
-                        <button class="goal-btn" id="goal-bulk" onclick="setGoal('bulk')">מסה</button>
-                    </div>
+                <div class="row">
+                    <div class="toggle" id="g-male" onclick="setGen('male')">גבר</div>
+                    <div class="toggle" id="g-female" onclick="setGen('female')">אישה</div>
+                </div>
+                <div class="row">
+                    <div class="toggle" id="t-cut" onclick="setGoal('cut')">חיטוב</div>
+                    <div class="toggle" id="t-main" onclick="setGoal('maintain')">שמירה</div>
+                    <div class="toggle" id="t-bulk" onclick="setGoal('bulk')">מסה</div>
                 </div>
 
-                <div style="margin-bottom:20px;">
-                    <label style="color:#888; font-size:11px; font-weight:bold;">בקרת איכות (התראה בציון נמוך)</label>
-                    <select id="u-grade-limit" class="clean-inp">
-                        <option value="E">ללא סינון (הכל)</option>
-                        <option value="C">הסר מוצרים גרועים (A-C)</option>
-                        <option value="B">איכותי בלבד (A-B)</option>
-                        <option value="A">מצוין בלבד (A)</option>
-                    </select>
+                <div class="row">
+                    <input type="number" id="u-w" class="inp" placeholder="משקל">
+                    <input type="number" id="u-h" class="inp" placeholder="גובה">
+                    <input type="number" id="u-a" class="inp" placeholder="גיל">
                 </div>
-
-                <div style="margin-bottom:20px;">
-                    <label style="color:#888; font-size:11px; font-weight:bold;">נתונים ומשקל חכם</label>
-                    <div style="display:flex; gap:10px; margin-bottom:10px;">
-                        <input type="number" id="u-w" class="clean-inp" placeholder="משקל (קג)">
-                        <input type="number" id="u-h" class="clean-inp" placeholder="גובה (סמ)">
-                    </div>
-                    <div style="display:flex; gap:10px;">
-                        <input type="number" id="u-age" class="clean-inp" placeholder="גיל">
-                        <button onclick="manualSync()" class="clean-inp" style="background:#333;">🔗 סנכרון BMR</button>
-                    </div>
-                </div>
-
-                <button onclick="saveProfile()" class="clean-inp" style="background:white; color:black; font-weight:bold;">שמור הגדרות</button>
+                <button class="act-btn primary" style="width:100%;" onclick="saveSet()">שמור הגדרות</button>
             </div>
         </div>
     </div>
 
-    <div id="cart-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header"><h2>סל קניות שבועי</h2><button onclick="closeModal('cart-modal')" style="background:none;border:none;color:white;font-size:24px;">&times;</button></div>
-            <div class="modal-body">
-                <textarea id="import-area" class="clean-inp" style="height:80px; text-align:right;" placeholder="הדבק כאן רשימה מהפתקים..."></textarea>
-                <button onclick="importList()" class="clean-inp" style="background:#333; margin-bottom:15px;">📥 סנכרון וסידור אוטומטי</button>
-                <div id="cart-body"></div>
+    <div id="modal-cart" class="modal">
+        <div class="backdrop" onclick="closeModal('cart')"></div>
+        <div class="modal-body">
+            <div class="m-head">סל קניות <span onclick="closeModal('cart')">✕</span></div>
+            <div class="m-content">
+                <textarea id="imp-box" class="inp" style="height:70px;text-align:right;" placeholder="הדבק רשימה מהפתקים..."></textarea>
+                <button class="act-btn" style="width:100%;margin-bottom:20px;" onclick="doImp()">📥 סנכרון רשימה</button>
+                <div id="cart-list"></div>
             </div>
-            <div style="padding:20px; text-align:center; border-top:1px solid #333;"><button onclick="shareCart()" class="clean-inp" style="background:var(--primary); color:black; font-weight:bold;">וואטסאפ 📤</button></div>
+            <div style="padding:20px;border-top:1px solid #333;">
+                <button class="act-btn primary" style="width:100%;" onclick="share()">שלח לוואטסאפ 📤</button>
+            </div>
         </div>
     </div>
 
-    <div id="history-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header"><h2>היסטוריה</h2><button onclick="closeModal('history-modal')" style="background:none;border:none;color:white;font-size:24px;">&times;</button></div>
-            <div class="modal-body" id="history-list"></div>
-            <div style="padding:20px;"><button onclick="clearHistory()" class="clean-inp" style="background:var(--danger);color:white;">נקה הכל</button></div>
+    <div id="modal-history" class="modal">
+        <div class="backdrop" onclick="closeModal('history')"></div>
+        <div class="modal-body">
+            <div class="m-head">היסטוריה <span onclick="closeModal('history')">✕</span></div>
+            <div class="m-content" id="hist-list"></div>
+            <div style="padding:20px;"><button class="act-btn" style="width:100%;color:var(--danger);border-color:var(--danger);" onclick="clrHist()">נקה הכל</button></div>
         </div>
     </div>
 
     <script>
-        // --- VIBE OS 60.0 CORE LOGIC ---
+        /* --- VIBE OS X CORE --- */
         
-        let cart=[], history=[], user={gender:'male', goal:'maintain', w:75, h:175, age:30, tdee:2000, minGrade:'E'};
-        try {
-            cart = JSON.parse(localStorage.getItem('vibeCart60')) || [];
-            history = JSON.parse(localStorage.getItem('vibeHistory')) || [];
-            user = JSON.parse(localStorage.getItem('vibeUser60')) || user;
-        } catch(e){ localStorage.clear(); }
-
-        let currentItem = { name: '', code: '', brand: '', category: 'other' };
-
-        // --- ISRAELI BRANDS & PREFIXES FOR CLEANING ---
-        const prefixes = ['של','מבית','בטעם','סוג','תוצרת','מפעל','קיבוץ'];
-        const ilBrands = ['אסם','תנובה','שטראוס','עלית','תלמה','קנור','סוגת','ויסוצקי','טרה','גד','פריגת','נביעות','מי עדן','שוופס','קוקה קולה','פפסי','נסטלה','יופלה','דנונה','מילקי','קרלו','במבה','ביסלי','תפוציפס','פרינגלס','אחלה','צבר','שמיר','מעדנות','טבעול','זוגלובק','יחיעם','טירת צבי','עוף טוב','סנפרוסט','וילי פוד','רמי לוי','שופרסל','אושר עד','ויקטורי','היינץ','הלמנס','מנה','מאסטר שף','סמי בורקס','מעולה','יש','סנו','ניקול','חוגלה','לילי','פרסיל','אריאל','סוד','פיניש','קולגייט','אורביט'];
-        const brandRegex = new RegExp(`(${ilBrands.join('|')}|${prefixes.join('|')})`, 'gi');
-
-        // --- DICTIONARY ---
-        const dict = {
-            'milk':{he:'חלב',c:'fridge'},'cheese':{he:'גבינה',c:'fridge'},'yogurt':{he:'יוגורט',c:'fridge'},'butter':{he:'חמאה',c:'fridge'},'cream':{he:'שמנת',c:'fridge'},'cottage':{he:'קוטג',c:'fridge'},'labane':{he:'לבנה',c:'fridge'},
-            'bread':{he:'לחם',c:'pantry'},'pita':{he:'פיתה',c:'pantry'},'bun':{he:'לחמניה',c:'pantry'},'pasta':{he:'פסטה',c:'pantry'},'rice':{he:'אורז',c:'pantry'},'flour':{he:'קמח',c:'pantry'},'sugar':{he:'סוכר',c:'pantry'},'salt':{he:'מלח',c:'pantry'},'oil':{he:'שמן',c:'pantry'},'couscous':{he:'קוסקוס',c:'pantry'},'ptitim':{he:'פתיתים',c:'pantry'},
-            'tomato':{he:'עגבניה',c:'veg'},'cucumber':{he:'מלפפון',c:'veg'},'apple':{he:'תפוח',c:'veg'},'banana':{he:'בננה',c:'veg'},'lemon':{he:'לימון',c:'veg'},'pepper':{he:'פלפל',c:'veg'},'potato':{he:'תפוח אדמה',c:'veg'},'onion':{he:'בצל',c:'veg'},'garlic':{he:'שום',c:'veg'},'avocado':{he:'אבוקדו',c:'veg'},'lettuce':{he:'חסה',c:'veg'},
-            'chicken':{he:'עוף',c:'meat'},'beef':{he:'בקר',c:'meat'},'fish':{he:'דג',c:'meat'},'tuna':{he:'טונה',c:'pantry'},'egg':{he:'ביצים',c:'fridge'},'salami':{he:'נקניק',c:'meat'},'sausage':{he:'נקניקיה',c:'meat'},
-            'water':{he:'מים',c:'pantry'},'juice':{he:'מיץ',c:'fridge'},'soda':{he:'משקה',c:'pantry'},'cola':{he:'קולה',c:'pantry'},'coffee':{he:'קפה',c:'pantry'},'tea':{he:'תה',c:'pantry'},
-            'chips':{he:'חטיף',c:'pantry'},'bamba':{he:'במבה',c:'pantry'},'bisli':{he:'ביסלי',c:'pantry'},'chocolate':{he:'שוקולד',c:'pantry'},'cookie':{he:'עוגיה',c:'pantry'},'cracker':{he:'קרקר',c:'pantry'},
-            'shampoo':{he:'שמפו',c:'home'},'soap':{he:'סבון',c:'home'},'bleach':{he:'אקונומיקה',c:'home'},'paper':{he:'נייר טואלט',c:'home'},'wipes':{he:'מגבונים',c:'home'},'diaper':{he:'חיתולים',c:'home'}
+        // STATE
+        let s = {
+            u: JSON.parse(localStorage.getItem('vx_u')) || { w:75, h:175, a:30, g:'male', t:'maintain', ok:['A+','A','B+','B','C+','C','D','E'] },
+            c: JSON.parse(localStorage.getItem('vx_c')) || [],
+            h: JSON.parse(localStorage.getItem('vx_h')) || [],
+            curr: null
         };
-        const aisles = {'veg':'🥦 ירקות','fridge':'❄️ מקרר','meat':'🥩 בשר','pantry':'🍝 מזווה','home':'🧴 בית','other':'🛒 כללי'};
 
-        window.onload=()=>{ renderCart(); renderHistory(); loadChecks(); applySettingsUI(); calculateTDEE(); };
+        // DATA
+        const BLK = ['אסם','תנובה','שטראוס','עלית','תלמה','קנור','סוגת','ויסוצקי','טרה','גד','פריגת','נביעות','מי עדן','שוופס','קוקה קולה','פפסי','נסטלה','יופלה','דנונה','מילקי','קרלו','במבה','ביסלי','תפוציפס','פרינגלס','אחלה','צבר','שמיר','מעדנות','טבעול','זוגלובק','יחיעם','טירת צבי','עוף טוב','סנפרוסט','וילי פוד','רמי לוי','שופרסל','אושר עד','ויקטורי','היינץ','הלמנס','מנה','סוד','פרסיל','ניקול','סנו','קולגייט','אורביט'];
+        const REG = new RegExp(`(${BLK.join('|')})`, 'gi');
+        const DIC = {
+            'milk':{h:'חלב',c:'fridge'},'cheese':{h:'גבינה',c:'fridge'},'yogurt':{h:'יוגורט',c:'fridge'},'butter':{h:'חמאה',c:'fridge'},
+            'bread':{h:'לחם',c:'pantry'},'pasta':{h:'פסטה',c:'pantry'},'rice':{h:'אורז',c:'pantry'},'flour':{h:'קמח',c:'pantry'},'sugar':{h:'סוכר',c:'pantry'},
+            'tomato':{h:'עגבניה',c:'veg'},'cucumber':{h:'מלפפון',c:'veg'},'apple':{h:'תפוח',c:'veg'},'chicken':{h:'עוף',c:'meat'},'beef':{h:'בקר',c:'meat'},
+            'shampoo':{h:'שמפו',c:'home'},'soap':{h:'סבון',c:'home'},'bleach':{h:'אקונומיקה',c:'home'}
+        };
+        const AIS = {'veg':'🥦 ירקות','fridge':'❄️ מקרר','meat':'🥩 בשר','pantry':'🍝 מזווה','home':'🧴 בית','other':'🛒 כללי'};
 
-        // --- UI CORE ---
-        function tog(h){h.nextElementSibling.classList.toggle('open')}
-        function toggleModal(id){document.getElementById(id).classList.toggle('open')}
-        function closeModal(id){document.getElementById(id).classList.remove('open')}
-        function closeSheet(){document.getElementById('sheet-wrapper').classList.remove('active-sheet')}
-        function updateName(val){ currentItem.name=val; }
-        const chk=(id)=>document.getElementById(id).checked;
-        function showToast(msg){ const t=document.getElementById('toast'); t.innerHTML=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }
-        function loadChecks(){ document.querySelectorAll('.save').forEach(el=>{ if(localStorage.getItem(el.id)==='true') el.checked=true; el.addEventListener('change',()=>localStorage.setItem(el.id,el.checked)); }); }
+        // INIT
+        window.onload=()=>{ renDash(); renSet(); resChk(); };
 
-        // --- SETTINGS ---
-        function setGender(g){ user.gender=g; applySettingsUI(); }
-        function setGoal(g){ user.goal=g; applySettingsUI(); }
-        
-        function applySettingsUI(){
-            document.querySelectorAll('.goal-btn').forEach(b=>b.classList.remove('active'));
-            if(user.gender) document.getElementById('gen-'+user.gender).classList.add('active');
-            if(user.goal) {
-                if(user.goal==='cut') document.getElementById('goal-cut').classList.add('active');
-                if(user.goal==='maintain') document.getElementById('goal-main').classList.add('active');
-                if(user.goal==='bulk') document.getElementById('goal-bulk').classList.add('active');
-            }
-            document.getElementById('u-grade-limit').value = user.minGrade || 'E';
-            document.getElementById('u-w').value = user.w;
-            document.getElementById('u-h').value = user.h;
-            document.getElementById('u-age').value = user.age;
-            
-            const goalMap = {cut:'חיטוב', maintain:'שמירה', bulk:'מסה'};
-            document.getElementById('goal-display').innerText = "מטרה: " + (goalMap[user.goal] || "לא הוגדרה");
-        }
-
-        function calculateTDEE(){
-            if(!user.w || !user.h || !user.age) return;
-            // Mifflin-St Jeor
-            let s = (user.gender==='male' ? 5 : -161);
-            let bmr = (10*user.w) + (6.25*user.h) - (5*user.age) + s;
-            let tdee = bmr * 1.375;
-            
-            if(user.goal==='cut') tdee -= 500;
-            if(user.goal==='bulk') tdee += 300;
-            
-            user.tdee = Math.round(tdee);
-            document.getElementById('d-tdee').innerText = user.tdee;
-        }
-
-        function manualSync(){
-            let val = prompt("הזן BMR מהמשקל החכם:", user.tdee);
-            if(val && !isNaN(val)) { user.tdee = Math.round(Number(val)); document.getElementById('d-tdee').innerText = user.tdee; showToast("✅ סונכרן ידנית"); saveProfile(); }
-        }
-
-        function saveProfile(){
-            user.minGrade = document.getElementById('u-grade-limit').value;
-            user.w = Number(document.getElementById('u-w').value);
-            user.h = Number(document.getElementById('u-h').value);
-            user.age = Number(document.getElementById('u-age').value);
-            calculateTDEE();
-            localStorage.setItem('vibeUser60', JSON.stringify(user));
-            closeModal('settings-modal'); showToast("הפרופיל נשמר");
-            applySettingsUI();
-        }
-
-        // --- ANALYSIS CORE ---
-        async function analyze(code){
-            document.getElementById('sheet-wrapper').classList.add('active-sheet');
-            document.getElementById('p-name').value="טוען...";
-            document.getElementById('tags-area').innerHTML="";
-            document.getElementById('quality-warning').style.display='none';
-            document.getElementById('grade-display').innerText = "--";
+        // LOGIC
+        async function run(code){
+            document.getElementById('sheet-wrap').classList.add('active');
+            uiReset();
             
             try {
-                const res=await fetch(`https://world.openfoodfacts.org/api/v2/product/${code}.json`);
-                const data=await res.json();
-                if(data.status!==1) throw new Error();
-                const p=data.product;
+                // Fallback for demo if offline or invalid code
+                if(code.length < 3) throw "Invalid";
                 
-                let name=p.product_name_he||p.product_name||"";
-                let cat='other';
-                let lowName=name.toLowerCase();
-                for(const [k,v] of Object.entries(dict)){
-                    if(lowName.includes(k)){
-                        if(!p.product_name_he) name=v.he+" "+(p.brands||"");
-                        cat=v.c; break;
+                const res = await fetch(`https://world.openfoodfacts.org/api/v2/product/${code}.json`);
+                const d = await res.json();
+                if(d.status!==1) throw "Not found";
+                
+                const p = d.product;
+                let name = p.product_name_he || p.product_name || "מוצר לא מזוהה";
+                let cat = 'other';
+                
+                // Smart Cat
+                for(const [k,v] of Object.entries(DIC)){ if(name.toLowerCase().includes(k)||name.includes(v.h)){ cat=v.c; if(!p.product_name_he) name=v.h; break; } }
+
+                s.curr = { n:name, c:code, b:p.brands||"", cat:cat };
+                uiUpd(p);
+
+                // ENGINE
+                const n = p.nutriments||{};
+                const tx = (JSON.stringify(p.ingredients_text)+JSON.stringify(p.labels)).toLowerCase();
+                let score = 100;
+                let fails = [];
+                let tags = "";
+
+                // CHECKER
+                const c = (id,k,m,pen) => {
+                    const el = document.getElementById(id);
+                    if(el && el.checked){
+                        for(let w of k) if(tx.includes(w)){ tags+=tag(m,'bad'); score-=pen; fails.push(m); return; }
                     }
-                }
+                };
+
+                // MAP ALL BUTTONS
+                c('a-milk',['milk','lait','חלב'], 'חלב', 100);
+                c('a-gluten',['gluten','wheat','חיטה'], 'גלוטן', 100);
+                c('a-nuts',['nut','almond','אגוז'], 'אגוזים', 100);
+                c('a-peanuts',['peanut','בוטנים'], 'בוטנים', 100);
+                c('a-sesame',['sesame','שומשום'], 'שומשום', 100);
+                c('a-soy',['soy','סויה'], 'סויה', 100);
+                c('a-eggs',['egg','oeuf','ביצים'], 'ביצים', 100);
+                c('a-fish',['fish','דג'], 'דגים', 100);
+                c('a-sulfites',['sulfite','e220'], 'סולפיטים', 100);
+                c('a-mustard',['mustard','חרדל'], 'חרדל', 100);
+
+                if(document.getElementById('x-kids').checked && (tx.includes('e102')||tx.includes('e129'))) { tags+=tag('צבע מאכל','bad'); score-=50; fails.push('צבע מאכל מזיק'); }
+                if(document.getElementById('d-diabetic').checked && n.sugars_100g>5) { tags+=tag('סוכר גבוה','mid'); score-=30; fails.push('ערכי סוכר'); }
                 
-                currentItem={name:name, code:code, brand:p.brands||"", category:cat};
-                document.getElementById('p-name').value=name;
-                document.getElementById('p-brand').innerText=p.brands||"";
-                document.getElementById('p-img').src=p.image_front_small_url||"";
-
-                const n=p.nutriments||{};
-                const txt=(JSON.stringify(p.ingredients_text)+JSON.stringify(p.labels)).toLowerCase();
-                const add=(p.additives_tags||[]).join(" ");
-                let tags="";
-                let score=100;
-
-                // --- LOGIC ---
-                // Helper
-                const check = (id, k, t, pen) => { if(chk(id)){ for(let w of k) if(txt.includes(w)){ tags+=`<div class="info-tag tag-danger">⛔ ${t}</div>`; score-=pen; return; } } };
-
-                check('a-milk',['milk','lait','חלב','whey'],'חלב',50);
-                check('a-gluten',['gluten','wheat','חיטה','barley','rye'],'גלוטן',50);
-                check('a-nuts',['nut','almond','אגוז','cashew','pecan'],'אגוזים',50);
-                check('a-peanuts',['peanut','בוטנים'],'בוטנים',50);
-                check('a-soy',['soy','סויה'],'סויה',50);
-                check('a-sesame',['sesame','שומשום'],'שומשום',50);
-                check('a-eggs',['egg','oeuf','ביצים'],'ביצים',50);
-                check('a-fish',['fish','דג'],'דגים/יוד',50);
-                check('a-sulfites',['sulfite','e220','e224'],'סולפיטים',50);
-
-                if(chk('d-diabetic')&&(n.sugars_100g>5||n.carbohydrates_100g>50)) {tags+=`<div class="info-tag tag-neutral">🍬 סוכר גבוה</div>`; score-=30;}
-                if(chk('d-heart')&&(n.salt_100g>1||n['saturated-fat_100g']>4)) {tags+=`<div class="info-tag tag-neutral">🧂 נתרן גבוה</div>`; score-=30;}
-                if(chk('d-cholesterol')&&n.cholesterol_100g>0.05) {tags+=`<div class="info-tag tag-neutral">🍔 כולסטרול</div>`; score-=20;}
-                if(chk('d-gout')&&(txt.includes('liver')||txt.includes('yeast'))) {tags+=`<div class="info-tag tag-neutral">🦵 פורינים</div>`; score-=20;}
-                if(chk('d-kidney')&&(n.potassium_100g>0.3||add.includes('phosphate'))) tags+=`<div class="info-tag tag-neutral">🩺 אשלגן</div>`;
-                if(chk('d-reflux')&&(txt.includes('spice')||txt.includes('citrus'))) tags+=`<div class="info-tag tag-neutral">🔥 חומציות</div>`;
-                if(chk('d-ibs')&&(txt.includes('onion')||txt.includes('garlic'))) tags+=`<div class="info-tag tag-neutral">🎈 FODMAP</div>`;
-                if(chk('d-anemia')&&(txt.includes('tea')||txt.includes('coffee'))) tags+=`<div class="info-tag tag-neutral">🩸 מעכב ברזל</div>`;
-
-                if(chk('x-preg')&&(txt.includes('caffeine')||txt.includes('alcohol'))) tags+=`<div class="info-tag tag-danger">⛔ קפאין/אלכוהול</div>`;
-                
-                // KIDS (Southampton 6)
-                if(chk('x-kids')){
-                    if(txt.includes('e102')||txt.includes('e110')||txt.includes('e122')||txt.includes('e124')||txt.includes('e129')||txt.includes('e104')) {
-                        tags+=`<div class="info-tag tag-danger">☠️ צבע מאכל מזיק לילדים</div>`; score-=50;
-                    }
-                }
-
-                if(chk('k-parve')&&(txt.includes('milk')||txt.includes('meat'))) tags+=`<div class="info-tag tag-neutral">❌ לא פרווה</div>`;
-                if(chk('l-vegan')&&(txt.includes('milk')||txt.includes('egg')||txt.includes('honey'))) tags+=`<div class="info-tag tag-neutral">❌ לא טבעוני</div>`;
-                if(chk('c-clean')&&(add.length>5)) tags+=`<div class="info-tag tag-neutral">🧪 תוספים מלאכותיים</div>`;
-                if(chk('b-israel')&&code.startsWith('729')) tags+=`<div class="info-tag tag-good">🇮🇱 תוצרת הארץ</div>`;
-
-                if(user.goal==='cut' && n['energy-kcal_100g']>300) tags+=`<div class="info-tag tag-neutral">⚠️ צפוף קלורית</div>`;
-                if(user.goal==='bulk' && n.proteins_100g>15) tags+=`<div class="info-tag tag-good">💪 חלבון למסה</div>`;
-
                 if(score<0) score=0; if(score>100) score=100;
 
-                // Grade Logic
-                let grade = (p.nutriscore_grade || 'e').toUpperCase();
-                if(!p.nutriscore_grade) {
-                    if(n.sugars_100g>10 || n['saturated-fat_100g']>5) grade='D';
-                    else if(n.proteins_100g>15) grade='A';
-                    else grade='C';
+                // GRADE
+                let g='E';
+                if(score>=95) g='A+'; else if(score>=85) g='A'; else if(score>=80) g='B+'; else if(score>=70) g='B';
+                else if(score>=65) g='C+'; else if(score>=55) g='C'; else if(score>=40) g='D';
+
+                // FAIL ANALYSIS
+                if(!s.u.ok.includes(g)) {
+                    document.getElementById('fail-box').style.display='block';
+                    if(navigator.vibrate) navigator.vibrate(200);
+                    if(fails.length===0) fails.push("ציון איכות נמוך (" + g + ")");
+                    document.getElementById('fail-list').innerHTML = fails.map(f=>`<li>${f}</li>`).join('');
                 }
 
-                // Check Quality Gate
-                const grades = ['E','D','C','B','A'];
-                const limit = grades.indexOf(user.minGrade || 'E');
-                const curr = grades.indexOf(grade);
-                if(curr < limit) {
-                    document.getElementById('quality-warning').style.display='flex';
-                    if(navigator.vibrate) navigator.vibrate([200,100,200]);
-                }
+                document.getElementById('tags-box').innerHTML = tags || tag('ללא אזהרות','good');
+                document.getElementById('bio-txt').innerText = `${n['energy-kcal_100g']||0} קלוריות | ${n.proteins_100g||0}g חלבון`;
+                
+                const ge = document.getElementById('p-grade');
+                ge.innerText=g; ge.className=`grade-badge g-${g.replace('+','_PLUS')}`;
 
-                document.getElementById('grade-display').innerText = grade;
-                document.getElementById('grade-display').className = `grade-badge grade-${grade}`;
-                document.getElementById('tags-area').innerHTML = tags || `<div class="info-tag tag-good">✨ ללא אזהרות</div>`;
-                document.getElementById('bio-res').innerText = `${n['energy-kcal_100g']||0} קלוריות | ${n.proteins_100g||0}g חלבון`;
+                s.h.unshift({n:name, g:g, c:code});
+                localStorage.setItem('vx_h',JSON.stringify(s.h));
 
-                history.unshift({name:name,code:code,date:new Date().toLocaleDateString()});
-                if(history.length>20) history.pop();
-                localStorage.setItem('vibeHistory',JSON.stringify(history));
-                renderHistory();
-
-            } catch(e) {
-                document.getElementById('p-name').value="לא נמצא (הקלד שם)";
-                currentItem.code=code;
+            } catch(e) { 
+                document.getElementById('p-name').value="לא נמצא (הקלד שם)"; 
+                s.curr={n:"", c:code, b:""};
             }
         }
 
-        // --- CART & IMPORT ---
-        function importList(){
-            const text = document.getElementById('import-area').value;
-            if(!text) return;
-            // Clean emojis and split
-            const cleanText = text.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '');
-            const lines = cleanText.split(/\n|,/);
-            
-            lines.forEach(line => {
-                let cl = line.trim();
-                if(cl){
-                    let cat = 'other';
-                    for(const [k,v] of Object.entries(dict)){ if(cl.includes(k)||cl.includes(v.he)) cat=v.c; }
-                    if(cl.includes('אקונומיקה')||cl.includes('נייר')) cat='home';
-                    cart.push({name:cl, category:cat});
-                }
-            });
-            renderCart();
-            document.getElementById('import-area').value = "";
-            showToast("רשימה יובאה");
+        // --- HELPERS ---
+        function tag(t,c) { return `<div class="tag t-${c}">${t}</div>`; }
+        function uiReset() {
+            document.getElementById('p-name').value="...";
+            document.getElementById('fail-box').style.display='none';
+            document.getElementById('tags-box').innerHTML="";
         }
-
-        function addToCart(){ cart.push(currentItem); renderCart(); closeSheet(); showToast("✅ נוסף לסל"); }
-        function renderCart(){
-            const b=document.getElementById('cart-body'); b.innerHTML="";
-            const grouped={};
-            cart.forEach(i=>{ if(!grouped[i.category]) grouped[i.category]=[]; grouped[i.category].push(i); });
-            const order=['veg','fridge','meat','pantry','home','other'];
-            
-            let s=50; cart.forEach(i=>{ if(i.category==='veg') s+=5; if(i.category==='fridge') s+=2; });
-            s=Math.min(100,Math.max(0,s));
-            document.getElementById('basket-score-bar').style.width=s+"%";
-            document.getElementById('score-text').innerText = s + "%";
-
-            order.forEach(cat=>{
-                if(grouped[cat]){
-                    b.innerHTML+=`<div class="aisle-header">${aisles[cat]}</div>`;
-                    grouped[cat].forEach(item=>{
-                        const idx=cart.indexOf(item);
-                        b.innerHTML+=`<div class="cart-item"><span>${item.name}</span><span onclick="del(${idx})" style="color:red;cursor:pointer;">✕</span></div>`;
-                    });
-                }
-            });
-            document.getElementById('d-cart').innerText=cart.length;
-            localStorage.setItem('vibeCart60',JSON.stringify(cart));
-        }
-        function del(i){cart.splice(i,1); renderCart();}
-        function shareCart(){window.open(`https://wa.me/?text=רשימת קניות:%0A${cart.map(i=>"- "+i.name).join('%0A')}`,'_blank');}
-        
-        function clearHistory(){history=[]; localStorage.removeItem('vibeHistory'); renderHistory();}
-        function renderHistory(){
-            const l=document.getElementById('history-list'); l.innerHTML="";
-            history.forEach(i=>{l.innerHTML+=`<div class="cart-item" onclick="analyze('${i.code}')"><span>${i.name}</span><small>${i.date}</small></div>`});
+        function uiUpd(p) {
+            document.getElementById('p-name').value = s.curr.n;
+            document.getElementById('p-brand').innerText = s.curr.b;
+            document.getElementById('p-img').src = p.image_front_small_url || "";
         }
 
         // --- CAMERA ---
-        let html5QrCode;
-        try { html5QrCode = new Html5Qrcode("reader"); } catch(e){}
+        let cam;
+        function startCam(){
+            document.getElementById('scanner-ui').style.display='flex';
+            cam = new Html5Qrcode("reader");
+            cam.start({facingMode:"environment"},{fps:10,qrbox:250},(txt)=>{ stopCam(); run(txt); }).catch(()=>{ alert("Camera Error"); stopCam(); });
+        }
+        function stopCam(){ if(cam) cam.stop().then(()=>document.getElementById('scanner-ui').style.display='none'); }
+        function runManual(){ const v=document.getElementById('manual-code').value; if(v) { closeModal('manual'); run(v); } }
 
-        function startCamera(){
-            if(!html5QrCode) { alert("רכיב המצלמה לא נטען"); return; }
-            document.getElementById('scanner-overlay').style.display='block';
-            html5QrCode.start({facingMode:"environment"},{fps:10,qrbox:250},(txt)=>{ stopCamera(); analyze(txt); }).catch(()=>{alert("אין גישה למצלמה"); stopCamera();});
+        // --- SETTINGS ---
+        function togG(g){ const i=s.u.ok.indexOf(g); if(i>-1) s.u.ok.splice(i,1); else s.u.ok.push(g); renSet(); }
+        function setGen(v){ s.u.g=v; renSet(); }
+        function setGoal(v){ s.u.t=v; renSet(); }
+        function saveSet(){
+            s.u.w=Number(document.getElementById('u-w').value);
+            s.u.h=Number(document.getElementById('u-h').value);
+            s.u.a=Number(document.getElementById('u-a').value);
+            // BMR Calc
+            let m = s.u.g==='male'?5:-161;
+            let bmr = (10*s.u.w)+(6.25*s.u.h)-(5*s.u.a)+m;
+            s.u.bmr = Math.round(bmr*1.2);
+            localStorage.setItem('vx_u',JSON.stringify(s.u));
+            renDash(); closeModal('settings'); toast("הגדרות נשמרו");
         }
-        function stopCamera(){
-            if(html5QrCode) html5QrCode.stop().then(()=>document.getElementById('scanner-overlay').style.display='none').catch(()=>document.getElementById('scanner-overlay').style.display='none');
+        function renSet(){
+            document.querySelectorAll('.g-btn').forEach(b=>{ if(s.u.ok.includes(b.dataset.g)) b.classList.add('active'); else b.classList.remove('active'); });
+            ['male','female'].forEach(k=>document.getElementById('g-'+k).className = s.u.g===k?'toggle active':'toggle');
+            ['cut','main','bulk'].forEach(k=>document.getElementById('t-'+k).className = s.u.t===k?'toggle active':'toggle');
+            document.getElementById('u-w').value=s.u.w; document.getElementById('u-h').value=s.u.h; document.getElementById('u-a').value=s.u.a;
         }
-        function manualSearch(){const c=prompt("ברקוד:"); if(c) analyze(c);}
 
-        // --- DE-BRANDING SEARCH ---
-        function findAlternatives(){
-            let name = document.getElementById('p-name').value;
-            // Clean Brands using Regex
-            name = name.replace(brandRegex, '').trim();
-            // Clean current brand if exists
-            if(currentItem.brand) name = name.replace(new RegExp(currentItem.brand, 'gi'), '').trim();
-            if(name.length < 2) name = document.getElementById('p-name').value; // Fallback
-            window.open(`https://www.google.com/search?q=${encodeURIComponent(name+" קנייה בזול site:.il")}`,'_blank');
+        // --- CART ---
+        function add(){ s.c.push(s.curr); upCart(); closeSheet(); toast("נוסף לסל"); }
+        function doImp(){
+            const t = document.getElementById('imp-box').value;
+            if(t) {
+                t.split(/\n|,/).forEach(l=>{
+                    let cl=l.trim(); if(cl) {
+                        let c='other'; for(const [k,v] of Object.entries(DIC)) if(cl.includes(k)||cl.includes(v.h)) c=v.c;
+                        s.c.push({n:cl, cat:c});
+                    }
+                });
+                upCart(); document.getElementById('imp-box').value=""; toast("יובא בהצלחה");
+            }
         }
-        function comparePrecise(){
-            let q=currentItem.code;
-            if(document.getElementById('p-name').value!==currentItem.name) q=document.getElementById('p-name').value+" מחיר site:.il";
-            window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`,'_blank');
+        function upCart(){
+            localStorage.setItem('vx_c',JSON.stringify(s.c));
+            renDash();
+            // Render List
+            const d = document.getElementById('cart-list'); d.innerHTML="";
+            const gr = {}; s.c.forEach(i=>{ if(!gr[i.cat]) gr[i.cat]=[]; gr[i.cat].push(i); });
+            ['veg','fridge','meat','pantry','home','other'].forEach(k=>{
+                if(gr[k]){
+                    d.innerHTML+=`<div class="aisle"><div class="aisle-h">${AIS[k]}</div>${gr[k].map(i=>`<div class="item"><span>${i.n}</span><span style="color:red" onclick="del('${i.n}')">✕</span></div>`).join('')}</div>`;
+                }
+            });
         }
+        function del(n){ const i=s.c.findIndex(x=>x.n===n); if(i>-1) s.c.splice(i,1); upCart(); }
+        function share(){ window.open(`https://wa.me/?text=${s.c.map(i=>"- "+i.n).join('%0A')}`,'_blank'); }
+
+        // --- DASHBOARD ---
+        function renDash(){
+            const map={cut:'חיטוב',maintain:'שמירה',bulk:'מסה'};
+            document.getElementById('goal-txt').innerText = map[s.u.t];
+            document.getElementById('val-bmr').innerText = s.u.bmr || "--";
+            document.getElementById('val-count').innerText = s.c.length;
+            document.getElementById('badge').innerText = s.c.length;
+            // Fake score logic for demo
+            let sc = 50 + (s.c.filter(x=>x.cat==='veg').length*5);
+            if(sc>100) sc=100;
+            document.getElementById('score-bar').style.width = sc+"%";
+        }
+
+        // --- SYSTEM ---
+        function tog(el){ el.nextElementSibling.classList.toggle('open'); }
+        function openModal(id){ document.getElementById('modal-'+id).classList.add('active'); if(id==='cart') upCart(); if(id==='history') renHist(); }
+        function closeModal(id){ document.getElementById('modal-'+id).classList.remove('active'); }
+        function closeSheet(){ document.getElementById('sheet-wrap').classList.remove('active'); }
+        function toast(m){ const t=document.getElementById('toast'); t.innerText=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }
+        function manualSearch(){ openModal('manual'); }
+        function liveUp(v){ s.curr.n=v; }
+        
+        function resChk(){ document.querySelectorAll('.save').forEach(e=>{ if(localStorage.getItem(e.id)==='true') e.checked=true; e.addEventListener('change',()=>localStorage.setItem(e.id,e.checked)); }); }
+        
+        function renHist(){
+            const d=document.getElementById('hist-list'); d.innerHTML="";
+            s.h.forEach(x=>{ d.innerHTML+=`<div class="hist-item" onclick="closeModal('history');run('${x.c}')"><span>${x.n}</span><span class="grade-badge g-${x.g.replace('+','_PLUS')}" style="font-size:18px;">${x.g}</span></div>`; });
+        }
+        function clrHist(){ s.h=[]; localStorage.removeItem('vx_h'); renHist(); }
+
+        function comp(){ let q=s.curr.c; if(document.getElementById('p-name').value!==s.curr.n) q=document.getElementById('p-name').value+" מחיר site:.il"; window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`,'_blank'); }
+        function alt(){ 
+            let n=document.getElementById('p-name').value.replace(REG,'').trim();
+            if(s.curr.b) n=n.replace(new RegExp(s.curr.b,'gi'),'').trim();
+            window.open(`https://www.google.com/search?q=${encodeURIComponent(n+" קנייה בזול site:.il")}`,'_blank'); 
+        }
+
     </script>
 </body>
 </html>
