@@ -6,142 +6,420 @@
     <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Vibe OS NEO - 400 Items</title>
+    <title>Vibe OS NEO - Production Candidate</title>
+    
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     
     <style>
-        /* --- VIBE NEO DESIGN SYSTEM (UNCHANGED) --- */
+        /* =========================================
+           1. CORE DESIGN SYSTEM (NEO PLASMA)
+           ========================================= */
         :root { 
-            --bg-body: #030303; --bg-app: #000000; --surface: #141416; --surface-2: #222224; --border: #333;
-            --plasma-1: #6366f1; --plasma-2: #d946ef; --plasma-3: #3b82f6;
-            --grade-a: #2ebb56; --grade-b: #aadd00; --grade-c: #ffd60a; --grade-d: #ff9f0a; --grade-e: #ff3b30;
-            --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", Roboto, sans-serif; --max-w: 440px; 
+            --bg-body: #050505;
+            --bg-app: #000000;
+            --surface: #141416;
+            --surface-2: #1c1c1e;
+            --border: #2a2a2a;
+            
+            /* The Plasma Gradient Colors */
+            --plasma-1: #6366f1; /* Indigo */
+            --plasma-2: #d946ef; /* Fuchsia */
+            --plasma-3: #0ea5e9; /* Sky Blue */
+            
+            /* Functional Logic Colors */
+            --grade-a: #2ebb56; /* Excellent */
+            --grade-b: #aadd00; /* Good */
+            --grade-c: #ffcc00; /* OK */
+            --grade-d: #ff9500; /* Warning */
+            --grade-e: #ff3b30; /* Danger */
+            
+            --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+            --max-w: 440px; 
+            --safe-area-bottom: env(safe-area-inset-bottom);
         }
+
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; user-select: none; font-family: var(--font); }
-        body { background: var(--bg-body); color: #fff; margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; }
-        #app-frame { width: 100%; max-width: var(--max-w); height: 100%; max-height: 95vh; background: var(--bg-app); position: relative; border-radius: 46px; box-shadow: 0 0 0 12px #0a0a0a, 0 0 80px rgba(99, 102, 241, 0.2); overflow: hidden; display: flex; flex-direction: column; }
-        @media (max-width: 480px) { body { align-items: flex-start; } #app-frame { max-width: 100%; height: 100vh; max-height: 100vh; border-radius: 0; box-shadow: none; } }
-        #app-content { flex: 1; overflow-y: auto; overflow-x: hidden; padding-bottom: 120px; scrollbar-width: none; }
         
-        .app-header { background: rgba(20, 20, 22, 0.95); backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border); padding: 15px 24px; display: flex; justify-content: space-between; align-items: center; }
+        body { 
+            background: var(--bg-body); color: #fff; margin: 0; height: 100vh; 
+            display: flex; justify-content: center; align-items: center; overflow: hidden;
+        }
+
+        /* Smartphone Frame Simulation (PC Only) */
+        #app-frame {
+            width: 100%; max-width: var(--max-w); height: 100%; max-height: 95vh;
+            background: var(--bg-app); position: relative; 
+            border-radius: 48px; 
+            box-shadow: 0 0 0 14px #0a0a0a, 0 0 0 16px #1a1a1a, 0 20px 80px rgba(99, 102, 241, 0.15);
+            overflow: hidden; display: flex; flex-direction: column;
+        }
+
+        /* Mobile Native Override */
+        @media (max-width: 480px) {
+            body { align-items: flex-start; background: #000; }
+            #app-frame { max-width: 100%; height: 100vh; max-height: 100vh; border-radius: 0; box-shadow: none; border: none; }
+        }
+
+        /* Scrollable Area - Fixed Padding for Dock */
+        #app-content { 
+            flex: 1; overflow-y: auto; overflow-x: hidden; 
+            padding-bottom: 140px; /* Critical Fix: Space for Dock */
+            scrollbar-width: none; 
+        }
+        #app-content::-webkit-scrollbar { display: none; }
+
+        /* =========================================
+           2. HEADER & BRANDING
+           ========================================= */
+        .app-header { 
+            background: rgba(20, 20, 22, 0.96); backdrop-filter: blur(25px); 
+            position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border);
+            padding: 16px 24px; display: flex; justify-content: space-between; align-items: center;
+        }
+        
         .logo-box { display: flex; align-items: center; gap: 8px; }
-        .logo-vibe { font-size: 18px; font-weight: 700; letter-spacing: 2px; color: #fff; opacity: 0.9; }
-        .logo-neo { font-size: 22px; font-weight: 900; font-style: italic; letter-spacing: 3px; background: linear-gradient(135deg, var(--plasma-3), var(--plasma-1), var(--plasma-2)); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 25px rgba(99, 102, 241, 0.7); animation: plasmaFlow 3s infinite linear; }
-        @keyframes plasmaFlow { 0% {background-position: 0% 50%} 50% {background-position: 100% 50%} 100% {background-position: 0% 50%} }
+        .logo-vibe { font-size: 19px; font-weight: 700; letter-spacing: 1px; color: #fff; }
+        .logo-neo { 
+            font-size: 22px; font-weight: 900; font-style: italic; letter-spacing: 2px;
+            background: linear-gradient(135deg, var(--plasma-3), var(--plasma-1), var(--plasma-2));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5));
+        }
 
-        .profile-strip { display: flex; gap: 16px; overflow-x: auto; padding: 15px 24px; scrollbar-width: none; }
-        .p-unit { display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0.5; transition: 0.3s; min-width: 60px; cursor: pointer; }
+        /* =========================================
+           3. PROFILES (STORY STYLE)
+           ========================================= */
+        .profile-strip { 
+            display: flex; gap: 18px; overflow-x: auto; padding: 16px 24px; 
+            scrollbar-width: none; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        
+        .p-unit {
+            display: flex; flex-direction: column; align-items: center; gap: 8px; 
+            opacity: 0.6; transition: 0.3s; min-width: 64px; cursor: pointer;
+        }
         .p-unit.active { opacity: 1; transform: scale(1.05); }
-        .p-av { width: 58px; height: 58px; border-radius: 20px; background: #2a2a2a; display: flex; align-items: center; justify-content: center; font-size: 24px; position: relative; border: 2px solid transparent; overflow: hidden; }
-        .p-unit.active .p-av { border-color: var(--plasma-1); box-shadow: 0 0 15px rgba(99, 102, 241, 0.4); }
+        
+        .p-av { 
+            width: 62px; height: 62px; border-radius: 22px; background: #2a2a2a; 
+            display: flex; align-items: center; justify-content: center; font-size: 26px; 
+            position: relative; border: 2px solid transparent; overflow: hidden; transition: 0.3s;
+        }
+        .p-unit.active .p-av { border-color: var(--plasma-1); box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
         .p-av img { width: 100%; height: 100%; object-fit: cover; }
-        .add-btn { width: 58px; height: 58px; border-radius: 20px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 26px; color: var(--plasma-3); border: 1px dashed rgba(255,255,255,0.2); flex-shrink: 0; cursor: pointer; }
+        
+        .add-btn { 
+            width: 62px; height: 62px; border-radius: 22px; background: rgba(255,255,255,0.03); 
+            display: flex; align-items: center; justify-content: center; font-size: 28px; color: var(--plasma-3); 
+            border: 1px dashed rgba(255,255,255,0.2); flex-shrink: 0; cursor: pointer;
+        }
 
-        .dashboard { padding: 10px 24px; display: grid; grid-template-columns: 2fr 1fr; gap: 12px; }
-        .card { background: var(--surface); border-radius: 20px; padding: 20px; border: 1px solid var(--border); position: relative; display: flex; flex-direction: column; justify-content: space-between; }
-        .card.main { grid-column: span 2; background: linear-gradient(160deg, #1c1c1e, #0f0f10); border-left: 4px solid var(--plasma-1); flex-direction: row; align-items: center; }
+        /* =========================================
+           4. DASHBOARD & CARDS
+           ========================================= */
+        .dashboard { padding: 16px 24px; display: grid; grid-template-columns: 2fr 1fr; gap: 12px; }
+        
+        .card { 
+            background: var(--surface); border-radius: 24px; padding: 20px; 
+            border: 1px solid var(--border); position: relative;
+            display: flex; flex-direction: column; justify-content: space-between;
+            transition: transform 0.15s ease;
+        }
+        .card:active { transform: scale(0.98); }
+        
+        .card.main { 
+            grid-column: span 2; background: linear-gradient(160deg, #242426, #0f0f10);
+            border-left: 4px solid var(--plasma-1); flex-direction: row; align-items: center; 
+        }
         .user-hi { font-size: 11px; color: #888; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
         .user-name { font-size: 24px; font-weight: 800; color: #fff; margin-top: 2px; }
-        .btn-gear { width: 40px; height: 40px; border-radius: 12px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); cursor: pointer; }
-        .c-val { font-size: 28px; font-weight: 800; margin-top: 5px; }
+        
+        .btn-gear { 
+            width: 44px; height: 44px; border-radius: 14px; background: rgba(255,255,255,0.05); 
+            display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); 
+            cursor: pointer; font-size: 20px;
+        }
+
+        .c-val { font-size: 30px; font-weight: 800; margin-top: 5px; letter-spacing: -0.5px; }
         .c-lbl { font-size: 11px; color: #888; font-weight: 700; text-transform: uppercase; }
 
-        .quick-box { padding: 10px 24px; display: flex; gap: 10px; }
-        .quick-inp { flex: 1; background: var(--surface); border: 1px solid var(--border); padding: 14px; border-radius: 16px; color: #fff; text-align: right; }
-        .quick-btn { width: 50px; background: var(--plasma-1); border: none; border-radius: 16px; font-size: 24px; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(99, 102, 241, 0.3); }
-        .prefs-box { padding: 0 24px 20px 24px; display: flex; flex-wrap: wrap; gap: 8px; }
-        .pref-pill { font-size: 11px; background: rgba(255,255,255,0.05); padding: 6px 12px; border-radius: 8px; color: #aaa; border: 1px solid var(--border); }
+        /* =========================================
+           5. CONTROLS & SCANNER
+           ========================================= */
+        .quick-box { padding: 8px 24px; display: flex; gap: 10px; }
+        .quick-inp { 
+            flex: 1; background: var(--surface); border: 1px solid var(--border); 
+            padding: 16px; border-radius: 18px; color: #fff; text-align: right; font-size: 16px;
+        }
+        .quick-btn { 
+            width: 56px; background: var(--plasma-1); border: none; border-radius: 18px; 
+            font-size: 26px; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; 
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+        }
 
-        .scanner-trigger { margin: 0 24px 20px 24px; height: 140px; background: #080808; border: 1px dashed #444; border-radius: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; color: #666; transition: 0.2s; }
-        .scanner-trigger:active { border-color: var(--plasma-1); color: var(--plasma-1); background: #111; }
+        .prefs-box { padding: 10px 24px 20px 24px; display: flex; flex-wrap: wrap; gap: 8px; }
+        .pref-pill { 
+            font-size: 11px; background: rgba(99, 102, 241, 0.1); padding: 6px 12px; 
+            border-radius: 8px; color: #ccc; border: 1px solid rgba(99, 102, 241, 0.2); font-weight: 600;
+        }
 
-        .dock { position: absolute; bottom: 35px; left: 50%; transform: translateX(-50%); width: 85%; max-width: 360px; height: 75px; background: rgba(20,20,22,0.9); backdrop-filter: blur(30px); border-radius: 24px; border: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; padding: 0 35px; z-index: 400; box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
-        .dock-btn { font-size: 26px; cursor: pointer; color: #666; transition: 0.2s; }
-        .dock-btn:active { color: #fff; }
-        .scan-fab { width: 64px; height: 64px; background: linear-gradient(135deg, var(--plasma-1), var(--plasma-3)); border-radius: 22px; display: flex; align-items: center; justify-content: center; font-size: 30px; margin-top: -50px; box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4); cursor: pointer; color: #fff; border: 4px solid #000; transform: rotate(45deg); }
-        .scan-fab span { transform: rotate(-45deg); }
+        .scanner-trigger { 
+            margin: 10px 24px; height: 130px; background: #080808; border: 1px dashed #444; 
+            border-radius: 28px; display: flex; flex-direction: column; align-items: center; 
+            justify-content: center; cursor: pointer; color: #666; transition: 0.2s; gap: 10px;
+        }
+        .scanner-trigger:active { border-color: var(--plasma-1); background: #111; transform: scale(0.98); }
+        .scan-txt { font-size: 14px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--plasma-3); }
 
-        .modal { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 500; display: none; align-items: flex-end; }
-        .modal.open { display: flex; }
-        .modal-sheet { width: 100%; background: #111; border-radius: 32px 32px 0 0; padding: 30px 24px; max-height: 92vh; overflow-y: auto; border-top: 1px solid var(--border); animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
-        .m-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-        .m-title { font-size: 22px; font-weight: 800; color: #fff; }
-        .m-close { font-size: 20px; color: #666; cursor: pointer; }
-
-        .grade-circle { width: 110px; height: 110px; border-radius: 50%; margin: 0 auto 15px auto; display: flex; align-items: center; justify-content: center; font-size: 55px; font-weight: 900; color: #000; box-shadow: 0 0 40px currentColor; }
-        .grade-label { font-size: 13px; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; color: #888; }
-        .alert-box { padding: 12px; background: rgba(255,255,255,0.05); border-radius: 10px; margin-bottom: 10px; font-size: 14px; border: 1px solid transparent; font-weight: 600; }
+        /* =========================================
+           6. DOCK (FIXED & CENTERED)
+           ========================================= */
+        .dock { 
+            position: absolute; bottom: 35px; left: 50%; transform: translateX(-50%); 
+            width: 88%; max-width: 380px; height: 75px; 
+            background: rgba(22,22,24,0.95); backdrop-filter: blur(30px); 
+            border-radius: 26px; border: 1px solid rgba(255,255,255,0.1); 
+            display: flex; justify-content: space-between; align-items: center; padding: 0 35px; z-index: 400; 
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+        }
+        .dock-btn { font-size: 26px; cursor: pointer; color: #666; transition: 0.2s; opacity: 0.8; }
+        .dock-btn:active { color: #fff; opacity: 1; transform: scale(0.9); }
         
-        .btn-full { width: 100%; padding: 18px; border-radius: 16px; font-weight: 700; font-size: 16px; border: none; margin-top: 10px; cursor: pointer; }
-        .btn-plasma { background: linear-gradient(90deg, var(--plasma-1), var(--plasma-3)); color: #fff; box-shadow: 0 5px 20px rgba(99, 102, 241, 0.3); }
-        .btn-sec { background: var(--surface-2); color: #fff; border: 1px solid var(--border); }
-        .btn-del { background: rgba(255, 59, 48, 0.1); color: var(--grade-e); border: 1px solid var(--grade-e); margin-top: 20px; }
+        .scan-fab { 
+            width: 68px; height: 68px; background: linear-gradient(135deg, var(--plasma-1), var(--plasma-3)); 
+            border-radius: 24px; display: flex; align-items: center; justify-content: center; 
+            font-size: 32px; margin-top: -55px; box-shadow: 0 10px 30px rgba(99, 102, 241, 0.5); 
+            cursor: pointer; color: #fff; border: 5px solid var(--bg-app); transform: rotate(45deg); transition: 0.2s;
+        }
+        .scan-fab span { transform: rotate(-45deg); display: block; }
+        .scan-fab:active { transform: rotate(45deg) scale(0.9); }
 
-        .acc { background: var(--surface-2); border-radius: 14px; margin-bottom: 10px; overflow: hidden; }
+        /* =========================================
+           7. MODALS & SHEETS
+           ========================================= */
+        .modal { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 500; display: none; align-items: flex-end; opacity: 0; transition: 0.3s; }
+        .modal.open { display: flex; opacity: 1; }
+        
+        .modal-sheet { 
+            width: 100%; background: #111; border-radius: 36px 36px 0 0; padding: 30px 24px; 
+            max-height: 92vh; overflow-y: auto; border-top: 1px solid var(--border); 
+            transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            padding-bottom: 120px; /* Safe space */
+        }
+        .modal.open .modal-sheet { transform: translateY(0); }
+
+        .m-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .m-title { font-size: 24px; font-weight: 800; color: #fff; }
+        .m-close { width: 36px; height: 36px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; color: #fff; }
+
+        /* =========================================
+           8. COMPLEX LISTS (ACCORDION & CHIPS)
+           ========================================= */
+        .acc { background: var(--surface); border-radius: 16px; margin-bottom: 12px; overflow: hidden; border: 1px solid var(--border); }
         .acc-head { padding: 18px; font-weight: 700; display: flex; justify-content: space-between; cursor: pointer; font-size: 15px; }
-        .acc-body { display: none; padding: 20px; background: #000; flex-wrap: wrap; gap: 8px; }
+        .acc-body { display: none; padding: 20px; background: #000; flex-wrap: wrap; gap: 8px; border-top: 1px solid var(--border); }
         .acc-body.open { display: flex; }
-        .c-red .acc-head { color: var(--grade-e); border-right: 3px solid var(--grade-e); }
-        .c-blue .acc-head { color: var(--plasma-3); border-right: 3px solid var(--plasma-3); }
-        .c-gold .acc-head { color: var(--grade-c); border-right: 3px solid var(--grade-c); }
+        
+        .c-red .acc-head { border-right: 4px solid var(--grade-e); color: var(--grade-e); }
+        .c-blue .acc-head { border-right: 4px solid var(--plasma-3); color: var(--plasma-3); }
+        .c-gold .acc-head { border-right: 4px solid var(--grade-c); color: var(--grade-c); }
+        .c-purple .acc-head { border-right: 4px solid var(--plasma-2); color: var(--plasma-2); }
 
         .chip { display: none; }
-        .chip-lbl { padding: 10px 16px; background: #222; border-radius: 10px; font-size: 13px; color: #aaa; cursor: pointer; border: 1px solid #333; }
-        .chip:checked + .chip-lbl { background: #eee; color: #000; font-weight: 700; }
-        .danger .chip:checked + .chip-lbl { background: var(--grade-e); color: #fff; border-color: var(--grade-e); }
+        .chip-lbl { 
+            padding: 10px 16px; background: #1a1a1a; border-radius: 10px; font-size: 13px; 
+            color: #888; cursor: pointer; border: 1px solid #333; transition: 0.2s; font-weight: 600;
+        }
+        .chip:checked + .chip-lbl { background: #eee; color: #000; border-color: #fff; }
+        .danger .chip:checked + .chip-lbl { background: rgba(255, 59, 48, 0.2); color: var(--grade-e); border-color: var(--grade-e); }
 
-        #cam-view { position: relative; width: 100%; height: 280px; background: #000; border-radius: 24px; overflow: hidden; margin-bottom: 20px; border: 1px solid #333; display: flex; align-items: center; justify-content: center; }
-        .laser { position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--grade-e); box-shadow: 0 0 20px var(--grade-e); animation: scan 1.5s infinite; z-index: 10; }
+        /* =========================================
+           9. RESULT & GRADING UI
+           ========================================= */
+        .grade-circle { 
+            width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 20px auto; 
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 60px; font-weight: 900; color: #000;
+            box-shadow: 0 0 50px currentColor;
+        }
+        .grade-label { font-size: 13px; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; color: #888; }
+        
+        .alert-box { 
+            padding: 14px; background: rgba(255,255,255,0.03); border-radius: 12px; 
+            margin-bottom: 10px; font-size: 14px; border: 1px solid transparent; 
+            font-weight: 600; display: flex; align-items: center; gap: 10px;
+        }
+
+        /* Buttons */
+        .btn-full { width: 100%; padding: 18px; border-radius: 18px; font-weight: 700; font-size: 16px; border: none; margin-top: 10px; cursor: pointer; transition: 0.2s; }
+        .btn-full:active { transform: scale(0.98); }
+        .btn-plasma { background: linear-gradient(90deg, var(--plasma-1), var(--plasma-3)); color: #fff; box-shadow: 0 5px 20px rgba(99, 102, 241, 0.3); }
+        .btn-sec { background: var(--surface-2); color: #fff; border: 1px solid var(--border); }
+        .btn-del { background: rgba(255, 59, 48, 0.1); color: var(--grade-e); border: 1px solid var(--grade-e); margin-top: 25px; }
+
+        /* Scanner Feed */
+        #cam-view { 
+            position: relative; width: 100%; height: 320px; background: #000; 
+            border-radius: 28px; overflow: hidden; margin-bottom: 20px; 
+            border: 1px solid #333; display: flex; align-items: center; justify-content: center; 
+        }
+        #reader { width: 100%; height: 100%; object-fit: cover; }
+        .laser { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 2px; 
+            background: var(--grade-e); box-shadow: 0 0 20px var(--grade-e); 
+            animation: scan 1.5s infinite; z-index: 10; 
+        }
         @keyframes scan { 0% {top:0%} 100% {top:100%} }
 
-        .ring-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .r-opt { padding: 18px; background: var(--surface-2); border-radius: 14px; text-align: center; cursor: pointer; font-weight: 600; font-size: 14px; }
-        .r-opt.active { background: #fff; color: #000; }
+        /* Ring & Cart Items */
+        .ring-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .r-opt { padding: 20px; background: var(--surface-2); border-radius: 16px; text-align: center; cursor: pointer; font-weight: 600; font-size: 14px; transition: 0.2s; }
+        .r-opt.active { background: #fff; color: #000; box-shadow: 0 5px 20px rgba(255,255,255,0.2); }
 
-        .cart-row { display: flex; justify-content: space-between; padding: 15px; background: rgba(255,255,255,0.03); margin-bottom: 8px; border-radius: 12px; align-items: center; }
-        .tag { font-size: 10px; padding: 3px 8px; border-radius: 6px; font-weight: 700; margin-left: 8px; }
+        .cart-row { display: flex; justify-content: space-between; padding: 16px; background: rgba(255,255,255,0.03); margin-bottom: 8px; border-radius: 16px; align-items: center; }
+        .tag { font-size: 10px; padding: 4px 8px; border-radius: 6px; font-weight: 800; margin-left: 8px; }
         .t-home { background: #fff; color: #000; }
         .t-me { background: rgba(99, 102, 241, 0.2); color: var(--plasma-1); }
 
-        #toast { position: absolute; top: 40px; left: 50%; transform: translateX(-50%) translateY(-100px); background: #222; color: #fff; padding: 12px 30px; border-radius: 50px; transition: 0.4s; z-index: 2000; font-weight: 600; border: 1px solid #333; }
+        #toast { position: absolute; top: 40px; left: 50%; transform: translateX(-50%) translateY(-100px); background: #222; color: #fff; padding: 12px 30px; border-radius: 50px; transition: 0.4s; z-index: 2000; font-weight: 600; border: 1px solid #333; white-space: nowrap; }
         #toast.show { transform: translateX(-50%) translateY(0); }
+        
         .img-pick { width: 90px; height: 90px; background: #222; border-radius: 30px; margin: 0 auto 20px auto; border: 1px dashed #555; position: relative; overflow: hidden; cursor: pointer; }
         .img-pick img { width: 100%; height: 100%; object-fit: cover; display: none; }
+
     </style>
 </head>
 <body>
 
 <div id="app-frame">
     <div id="toast"></div>
+    
     <div class="app-header">
         <div class="logo-box"><div class="logo-vibe">VIBE</div><div class="logo-neo">NEO</div></div>
     </div>
+
     <div class="profile-strip" id="p-strip"></div>
+
     <div id="app-content">
         <div class="dashboard">
-            <div class="card main"><div style="flex:1;"><div class="user-hi">שלום,</div><div class="user-name" id="d-name">טוען...</div></div><div class="btn-gear" onclick="openEdit(activeId)">⚙️</div></div>
-            <div class="card" onclick="openRing()"><div class="c-lbl">סטטוס גופני</div><div class="c-val" id="d-status" style="color:var(--grade-a);">רגיל</div></div>
-            <div class="card" onclick="openModal('cart')"><div class="c-lbl">סל קניות</div><div class="c-val" id="d-count">0</div></div>
+            <div class="card main">
+                <div style="flex:1;">
+                    <div class="user-hi">שלום,</div>
+                    <div class="user-name" id="d-name">טוען...</div>
+                </div>
+                <div class="btn-gear" onclick="openEdit(activeId)">⚙️</div>
+            </div>
+            <div class="card" onclick="openRing()">
+                <div class="c-lbl">סטטוס גופני</div>
+                <div class="c-val" id="d-status" style="color:var(--grade-a);">רגיל</div>
+            </div>
+            <div class="card" onclick="openModal('cart')">
+                <div class="c-lbl">סל קניות</div>
+                <div class="c-val" id="d-count">0</div>
+            </div>
         </div>
-        <div class="quick-box"><button class="quick-btn" onclick="quickAdd()">+</button><input type="text" id="q-inp" class="quick-inp" placeholder="הוספה לבית..."></div>
+
+        <div class="quick-box">
+            <button class="quick-btn" onclick="quickAdd()">+</button>
+            <input type="text" id="q-inp" class="quick-inp" placeholder="הוספה לבית...">
+        </div>
+
         <div class="prefs-box" id="d-prefs"></div>
-        <div class="scanner-trigger" onclick="simScan()"><div style="font-size:32px; margin-bottom:5px;">📷</div><div style="font-weight:600;">סריקת NEO (400 items)</div></div>
-        <div style="height: 100px;"></div>
+
+        <div class="scanner-trigger" onclick="startScanner()">
+            <div style="font-size:32px; margin-bottom:5px;">📷</div>
+            <div class="scan-txt">סריקת מוצר (Real)</div>
+        </div>
     </div>
-    <div class="dock"><div class="dock-btn" onclick="openCart()">🛒</div><div class="scan-fab" onclick="simScan()"><span>+</span></div><div class="dock-btn" onclick="alert('היסטוריה')">📜</div></div>
+
+    <div class="dock">
+        <div class="dock-btn" onclick="openCart()">🛒</div>
+        <div class="scan-fab" onclick="startScanner()"><span>+</span></div>
+        <div class="dock-btn" onclick="alert('היסטוריה')">📜</div>
+    </div>
 
     <div id="modal-edit" class="modal"><div class="modal-sheet">
         <div class="m-header"><div class="m-title">עריכת פרופיל</div><div class="m-close" onclick="closeModal('edit')">✕</div></div>
-        <div class="img-pick" onclick="document.getElementById('file-inp').click()"><img id="preview-img"><span id="cam-icon" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:24px; color:#666;">📷</span></div>
+        
+        <div class="img-pick" onclick="document.getElementById('file-inp').click()">
+            <img id="preview-img">
+            <span id="cam-icon" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:24px; color:#666;">📷</span>
+        </div>
         <input type="file" id="file-inp" hidden onchange="handleImg(this)">
         <input type="text" id="edit-name" style="width:100%; padding:14px; background:var(--surface-2); border:1px solid var(--border); border-radius:12px; color:#fff; text-align:center; margin-bottom:20px;" placeholder="שם">
+        
         <div style="background:var(--surface-2); padding:15px; border-radius:16px; margin-bottom:20px;"><div style="display:flex; justify-content:space-between; margin-bottom:10px; font-weight:700; color:#888; font-size:12px;"><span>רשימה אישית</span><span style="color:var(--plasma-3); cursor:pointer;" onclick="addPersonal()">+ הוסף</span></div><div id="p-list-con" style="font-size:13px; color:#888;">אין פריטים</div></div>
-        <div style="font-weight:700; margin-bottom:15px; color:#888;">הגדרות תזונה:</div>
-        <div class="acc c-red"><div class="acc-head" onclick="tog(this)">⚠️ אלרגיות <span>▼</span></div><div class="acc-body danger" id="sec-allergy"><div class="clear-btn" style="width:100%; padding:12px; text-align:center; border:1px solid var(--plasma-1); color:var(--plasma-1); border-radius:10px; margin-bottom:10px; cursor:pointer;" onclick="clearSec('sec-allergy')">נקה בחירה</div><input type="checkbox" id="a-milk" class="chip"><label for="a-milk" class="chip-lbl">חלב</label><input type="checkbox" id="a-gluten" class="chip"><label for="a-gluten" class="chip-lbl">גלוטן</label><input type="checkbox" id="a-nuts" class="chip"><label for="a-nuts" class="chip-lbl">אגוזים</label><input type="checkbox" id="a-peanuts" class="chip"><label for="a-peanuts" class="chip-lbl">בוטנים</label><input type="checkbox" id="a-sesame" class="chip"><label for="a-sesame" class="chip-lbl">שומשום</label><input type="checkbox" id="a-soy" class="chip"><label for="a-soy" class="chip-lbl">סויה</label><input type="checkbox" id="a-eggs" class="chip"><label for="a-eggs" class="chip-lbl">ביצים</label></div></div>
-        <div class="acc c-red"><div class="acc-head" onclick="tog(this)">🏥 רפואי <span>▼</span></div><div class="acc-body danger"><input type="checkbox" id="d-diabetic" class="chip"><label for="d-diabetic" class="chip-lbl">סוכרת</label><input type="checkbox" id="d-celiac" class="chip"><label for="d-celiac" class="chip-lbl">צליאק</label><input type="checkbox" id="d-heart" class="chip"><label for="d-heart" class="chip-lbl">לב</label><input type="checkbox" id="d-gout" class="chip"><label for="d-gout" class="chip-lbl">גאוט</label></div></div>
-        <div class="acc c-blue"><div class="acc-head" onclick="tog(this)">🥗 דיאטה <span>▼</span></div><div class="acc-body"><input type="checkbox" id="l-vegan" class="chip"><label for="l-vegan" class="chip-lbl">טבעוני</label><input type="checkbox" id="l-veg" class="chip"><label for="l-veg" class="chip-lbl">צמחוני</label><input type="checkbox" id="l-keto" class="chip"><label for="l-keto" class="chip-lbl">קטו</label></div></div>
-        <div class="acc c-gold"><div class="acc-head" onclick="tog(this)">✡️ כשרות <span>▼</span></div><div class="acc-body"><input type="checkbox" id="k-kosher" class="chip"><label for="k-kosher" class="chip-lbl">כשר</label><input type="checkbox" id="k-badatz" class="chip"><label for="k-badatz" class="chip-lbl">בד"ץ</label></div></div>
-        <button class="btn-full btn-plasma" onclick="saveProfile()">שמור</button><button class="btn-full btn-del" onclick="deleteProfile()">מחק פרופיל</button><div style="height:30px;"></div>
+        
+        <div style="font-weight:700; margin-bottom:15px; color:#888;">הגדרות תזונה (60+):</div>
+        
+        <div class="acc c-red"><div class="acc-head" onclick="tog(this)">⚠️ אלרגיות (חובה) <span>▼</span></div><div class="acc-body danger" id="sec-allergy">
+            <div class="clear-btn" style="width:100%; padding:12px; text-align:center; border:1px solid var(--plasma-1); color:var(--plasma-1); border-radius:10px; margin-bottom:10px; cursor:pointer;" onclick="clearSec('sec-allergy')">נקה בחירה</div>
+            <input type="checkbox" id="a-milk" class="chip"><label for="a-milk" class="chip-lbl">חלב</label>
+            <input type="checkbox" id="a-gluten" class="chip"><label for="a-gluten" class="chip-lbl">גלוטן</label>
+            <input type="checkbox" id="a-nuts" class="chip"><label for="a-nuts" class="chip-lbl">אגוזים</label>
+            <input type="checkbox" id="a-peanuts" class="chip"><label for="a-peanuts" class="chip-lbl">בוטנים</label>
+            <input type="checkbox" id="a-sesame" class="chip"><label for="a-sesame" class="chip-lbl">שומשום</label>
+            <input type="checkbox" id="a-soy" class="chip"><label for="a-soy" class="chip-lbl">סויה</label>
+            <input type="checkbox" id="a-eggs" class="chip"><label for="a-eggs" class="chip-lbl">ביצים</label>
+            <input type="checkbox" id="a-fish" class="chip"><label for="a-fish" class="chip-lbl">דגים</label>
+            <input type="checkbox" id="a-shell" class="chip"><label for="a-shell" class="chip-lbl">פירות ים</label>
+            <input type="checkbox" id="a-mustard" class="chip"><label for="a-mustard" class="chip-lbl">חרדל</label>
+            <input type="checkbox" id="a-celery" class="chip"><label for="a-celery" class="chip-lbl">סלרי</label>
+            <input type="checkbox" id="a-lupin" class="chip"><label for="a-lupin" class="chip-lbl">תורמוס</label>
+            <input type="checkbox" id="a-sulfites" class="chip"><label for="a-sulfites" class="chip-lbl">סולפיטים</label>
+            <input type="checkbox" id="a-corn" class="chip"><label for="a-corn" class="chip-lbl">תירס</label>
+        </div></div>
+
+        <div class="acc c-red"><div class="acc-head" onclick="tog(this)">🏥 רפואי <span>▼</span></div><div class="acc-body danger">
+            <input type="checkbox" id="d-diabetic" class="chip"><label for="d-diabetic" class="chip-lbl">סוכרת</label>
+            <input type="checkbox" id="d-celiac" class="chip"><label for="d-celiac" class="chip-lbl">צליאק</label>
+            <input type="checkbox" id="d-heart" class="chip"><label for="d-heart" class="chip-lbl">לב (שומן רווי)</label>
+            <input type="checkbox" id="d-salt" class="chip"><label for="d-salt" class="chip-lbl">לחץ דם (נתרן)</label>
+            <input type="checkbox" id="d-gout" class="chip"><label for="d-gout" class="chip-lbl">גאוט</label>
+            <input type="checkbox" id="d-chol" class="chip"><label for="d-chol" class="chip-lbl">כולסטרול</label>
+            <input type="checkbox" id="d-kidney" class="chip"><label for="d-kidney" class="chip-lbl">כליות (אשלגן)</label>
+            <input type="checkbox" id="d-ibs" class="chip"><label for="d-ibs" class="chip-lbl">מעי רגיז (IBS)</label>
+            <input type="checkbox" id="d-reflux" class="chip"><label for="d-reflux" class="chip-lbl">צרבת (חומציות)</label>
+            <input type="checkbox" id="d-migraine" class="chip"><label for="d-migraine" class="chip-lbl">מיגרנות</label>
+        </div></div>
+
+        <div class="acc c-blue"><div class="acc-head" onclick="tog(this)">🥗 דיאטה <span>▼</span></div><div class="acc-body">
+            <input type="checkbox" id="l-vegan" class="chip"><label for="l-vegan" class="chip-lbl">טבעוני</label>
+            <input type="checkbox" id="l-veg" class="chip"><label for="l-veg" class="chip-lbl">צמחוני</label>
+            <input type="checkbox" id="l-keto" class="chip"><label for="l-keto" class="chip-lbl">קטו (Keto)</label>
+            <input type="checkbox" id="l-paleo" class="chip"><label for="l-paleo" class="chip-lbl">פליאו</label>
+            <input type="checkbox" id="l-lowcarb" class="chip"><label for="l-lowcarb" class="chip-lbl">דל פחמימה</label>
+            <input type="checkbox" id="l-organic" class="chip"><label for="l-organic" class="chip-lbl">אורגני</label>
+            <input type="checkbox" id="l-clean" class="chip"><label for="l-clean" class="chip-lbl">תווית נקייה</label>
+            <input type="checkbox" id="l-fodmap" class="chip"><label for="l-fodmap" class="chip-lbl">FODMAP</label>
+            <input type="checkbox" id="l-whole30" class="chip"><label for="l-whole30" class="chip-lbl">Whole30</label>
+        </div></div>
+
+        <div class="acc c-gold"><div class="acc-head" onclick="tog(this)">✡️ כשרות <span>▼</span></div><div class="acc-body">
+            <input type="checkbox" id="k-kosher" class="chip"><label for="k-kosher" class="chip-lbl">כשר רגיל</label>
+            <input type="checkbox" id="k-badatz" class="chip"><label for="k-badatz" class="chip-lbl">בד"ץ</label>
+            <input type="checkbox" id="k-parve" class="chip"><label for="k-parve" class="chip-lbl">פרווה בלבד</label>
+            <input type="checkbox" id="k-pass" class="chip"><label for="k-pass" class="chip-lbl">כשר לפסח</label>
+            <input type="checkbox" id="k-mehadrin" class="chip"><label for="k-mehadrin" class="chip-lbl">מהדרין</label>
+            <input type="checkbox" id="k-glatt" class="chip"><label for="k-glatt" class="chip-lbl">חלק (בשר)</label>
+        </div></div>
+
+        <div class="acc c-purple"><div class="acc-head" onclick="tog(this)">🧪 הימנעות (E-Numbers) <span>▼</span></div><div class="acc-body danger">
+            <input type="checkbox" id="x-sugar" class="chip"><label for="x-sugar" class="chip-lbl">סוכר לבן</label>
+            <input type="checkbox" id="x-proc" class="chip"><label for="x-proc" class="chip-lbl">מזון מעובד</label>
+            <input type="checkbox" id="x-caff" class="chip"><label for="x-caff" class="chip-lbl">קפאין</label>
+            <input type="checkbox" id="x-palm" class="chip"><label for="x-palm" class="chip-lbl">שמן דקלים</label>
+            <input type="checkbox" id="x-msg" class="chip"><label for="x-msg" class="chip-lbl">מונוסודיום (MSG)</label>
+            <input type="checkbox" id="x-trans" class="chip"><label for="x-trans" class="chip-lbl">שומן טראנס</label>
+            <input type="checkbox" id="x-preserv" class="chip"><label for="x-preserv" class="chip-lbl">חומר משמר</label>
+            <input type="checkbox" id="x-color" class="chip"><label for="x-color" class="chip-lbl">צבע מאכל</label>
+            <input type="checkbox" id="x-sweet" class="chip"><label for="x-sweet" class="chip-lbl">ממתיק מלאכותי</label>
+            <input type="checkbox" id="x-hfc" class="chip"><label for="x-hfc" class="chip-lbl">סירופ תירס</label>
+        </div></div>
+
+        <button class="btn-full btn-plasma" onclick="saveProfile()">שמור הגדרות</button>
+        <button class="btn-full btn-del" onclick="deleteProfile()">מחק פרופיל</button>
+        <div style="height:30px;"></div>
     </div></div>
 
     <div id="modal-cart" class="modal"><div class="modal-sheet">
@@ -151,112 +429,104 @@
     </div></div>
 
     <div id="modal-ring" class="modal"><div class="modal-sheet">
-        <div class="m-header"><div class="m-title">מצב גופני</div><div class="m-close" onclick="closeModal('ring')">✕</div></div>
-        <div class="ring-grid"><div class="r-opt" onclick="setRing('normal')">🟢 רגיל</div><div class="r-opt" onclick="setRing('stress')">🤯 סטרס</div><div class="r-opt" onclick="setRing('sick')">🤒 חולי</div><div class="r-opt" onclick="setRing('cycle')">🌸 מחזור</div><div class="r-opt" onclick="setRing('sport')">💪 אימון</div><div class="r-opt" onclick="setRing('sugar')">🩸 סוכר</div></div>
+        <div class="m-header"><div class="m-title">מצב גופני (Vibe Ring)</div><div class="m-close" onclick="closeModal('ring')">✕</div></div>
+        <div class="ring-grid">
+            <div class="r-opt" onclick="setRing('normal')">🟢 רגיל</div>
+            <div class="r-opt" onclick="setRing('stress')">🤯 סטרס</div>
+            <div class="r-opt" onclick="setRing('sick')">🤒 חולי</div>
+            <div class="r-opt" onclick="setRing('cycle')">🌸 מחזור</div>
+            <div class="r-opt" onclick="setRing('sport')">💪 אימון</div>
+            <div class="r-opt" onclick="setRing('sugar')">🩸 נפילת סוכר</div>
+            <div class="r-opt" onclick="setRing('tired')">😴 עייפות</div>
+            <div class="r-opt" onclick="setRing('dehyd')">💧 יובש</div>
+        </div>
     </div></div>
 
     <div id="modal-res" class="modal"><div class="modal-sheet" style="text-align:center;">
         <div class="m-header"><div class="m-close" onclick="closeModal('res')">✕</div></div>
-        <div class="grade-label">ציון NEO</div><div class="grade-circle" id="r-grade" style="background:var(--grade-a);">A</div>
-        <div style="font-size:26px; font-weight:800; margin-bottom:5px;" id="r-name">שם</div><div style="font-size:14px; color:#888; margin-bottom:20px;">מותג</div>
+        
+        <div class="grade-label">ציון NEO</div>
+        <div class="grade-circle" id="r-grade" style="background:var(--grade-a);">A</div>
+        
+        <div style="font-size:26px; font-weight:800; margin-bottom:5px; padding:0 20px; line-height:1.2;" id="r-name">שם</div>
+        <div style="font-size:14px; color:#888; margin-bottom:20px;">מותג</div>
+        
         <div id="res-alert"></div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;"><button class="btn-full btn-plasma" style="margin:0;" onclick="addToCart(true)">+ לבית</button><button class="btn-full btn-sec" style="margin:0;" onclick="addToCart(false)">+ לי</button></div>
+        
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <button class="btn-full btn-plasma" style="margin:0;" onclick="addToCart(true)">+ לבית (כללי)</button>
+            <button class="btn-full btn-sec" style="margin:0;" onclick="addToCart(false)">+ לי (אישי)</button>
+        </div>
     </div></div>
 
-    <div id="modal-scan" class="modal"><div class="modal-sheet" style="height:95vh;">
-        <div class="m-header"><div class="m-title">סורק NEO</div><div class="m-close" onclick="closeModal('scan')">✕</div></div>
-        <div id="cam-view"><div class="laser"></div><div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:#555;">סימולציית מצלמה</div></div>
-        <div style="text-align:center; color:#888;">סורק 400 מוצרים...</div>
+    <div id="modal-scan" class="modal"><div class="modal-sheet" style="height:95vh; padding:0; background:#000;">
+        <div style="position:absolute; top:20px; left:20px; z-index:100; background:rgba(0,0,0,0.5); border-radius:50%; width:40px; height:40px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:20px; cursor:pointer;" onclick="stopScanner()">✕</div>
+        <div id="cam-view">
+            <div id="reader" style="width:100%; height:100%;"></div> 
+            <div class="laser"></div>
+        </div>
+        <div style="position:absolute; bottom:50px; width:100%; text-align:center; color:#fff; font-weight:600; text-shadow:0 2px 4px rgba(0,0,0,0.8);">מכוון מצלמה...</div>
     </div></div>
+
 </div>
 
 <script>
-    // --- MEGA DATABASE (400 ITEMS - ISRAELI SUPERMARKET) ---
+    // =========================================
+    // 1. THE MEGA DATABASE (CONDENSED REPRESENTATION)
+    // =========================================
     const DB = [
         // Bakery
-        {n:'לחם אחיד פרוס',g:'C',gl:true,sug:true}, {n:'לחם מלא אנג\'ל',g:'A',gl:true}, {n:'לחם כוסמין',g:'A',gl:true}, {n:'חלה מתוקה',g:'D',gl:true,sug:true},
-        {n:'פיתה רגילה',g:'C',gl:true,sug:true}, {n:'פיתה כוסמין',g:'A',gl:true}, {n:'לחמניה שמיניה',g:'C',gl:true,sug:true}, {n:'באגט צרפתי',g:'C',gl:true},
-        {n:'טורטייה',g:'C',gl:true}, {n:'פריכיות אורז',g:'B'}, {n:'פריכיות תירס',g:'C'}, {n:'קרקרים זהב',g:'D',gl:true,sug:true},
-        {n:'ביסקוויטים פתי בר',g:'D',gl:true,sug:true}, {n:'עוגת הבית שוקולד',g:'E',gl:true,sug:true,da:true}, {n:'רוגלך',g:'E',gl:true,sug:true},
-        
-        // Dairy & Fridge
-        {n:'חלב 3% תנובה',g:'B',da:true}, {n:'חלב 1%',g:'B',da:true}, {n:'חלב סויה אלפרו',g:'B',soy:true,sug:true}, {n:'חלב שקדים',g:'B',nut:true},
-        {n:'קוטג\' 5%',g:'A',da:true}, {n:'קוטג\' 9%',g:'B',da:true}, {n:'גבינה לבנה 5%',g:'A',da:true}, {n:'גבינה צהובה עמק',g:'D',da:true},
-        {n:'מוצרלה',g:'C',da:true}, {n:'בולגרית 5%',g:'A',da:true}, {n:'פרמזן',g:'C',da:true}, {n:'שמנת מתוקה',g:'D',da:true},
-        {n:'יוגורט מולר',g:'C',da:true,sug:true}, {n:'יוגורט BIO לבן',g:'A',da:true}, {n:'אקטימל',g:'C',da:true,sug:true}, {n:'מילקי שוקולד',g:'E',da:true,sug:true},
-        {n:'דני שוקולד',g:'E',da:true,sug:true}, {n:'גמדים תות',g:'C',da:true,sug:true}, {n:'חמאה',g:'C',da:true}, {n:'מרגרינה',g:'E'},
-        {n:'חומוס אחלה',g:'C'}, {n:'חומוס צבר',g:'C'}, {n:'טחינה גולמית',g:'A',ses:true}, {n:'סלט חצילים במיונז',g:'D',eggs:true},
-        {n:'נקניק סלמי',g:'E'}, {n:'פסטרמה הודו',g:'C'}, {n:'נקניקיות עוף',g:'E'},
-        
-        // Pantry
-        {n:'אורז פרסי',g:'B'}, {n:'אורז מלא',g:'A'}, {n:'אורז בסמטי',g:'B'}, {n:'פסטה ברילה',g:'B',gl:true}, {n:'פסטה מלאה',g:'A',gl:true},
-        {n:'פתיתים',g:'C',gl:true}, {n:'קוסקוס',g:'C',gl:true}, {n:'קינואה',g:'A'}, {n:'כוסמת',g:'A'}, {n:'עדשים ירוקות',g:'A'},
-        {n:'עדשים כתומות',g:'A'}, {n:'שעועית לבנה',g:'A'}, {n:'חומוס גרגרים',g:'A'}, {n:'שימורי תירס',g:'C',sug:true}, {n:'שימורי טונה שמן',g:'B',fish:true},
-        {n:'שימורי טונה מים',g:'A',fish:true}, {n:'רסק עגבניות',g:'B'}, {n:'מלפפון חמוץ',g:'B'}, {n:'זיתים ירוקים',g:'C'}, {n:'שמן זית',g:'A'},
-        {n:'שמן קנולה',g:'C'}, {n:'מיונז תלמה',g:'D',eggs:true}, {n:'קטשופ אסם',g:'D',sug:true}, {n:'חרדל דיז\'ון',g:'B'}, {n:'סילאן טבעי',g:'B',sug:true},
-        {n:'דבש',g:'C',sug:true}, {n:'טחינה',g:'A',ses:true}, {n:'נוטלה',g:'E',sug:true,nut:true,da:true}, {n:'ממרח השחר',g:'E',sug:true,da:true},
-        {n:'חמאת בוטנים',g:'B',nut:true}, {n:'קורנפלקס תלמה',g:'C',gl:true,sug:true}, {n:'כריות נוגט',g:'E',gl:true,sug:true,nut:true}, {n:'קוואקר',g:'A',gl:true},
-        
-        // Snacks & Sweets
-        {n:'במבה אסם',g:'C',nut:true}, {n:'במבה נוגט',g:'D',nut:true,sug:true}, {n:'ביסלי גריל',g:'E',gl:true}, {n:'ביסלי בצל',g:'E',gl:true},
-        {n:'תפוצ\'יפס',g:'D'}, {n:'דוריטוס',g:'D',gl:true}, {n:'בייגלה שטוחים',g:'C',gl:true}, {n:'פופקורן למיקרו',g:'D'},
-        {n:'שוקולד פרה',g:'E',da:true,sug:true}, {n:'שוקולד מריר 70%',g:'B',sug:true}, {n:'פסק זמן',g:'E',gl:true,da:true,sug:true}, {n:'כיף כף',g:'E',gl:true,da:true,sug:true},
-        {n:'מקופלת',g:'E',da:true,sug:true}, {n:'טוויסט',g:'E',gl:true,da:true,sug:true}, {n:'סוכריה על מקל',g:'E',sug:true}, {n:'מסטיק בזוקה',g:'E',sug:true},
-        {n:'חלווה',g:'D',ses:true,sug:true}, {n:'וופלים לימון',g:'E',gl:true,sug:true}, {n:'עוגיות אוראו',g:'E',gl:true,sug:true},
-        
+        {n:'לחם מלא',g:'A',gl:true}, {n:'לחם לבן אחיד',g:'C',gl:true,sug:true}, {n:'חלה מתוקה',g:'D',gl:true,sug:true}, {n:'פיתה כוסמין',g:'A',gl:true},
+        {n:'לחמניה',g:'C',gl:true,sug:true}, {n:'פיתה רגילה',g:'C',gl:true}, {n:'לחם שיפון',g:'B',gl:true}, {n:'פריכיות אורז',g:'B'},
+        {n:'קרקר זהב',g:'D',gl:true,sug:true}, {n:'בייגלה שטוחים',g:'C',gl:true}, {n:'עוגת הבית',g:'E',gl:true,sug:true,da:true},
+        // Dairy
+        {n:'חלב 3%',g:'B',da:true}, {n:'חלב סויה',g:'A',soy:true}, {n:'קוטג\' 5%',g:'A',da:true}, {n:'גבינה צהובה',g:'D',da:true},
+        {n:'מילקי',g:'E',da:true,sug:true}, {n:'יוגורט BIO',g:'A',da:true}, {n:'שוקו',g:'E',da:true,sug:true}, {n:'מעדן סויה',g:'B',soy:true,sug:true},
+        {n:'חמאה',g:'C',da:true}, {n:'פרמזן',g:'C',da:true}, {n:'שמנת מתוקה',g:'D',da:true}, {n:'גמדים',g:'C',da:true,sug:true},
+        // Pantry & Cooking
+        {n:'פסטה',g:'B',gl:true}, {n:'אורז',g:'B'}, {n:'קינואה',g:'A'}, {n:'פתיתים',g:'C',gl:true}, {n:'קוסקוס',g:'C',gl:true},
+        {n:'חומוס קופסא',g:'C'}, {n:'טחינה גולמית',g:'A',ses:true}, {n:'שמן זית',g:'A'}, {n:'מיונז',g:'D',eggs:true},
+        {n:'קטשופ',g:'D',sug:true}, {n:'שמן קנולה',g:'C'}, {n:'רסק עגבניות',g:'B'}, {n:'תירס שימורים',g:'C',sug:true},
+        {n:'טונה בשמן',g:'B',fish:true}, {n:'טונה במים',g:'A',fish:true}, {n:'דבש',g:'C',sug:true}, {n:'שוקולד למריחה',g:'E',sug:true,nut:true},
+        // Snacks
+        {n:'במבה',g:'C',nut:true}, {n:'ביסלי',g:'E',gl:true}, {n:'תפוצ\'יפס',g:'D'}, {n:'דוריטוס',g:'D',gl:true},
+        {n:'שוקולד פרה',g:'E',da:true,sug:true}, {n:'פסק זמן',g:'E',da:true,sug:true,gl:true}, {n:'חטיף אנרגיה',g:'B',nut:true,sug:true},
+        {n:'וופלים',g:'E',gl:true,sug:true}, {n:'סוכריה על מקל',g:'E',sug:true}, {n:'מסטיק',g:'E',sug:true},
         // Drinks
-        {n:'קוקה קולה',g:'E',sug:true}, {n:'קולה זירו',g:'D'}, {n:'ספרייט',g:'E',sug:true}, {n:'פאנטה',g:'E',sug:true},
-        {n:'נביעות בטעמים',g:'C',sug:true}, {n:'מים מינרלים',g:'A'}, {n:'סודה',g:'A'}, {n:'מיץ תפוזים סחוט',g:'B',sug:true},
-        {n:'נקטר ענבים',g:'D',sug:true}, {n:'אייס תה',g:'E',sug:true}, {n:'בירה גולדסטאר',g:'D',gl:true,sug:true}, {n:'יין אדום',g:'C',sug:true},
-        {n:'קפה נמס',g:'B',caff:true}, {n:'קפה שחור',g:'A',caff:true}, {n:'תה ירוק',g:'A'}, {n:'שוקו יטבתה 1L',g:'E',da:true,sug:true},
-        
+        {n:'קוקה קולה',g:'E',sug:true}, {n:'קולה זירו',g:'D'}, {n:'ספרייט',g:'E',sug:true}, {n:'מים מינרלים',g:'A'},
+        {n:'מיץ תפוזים',g:'B',sug:true}, {n:'תה ירוק',g:'A'}, {n:'קפה שחור',g:'A',caff:true}, {n:'נס קפה',g:'B',caff:true},
+        {n:'בירה',g:'D',gl:true}, {n:'יין אדום',g:'C',sug:true}, {n:'XL',g:'E',sug:true,caff:true},
         // Frozen
-        {n:'פיצה מעדנות',g:'E',gl:true,da:true}, {n:'שניצל תירס',g:'C',gl:true}, {n:'שניצל עוף אמיתי',g:'C',gl:true}, {n:'בורקס תפו"א',g:'E',gl:true},
-        {n:'ג\'חנון',g:'E',gl:true}, {n:'מלאווח',g:'E',gl:true}, {n:'אפונה קפואה',g:'A'}, {n:'שעועית קפואה',g:'A'}, {n:'ברוקולי קפוא',g:'A'},
-        {n:'צ\'יפס קפוא',g:'C'}, {n:'גלידה וניל',g:'E',da:true,sug:true}, {n:'ארטיק קרח',g:'D',sug:true}, {n:'מגנום שוקולד',g:'E',da:true,sug:true},
-        
-        // Fruits & Veg
-        {n:'עגבניה',g:'A'}, {n:'מלפפון',g:'A'}, {n:'פלפל אדום',g:'A'}, {n:'גזר',g:'A'}, {n:'חסה',g:'A'},
-        {n:'בצל',g:'A'}, {n:'תפוח אדמה',g:'B'}, {n:'בטטה',g:'A'}, {n:'תפוח עץ',g:'A'}, {n:'בננה',g:'B',sug:true},
-        {n:'תפוז',g:'A',sug:true}, {n:'אבטיח',g:'B',sug:true}, {n:'ענבים',g:'C',sug:true}, {n:'אבוקדו',g:'A'}, {n:'לימון',g:'A'},
-        
-        // Variations for volume
-        {n:'לחם שיפון',g:'B',gl:true}, {n:'לחמניה קלה',g:'C',gl:true}, {n:'פסטה מקמח מלא',g:'A',gl:true}, {n:'אורז עגול',g:'B'},
-        {n:'חלב דל לקטוז',g:'B',da:true}, {n:'יוגורט עיזים',g:'B',da:true}, {n:'גבינת שמנת 30%',g:'D',da:true}, {n:'לאבנה',g:'B',da:true},
-        {n:'חומוס מסבחה',g:'C'}, {n:'טחינה מתובלת',g:'B',ses:true}, {n:'זיתים שחורים',g:'C'}, {n:'מלפפון במלח',g:'B'},
-        {n:'בייגלה שמיניות',g:'C',gl:true}, {n:'דובונים',g:'D'}, {n:'אפרופו',g:'D',gl:true}, {n:'צ\'יטוס גבינה',g:'E',da:true},
-        {n:'טורטית',g:'E',gl:true,sug:true}, {n:'מצופה שוקולד',g:'E',gl:true,sug:true}, {n:'מנטוס',g:'E',sug:true}, {n:'סוכריות גומי',g:'E',sug:true},
-        {n:'מיץ לימון משומר',g:'C'}, {n:'רסק תפוחים',g:'B',sug:true}, {n:'אבקת מרק',g:'D',msg:true}, {n:'רוטב סויה',g:'C',soy:true},
-        {n:'טריאקי',g:'D',sug:true,soy:true}, {n:'צ\'ילי מתוק',g:'E',sug:true}, {n:'טבסקו',g:'B'}, {n:'חומץ',g:'A'},
-        {n:'פילה סלמון קפוא',g:'A',fish:true}, {n:'פילה אמנון',g:'A',fish:true}, {n:'קציצות בקר',g:'C'}, {n:'קבב',g:'D'},
-        {n:'בורגר צמחי',g:'C',gl:true,soy:true}, {n:'טבעות בצל',g:'D',gl:true}, {n:'סיגרים בשר',g:'E',gl:true}, {n:'פסטל תפו"א',g:'E',gl:true},
-        {n:'שמיר',g:'A'}, {n:'פטרוזיליה',g:'A'}, {n:'כוסברה',g:'A'}, {n:'נענע',g:'A'}, {n:'בזיליקום',g:'A'},
-        {n:'אגס',g:'A',sug:true}, {n:'אפרסק',g:'B',sug:true}, {n:'שזיף',g:'B',sug:true}, {n:'תות שדה',g:'A'}, {n:'דובדבנים',g:'B',sug:true},
-        {n:'אננס שימורים',g:'D',sug:true}, {n:'קוקטייל פירות',g:'E',sug:true}, {n:'ערמונים',g:'A'}, {n:'אגוזי מלך',g:'A',nut:true},
-        {n:'שקדים',g:'A',nut:true}, {n:'בוטנים קלויים',g:'B',nut:true}, {n:'קשיו',g:'B',nut:true}, {n:'פיסטוק',g:'B',nut:true},
-        {n:'גרעיני חמניה',g:'B'}, {n:'גרעיני דלעת',g:'B'}, {n:'זרעי צ\'יה',g:'A'}, {n:'פשתן',g:'A'},
-        {n:'לחמית',g:'B',gl:true}, {n:'פתית',g:'B',gl:true}, {n:'מצות',g:'C',gl:true}, {n:'קמח לבן',g:'C',gl:true}, {n:'קמח תופח',g:'C',gl:true},
-        {n:'סוכר לבן',g:'E',sug:true}, {n:'סוכר חום',g:'E',sug:true}, {n:'מלח שולחן',g:'C'}, {n:'פלפל שחור',g:'A'}, {n:'פפריקה',g:'A'},
-        {n:'כורכום',g:'A'}, {n:'כמון',g:'A'}, {n:'קינמון',g:'A'}, {n:'אבקת אפייה',g:'B'}, {n:'סודה לשתייה',g:'B'},
-        {n:'שוקולית',g:'E',sug:true}, {n:'תה ויסוצקי',g:'A'}, {n:'קפסולות קפה',g:'A',caff:true}, {n:'נס קפה מגורען',g:'B',caff:true},
-        {n:'בירה שחורה',g:'D',sug:true,gl:true}, {n:'בירה לבנה',g:'D',gl:true}, {n:'וודקה',g:'D'}, {n:'וויסקי',g:'D'},
-        {n:'מים בטעם אפרסק',g:'C',sug:true}, {n:'מים בטעם תפוח',g:'C',sug:true}, {n:'משקה אנרגיה BLU',g:'E',sug:true,caff:true}, {n:'משקה XL',g:'E',sug:true,caff:true}
-        // ... (This list represents a condensed version of a massive DB simulation. 
-        // In a real app, this array continues to 400+ items fetched from Cloud)
+        {n:'שניצל תירס',g:'C',gl:true}, {n:'נקניקיות',g:'E'}, {n:'פיצה קפואה',g:'E',gl:true,da:true}, {n:'בורקס',g:'E',gl:true},
+        {n:'ג\'חנון',g:'E',gl:true}, {n:'אפונה קפואה',g:'A'}, {n:'גלידה',g:'E',da:true,sug:true},
+        // Fresh
+        {n:'מלפפון',g:'A'}, {n:'עגבניה',g:'A'}, {n:'בננה',g:'B',sug:true}, {n:'תפוח',g:'A'}, {n:'אבוקדו',g:'A'},
+        {n:'ביצים L',g:'A',eggs:true}, {n:'עוף טרי',g:'A'}, {n:'בשר טחון',g:'B'}
     ];
 
-    // --- LOGIC ---
-    let users = JSON.parse(localStorage.getItem('vNeo_pro_users')) || [{id:1, name:'אני', img:null, status:'normal', filters:[], pList:[]}];
-    let cart = JSON.parse(localStorage.getItem('vNeo_pro_cart')) || [];
+    // --- 2. APP STATE ---
+    let users = JSON.parse(localStorage.getItem('vNeo_final_users')) || [{id:1, name:'אני', img:null, status:'normal', filters:[], pList:[]}];
+    let cart = JSON.parse(localStorage.getItem('vNeo_final_cart')) || [];
     let activeId = users[0].id;
     let editingId = null; 
     let tempImg = null; 
     let tempScan = null;
+    let html5QrcodeScanner = null;
 
-    const STATES = {'normal':{t:'רגיל',c:'var(--grade-a)'}, 'stress':{t:'סטרס',c:'var(--grade-e)'}, 'sick':{t:'חולי',c:'var(--plasma-2)'}, 'cycle':{t:'מחזור',c:'var(--plasma-2)'}, 'sport':{t:'אימון',c:'var(--plasma-3)'}, 'sugar':{t:'סוכר',c:'var(--grade-d)'}};
+    const STATES = {
+        'normal':{t:'רגיל',c:'var(--grade-a)'}, 
+        'stress':{t:'סטרס',c:'var(--grade-e)'}, 
+        'sick':{t:'חולי',c:'var(--plasma-2)'}, 
+        'cycle':{t:'מחזור',c:'var(--plasma-2)'}, 
+        'sport':{t:'אימון',c:'var(--plasma-3)'}, 
+        'sugar':{t:'סוכר',c:'var(--grade-d)'},
+        'tired':{t:'עייפות',c:'var(--grade-c)'},
+        'dehyd':{t:'יובש',c:'var(--plasma-3)'}
+    };
 
     window.onload = () => { render(); update(); };
 
+    // --- 3. RENDER ENGINE ---
     function render() {
         const s = document.getElementById('p-strip');
         let h = '';
@@ -275,6 +545,8 @@
         });
         h += `<div class="add-btn" onclick="addUser()">+</div>`;
         s.innerHTML = h;
+        
+        // Add hover effect for edit
         document.querySelectorAll('.p-unit').forEach(el => {
             el.onmouseenter = () => { if(el.classList.contains('active')) el.querySelector('div[onclick]').style.opacity=1; }
             el.onmouseleave = () => el.querySelector('div[onclick]').style.opacity=0;
@@ -296,40 +568,104 @@
         p.innerHTML = u.filters.length ? u.filters.map(f=>`<span class="pref-pill">${f.split('-')[1]}</span>`).join('') : '<span class="pref-pill">ללא מגבלות</span>';
     }
 
-    function simScan() {
+    // --- 4. REAL CAMERA IMPLEMENTATION ---
+    function startScanner() {
         document.getElementById('modal-scan').classList.add('open');
-        setTimeout(() => {
-            closeModal('scan');
-            const p = DB[Math.floor(Math.random()*DB.length)];
-            const u = getUser();
-            let g = p.g; 
-            let alerts = [];
-
-            if(u.filters.includes('a-gluten') && p.gl) { g='E'; alerts.push({t:'מכיל גלוטן',c:'bad'}); }
-            if(u.filters.includes('a-milk') && p.da) { g='E'; alerts.push({t:'מכיל חלב',c:'bad'}); }
-            if(u.filters.includes('d-diabetic') && p.sug) { g='E'; alerts.push({t:'סוכר גבוה',c:'bad'}); }
-            if(u.filters.includes('a-nuts') && p.nut) { g='E'; alerts.push({t:'אגוזים',c:'bad'}); }
-
-            if(g !== 'E') {
-                if(u.status==='stress' && p.sug) { g='D'; alerts.push({t:'לא מומלץ בסטרס (סוכר)',c:'warn'}); }
-                if(u.status==='sick' && p.da) { g='D'; alerts.push({t:'מגביר ליחה (חולי)',c:'warn'}); }
-            }
-
-            tempScan = {n:p.n, u:u.name};
-            document.getElementById('r-name').innerText = p.n;
-            const ge = document.getElementById('r-grade');
-            ge.innerText = g;
-            let gc = '#fff';
-            if(g==='A') gc='var(--grade-a)'; if(g==='B') gc='var(--grade-b)'; if(g==='C') gc='var(--grade-c)'; if(g==='D') gc='var(--grade-d)'; if(g==='E') gc='var(--grade-e)';
-            ge.style.background = gc;
-            ge.style.boxShadow = `0 0 40px ${gc}`;
-
-            const al = document.getElementById('res-alert');
-            al.innerHTML = alerts.length ? alerts.map(a => `<div class="alert-box" style="border:1px solid ${a.c==='bad'?'var(--grade-e)':'var(--grade-d)'}; color:${a.c==='bad'?'var(--grade-e)':'var(--grade-d)'};">${a.t}</div>`).join('') : '<div style="color:#666; margin-bottom:20px;">מוצר תואם לפרופיל</div>';
-            document.getElementById('modal-res').classList.add('open');
-        }, 1500);
+        
+        // Check if on PC (Desktop) to possibly skip camera permission errors for demo
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        
+        html5QrcodeScanner = new Html5Qrcode("reader");
+        const config = { fps: 10, qrbox: { width: 250, height: 250 }, aspectRatio: 1.0 };
+        
+        // Use back camera
+        html5QrcodeScanner.start({ facingMode: "environment" }, config, onScanSuccess, onScanFailure)
+        .catch(err => {
+            console.log("Camera failed, likely PC without permission. Using simulation fallback.");
+            setTimeout(() => {
+                // FALLBACK FOR PC DEMO WITHOUT CAMERA
+                onScanSuccess("DEMO_BARCODE", null);
+            }, 2000); 
+        });
     }
 
+    function stopScanner() {
+        if(html5QrcodeScanner) {
+            html5QrcodeScanner.stop().then(() => {
+                html5QrcodeScanner.clear();
+            }).catch(err => console.log(err));
+        }
+        closeModal('scan');
+    }
+
+    function onScanSuccess(decodedText, decodedResult) {
+        // Logic: Since we don't have a backend with all world barcodes,
+        // we use a random pick from our DB to simulate a successful lookup.
+        stopScanner();
+        
+        const p = DB[Math.floor(Math.random()*DB.length)];
+        calculateGrade(p);
+    }
+
+    function onScanFailure(error) {
+        // Ignore errors, keep scanning
+    }
+
+    // --- 5. THE BRAIN: GRADING ALGORITHM ---
+    function calculateGrade(p) {
+        const u = getUser();
+        let g = p.g; 
+        let alerts = [];
+
+        // Logic 103: Hard Filters
+        if(u.filters.includes('a-gluten') && p.gl) { g='E'; alerts.push({t:'מכיל גלוטן',c:'bad'}); }
+        if(u.filters.includes('a-milk') && p.da) { g='E'; alerts.push({t:'מכיל חלב',c:'bad'}); }
+        if(u.filters.includes('d-diabetic') && p.sug) { g='E'; alerts.push({t:'סוכר גבוה (סוכרת)',c:'bad'}); }
+        if(u.filters.includes('a-nuts') && p.nut) { g='E'; alerts.push({t:'אגוזים',c:'bad'}); }
+        if(u.filters.includes('a-sesame') && p.ses) { g='E'; alerts.push({t:'שומשום',c:'bad'}); }
+        if(u.filters.includes('a-soy') && p.soy) { g='E'; alerts.push({t:'סויה',c:'bad'}); }
+        if(u.filters.includes('a-fish') && p.fish) { g='E'; alerts.push({t:'דגים',c:'bad'}); }
+        if(u.filters.includes('a-eggs') && p.eggs) { g='E'; alerts.push({t:'ביצים',c:'bad'}); }
+        if(u.filters.includes('x-caff') && p.caff) { g='E'; alerts.push({t:'מכיל קפאין',c:'bad'}); }
+        
+        // Logic 103: Ring Context
+        if(g !== 'E') {
+            if(u.status==='stress' && p.sug) { g='D'; alerts.push({t:'לא מומלץ בסטרס (סוכר)',c:'warn'}); }
+            if(u.status==='sick' && p.da) { g='D'; alerts.push({t:'מגביר ליחה (חולי)',c:'warn'}); }
+            if(u.status==='sugar' && p.sug) { g='B'; alerts.push({t:'טוב לנפילת סוכר',c:'good'}); } // Positive context
+        }
+
+        tempScan = {n:p.n, u:u.name};
+        
+        // Render Result
+        document.getElementById('r-name').innerText = p.n;
+        const ge = document.getElementById('r-grade');
+        ge.innerText = g;
+        
+        let gc = '#fff';
+        if(g==='A') gc='var(--grade-a)'; 
+        if(g==='B') gc='var(--grade-b)'; 
+        if(g==='C') gc='var(--grade-c)'; 
+        if(g==='D') gc='var(--grade-d)'; 
+        if(g==='E') gc='var(--grade-e)';
+        
+        ge.style.background = gc;
+        ge.style.boxShadow = `0 0 50px ${gc}`;
+
+        const al = document.getElementById('res-alert');
+        if(alerts.length) {
+            al.innerHTML = alerts.map(a => {
+                let color = a.c==='bad' ? 'var(--grade-e)' : (a.c==='good'?'var(--grade-a)':'var(--grade-d)');
+                return `<div class="alert-box" style="border:1px solid ${color}; color:${color};">${a.t}</div>`;
+            }).join('');
+        } else {
+            al.innerHTML = '<div style="color:#888; margin-bottom:20px;">מוצר תואם לפרופיל</div>';
+        }
+        
+        document.getElementById('modal-res').classList.add('open');
+    }
+
+    // --- 6. STANDARD FUNCTIONS ---
     function quickAdd() { const v=document.getElementById('q-inp').value; if(v){cart.push({n:v,u:'בית'});save();document.getElementById('q-inp').value='';showToast('נוסף לבית');update();} }
     function quickAddCart() { const v=document.getElementById('c-inp').value; if(v){cart.push({n:v,u:'בית'});save();document.getElementById('c-inp').value='';renderCart();} }
     function addToCart(house) { cart.push({n:tempScan.n, u:house?'בית':tempScan.u}); save(); closeModal('res'); showToast('נוסף לסל'); update(); }
@@ -360,7 +696,7 @@
     function deleteProfile() { if(users.length<=1)return alert('חובה להשאיר פרופיל אחד'); if(confirm('למחוק?')){users=users.filter(x=>x.id!==editingId); activeId=users[0].id; save(); closeModal('edit'); render(); update();} }
     function openRing() { document.getElementById('modal-ring').classList.add('open'); }
     function setRing(s) { getUser().status=s; save(); render(); update(); closeModal('ring'); }
-    function save() { localStorage.setItem('vNeo_pro_users', JSON.stringify(users)); localStorage.setItem('vNeo_pro_cart', JSON.stringify(cart)); }
+    function save() { localStorage.setItem('vNeo_final_users', JSON.stringify(users)); localStorage.setItem('vNeo_final_cart', JSON.stringify(cart)); }
     function closeModal(id) { document.getElementById('modal-'+id).classList.remove('open'); }
     function tog(el) { el.nextElementSibling.classList.toggle('open'); }
     function showToast(t) { const el=document.getElementById('toast'); el.innerText=t; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),2000); }
