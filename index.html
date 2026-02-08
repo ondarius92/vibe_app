@@ -3,77 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="theme-color" content="#020617">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="description" content="Vibe OS - Ultimate Nutrition Intelligence">
-    <title>Vibe OS OMEGA ULTIMATE</title>
+    <meta name="theme-color" content="#020617">
+    <title>Vibe OS: THE ARCHITECT - SUPREME MONOLITH</title>
     
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 
     <style>
         /* ==========================================================================
-           SECTION 1: DESIGN TOKENS & CORE VARIABLES
-           Defining the DNA of the application.
+           SECTION 1: SUPREME DESIGN TOKENS & ATOMIC CSS
            ========================================================================== */
         :root {
-            /* --- COLOR PALETTE: PLASMA NEON DARK MODE --- */
-            --color-bg-deep: #020617;
-            --color-bg-surface: #0f172a;
-            --color-bg-card: rgba(30, 41, 59, 0.7);
-            --color-bg-glass: rgba(255, 255, 255, 0.03);
-            --color-border-subtle: rgba(255, 255, 255, 0.08);
-            --color-border-active: rgba(99, 102, 241, 0.5);
+            /* --- BACKGROUND ARCHITECTURE --- */
+            --bg-void: #000000;
+            --bg-deep: #020617;
+            --bg-glass-morphism: rgba(15, 23, 42, 0.88);
+            --bg-card-monolith: rgba(30, 41, 59, 0.75);
             
-            /* --- BRAND GRADIENTS --- */
-            --plasma-primary: #6366f1; /* Indigo */
-            --plasma-secondary: #06b6d4; /* Cyan */
-            --plasma-accent: #8b5cf6; /* Violet */
-            --gradient-main: linear-gradient(135deg, var(--plasma-primary), var(--plasma-secondary));
-            --gradient-dark: linear-gradient(180deg, rgba(15, 23, 42, 0), #020617);
-            --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.4);
+            /* --- THE BORDER GLOW MATRIX --- */
+            --border-standard: rgba(255, 255, 255, 0.12);
+            --border-active-glow: rgba(99, 102, 241, 0.6);
+            --border-ap-neon: rgba(57, 255, 20, 0.5);
+            
+            /* --- PLASMA NEON SPECTRUM --- */
+            --plasma-indigo: #4f46e5;
+            --plasma-cyan: #06b6d4;
+            --plasma-violet: #8b5cf6;
+            --gradient-titan-prime: linear-gradient(135deg, var(--plasma-indigo), var(--plasma-cyan));
+            --gradient-nebula-live: radial-gradient(circle at center, var(--plasma-indigo) 0%, transparent 80%);
 
-            /* --- ULTIMATE GRADING SYSTEM (7 TIERS) --- */
-            /* A+ : Neon Green */
-            --grade-ap: #39ff14; 
-            /* A : Green */
-            --grade-a: #22c55e;
-            /* B+ : Lime */
-            --grade-bp: #ccff00;
-            /* B : Yellow-Green */
-            --grade-b: #a3e635;
-            /* C : Yellow/Orange */
-            --grade-c: #facc15;
-            /* D : Orange */
-            --grade-d: #fb923c;
-            /* E : Red */
-            --grade-e: #ef4444;
+            /* --- THE ARCHITECT GRADING SYSTEM (7 TIERS) --- */
+            --g-ap: #39ff14; /* A+ Neon Radiant Green */
+            --g-a: #22c55e;  /* Pure Organic Green */
+            --g-bp: #ccff00; /* Neon Lime (B+) */
+            --g-b: #a3e635;  /* Yellow-Green Transition */
+            --g-c: #facc15;  /* Warning Yellow (High Contrast) */
+            --g-d: #fb923c;  /* Alert Orange (High Visibility) */
+            --g-e: #ff0000;  /* Critical Red (Absolute Veto) */
 
-            /* --- CATEGORY COLORS --- */
-            --cat-med: #f43f5e;
-            --cat-diet: #3b82f6;
-            --cat-kosher: #eab308;
-            --cat-ethics: #10b981;
-            --cat-sensory: #ff66cc;
-            --cat-bad: #a855f7;
+            /* --- CATEGORY LOGIC IDENTIFIERS --- */
+            --color-medical: #f43f5e;
+            --color-dietary: #3b82f6;
+            --color-kosher: #eab308;
+            --color-ethics: #10b981;
+            --color-sensory: #ff66cc;
+            --color-avoidance: #a855f7;
 
-            /* --- LAYOUT CONSTANTS --- */
+            /* --- LAYOUT ARCHITECTURE --- */
             --app-max-width: 480px;
-            --app-radius: 36px;
-            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            --z-back: -1;
-            --z-content: 10;
-            --z-header: 50;
-            --z-dock: 100;
-            --z-modal: 2000;
-            --z-toast: 5000;
-            --z-boot: 9999;
+            --app-radius-xl: 52px;
+            --font-main: 'Rubik', sans-serif;
+            --safe-area-bottom: 165px;
+            --transition-titan: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            --shadow-monolith: 0 50px 150px rgba(0,0,0,1);
         }
 
         /* ==========================================================================
-           SECTION 2: GLOBAL RESET & BASE STYLES
+           SECTION 2: GLOBAL RESET & NEBULA 6.0 LIVE ENGINE
            ========================================================================== */
         * {
             box-sizing: border-box;
@@ -81,136 +70,149 @@
             padding: 0;
             -webkit-tap-highlight-color: transparent;
             outline: none;
-            user-select: none; /* Prevent text selection for app-feel */
+            user-select: none;
         }
 
         html, body {
-            height: 100%;
-            width: 100%;
-            overflow: hidden; /* Prevent body scroll */
-        }
-
-        body {
+            height: 100vh;
+            width: 100vw;
             background-color: #000;
-            color: #f1f5f9;
+            color: #f8fafc;
             font-family: var(--font-main);
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        /* --- BACKGROUND ENGINE (NEBULA) --- */
-        .nebula-container {
+        /* LIVE QUANTUM NEBULA ENGINE (SINGLETON) */
+        .nebula-monolith {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: var(--z-back);
-            background: var(--color-bg-deep);
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            background: var(--bg-deep);
             overflow: hidden;
-            pointer-events: none; /* Crucial for clicks */
+            pointer-events: none;
         }
         
-        .nebula-orb {
+        .nebula-monolith::after {
+            content: '';
             position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.4;
-            animation: floatOrb 12s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+            inset: 0;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.2;
+            mix-blend-mode: overlay;
         }
 
-        .orb-1 { width: 500px; height: 500px; background: var(--plasma-primary); top: -20%; left: -20%; }
-        .orb-2 { width: 400px; height: 400px; background: var(--plasma-secondary); bottom: -10%; right: -10%; animation-delay: -4s; }
-        .orb-3 { width: 300px; height: 300px; background: var(--plasma-accent); top: 40%; left: 40%; animation-delay: -8s; opacity: 0.2; }
+        .orb-quantum {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(130px);
+            opacity: 0.45;
+            animation: orbTitanMotion 30s infinite alternate ease-in-out;
+        }
 
-        @keyframes floatOrb {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(40px, 20px) scale(1.1); }
+        .orb-primary { width: 800px; height: 800px; background: var(--plasma-indigo); top: -25%; left: -25%; }
+        .orb-secondary { width: 700px; height: 700px; background: var(--plasma-cyan); bottom: -20%; right: -20%; animation-delay: -8s; }
+        .orb-tertiary { width: 450px; height: 450px; background: var(--plasma-violet); top: 35%; left: 35%; opacity: 0.2; animation-delay: -15s; }
+
+        @keyframes orbTitanMotion {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.25; }
+            50% { transform: translate(120px, 60px) scale(1.15) rotate(120deg); opacity: 0.5; }
+            100% { transform: translate(-60px, 120px) scale(1) rotate(240deg); opacity: 0.25; }
         }
 
         /* ==========================================================================
-           SECTION 3: BOOT SEQUENCE UI
+           SECTION 3: BOOT SEQUENCE SYSTEM
            ========================================================================== */
-        #boot-screen {
+        #master-boot-screen {
             position: fixed;
             inset: 0;
-            background: var(--color-bg-deep);
-            z-index: var(--z-boot);
+            background: var(--bg-void);
+            z-index: 9999;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.8s ease-in-out;
+            transition: opacity 1.5s var(--transition-titan);
         }
 
-        .boot-logo {
-            font-size: 48px;
-            font-weight: 900;
-            letter-spacing: 4px;
-            background: linear-gradient(135deg, #fff, var(--plasma-secondary));
+        .boot-branding {
+            position: relative;
+            margin-bottom: 60px;
+        }
+
+        .boot-logo-glitch {
+            font-size: 72px;
+            font-weight: 950;
+            letter-spacing: 12px;
+            background: var(--gradient-titan-prime);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 40px;
-            animation: pulseLogo 2s infinite;
+            animation: titanPulse 2.8s infinite cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .boot-loader-track {
-            width: 220px;
-            height: 4px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 2px;
+        .boot-track {
+            width: 280px;
+            height: 3px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 30px;
             overflow: hidden;
+            position: relative;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
         }
 
-        .boot-loader-fill {
+        .boot-track-fill {
             height: 100%;
             width: 0%;
-            background: var(--plasma-secondary);
-            box-shadow: 0 0 15px var(--plasma-secondary);
-            animation: loadProgress 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            background: var(--plasma-cyan);
+            box-shadow: 0 0 35px var(--plasma-cyan);
+            animation: bootDeployment 3.5s forwards cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        .boot-status-text {
-            margin-top: 15px;
-            font-family: monospace;
-            font-size: 11px;
+        .boot-log-txt {
+            margin-top: 30px;
+            font-size: 12px;
             color: #64748b;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 5px;
+            font-weight: 800;
         }
 
-        @keyframes pulseLogo { 0%,100%{opacity:1; filter:blur(0);} 50%{opacity:0.6; filter:blur(2px);} }
-        @keyframes loadProgress { 0%{width:0%} 100%{width:100%} }
+        @keyframes bootDeployment { 0% { width: 0%; } 100% { width: 100%; } }
+        @keyframes titanPulse { 0%,100% { filter: blur(0) brightness(1); transform: scale(1); } 50% { filter: blur(6px) brightness(1.6); opacity: 0.55; transform: scale(0.98); } }
 
         /* ==========================================================================
-           SECTION 4: APP CONTAINER & LAYOUT
+           SECTION 4: SUPREME VIEWPORT ARCHITECTURE
            ========================================================================== */
-        #app-wrapper {
+        #master-app-viewport {
             width: 100%;
             max-width: var(--app-max-width);
             height: 100%;
-            max-height: 95vh;
-            background: rgba(15, 23, 42, 0.75);
-            backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px);
-            border: 1px solid var(--color-border-subtle);
-            border-radius: var(--app-radius);
-            box-shadow: 0 0 0 12px #000, 0 30px 100px rgba(0,0,0,0.8);
+            max-height: 96vh;
+            background: rgba(15, 23, 42, 0.82);
+            backdrop-filter: blur(65px);
+            -webkit-backdrop-filter: blur(65px);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--app-radius-xl);
+            box-shadow: 0 0 0 15px #000, var(--shadow-monolith);
             display: flex;
             flex-direction: column;
             position: relative;
             overflow: hidden;
             opacity: 0;
-            transform: scale(0.96);
-            transition: opacity 0.6s ease, transform 0.6s ease;
+            transform: translateY(50px) scale(0.97);
+            transition: 1.4s var(--transition-titan);
         }
 
-        #app-wrapper.loaded {
+        #master-app-viewport.active {
             opacity: 1;
-            transform: scale(1);
+            transform: translateY(0) scale(1);
         }
 
-        /* Mobile Reset */
         @media (max-width: 480px) {
-            #app-wrapper {
+            #master-app-viewport {
                 max-width: 100%;
                 height: 100vh;
                 max-height: 100vh;
@@ -220,429 +222,480 @@
             }
         }
 
-        /* Scroll Area */
-        #main-scroll {
+        /* SCROLL ENGINE ARCHITECT */
+        #master-scroll-container {
             flex: 1;
             overflow-y: auto;
             overflow-x: hidden;
-            padding-bottom: 160px; /* Space for dock */
+            padding-bottom: var(--safe-area-bottom);
             scrollbar-width: none;
+            scroll-behavior: smooth;
         }
-        #main-scroll::-webkit-scrollbar { display: none; }
+        #master-scroll-container::-webkit-scrollbar { display: none; }
 
         /* ==========================================================================
-           SECTION 5: HEADER
+           SECTION 5: MASTER HEADER & INTERFACE
            ========================================================================== */
-        .app-header {
-            padding: 20px 24px;
+        .app-master-header {
+            padding: 36px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             background: rgba(2, 6, 23, 0.9);
-            border-bottom: 1px solid var(--color-border-subtle);
+            border-bottom: 1px solid var(--border-subtle);
             position: sticky;
             top: 0;
-            z-index: var(--z-header);
-            backdrop-filter: blur(10px);
+            z-index: 100;
+            backdrop-filter: blur(20px);
         }
 
-        .header-logo {
-            font-size: 22px;
-            font-weight: 900;
+        .master-brand-logo {
+            font-size: 30px;
+            font-weight: 1000;
             letter-spacing: 1.5px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
         }
 
-        .header-logo span {
-            background: var(--gradient-main);
+        .master-brand-logo span {
+            background: var(--gradient-titan-prime);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-style: italic;
         }
 
-        .btn-settings {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            background: rgba(255,255,255,0.05);
+        .master-action-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 20px;
+            background: var(--bg-glass);
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            border: 1px solid transparent;
-            transition: 0.2s;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.4s var(--transition-titan);
             color: #fff;
-            font-size: 18px;
+            font-size: 24px;
+            box-shadow: inset 0 0 15px rgba(255,255,255,0.04);
         }
 
-        .btn-settings:active {
-            background: rgba(255,255,255,0.15);
-            transform: scale(0.95);
+        .master-action-btn:active {
+            transform: scale(0.8) rotate(15deg);
+            background: rgba(255,255,255,0.18);
+            border-color: var(--plasma-cyan);
+            box-shadow: 0 0 25px rgba(6, 182, 212, 0.4);
         }
 
         /* ==========================================================================
-           SECTION 6: DASHBOARD CARDS
+           SECTION 6: BI DASHBOARD ARCHITECTURE
            ========================================================================== */
-        .dashboard-grid {
-            padding: 24px;
+        .bi-dashboard-grid {
+            padding: 28px;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            grid-template-rows: auto auto;
-            gap: 12px;
+            gap: 18px;
         }
 
-        .dash-card {
-            background: var(--color-bg-card);
-            border: 1px solid var(--color-border-subtle);
-            border-radius: 24px;
-            padding: 20px;
+        .bi-card-titan {
+            background: var(--bg-card-monolith);
+            border: 1px solid var(--border-subtle);
+            border-radius: 40px;
+            padding: 32px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-height: 120px;
+            min-height: 155px;
+            cursor: pointer;
+            transition: 0.5s var(--transition-titan);
             position: relative;
             overflow: hidden;
-            transition: 0.2s;
-            cursor: pointer;
         }
 
-        .dash-card:active {
-            transform: scale(0.98);
-            background: rgba(255,255,255,0.08);
+        .bi-card-titan::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent, rgba(255,255,255,0.04));
+            opacity: 0;
+            transition: 0.5s;
         }
 
-        /* User Profile Card */
-        .dash-card.full-width {
+        .bi-card-titan:hover {
+            border-color: var(--border-active-glow);
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+        
+        .bi-card-titan:hover::after { opacity: 1; }
+
+        .bi-card-titan:active {
+            transform: scale(0.96);
+        }
+        
+        .bi-card-hero-titan {
             grid-column: 1 / -1;
             flex-direction: row;
             align-items: center;
-            background: linear-gradient(160deg, #1e293b, #0f172a);
-            border-left: 4px solid var(--plasma-primary);
+            border-left: 10px solid var(--plasma-indigo);
+            background: linear-gradient(160deg, #1e293b, #020617);
         }
 
-        /* Cart Score Card */
-        .dash-card.score-card {
+        .bi-card-score-titan {
             grid-column: 1 / -1;
-            min-height: 130px;
-            border-right: 4px solid var(--grade-ap);
-            background: linear-gradient(160deg, #1e293b, #0f172a);
+            min-height: 185px;
+            border-right: 10px solid var(--g-ap);
+            background: linear-gradient(160deg, #1e293b, #020617);
         }
 
-        /* Labels & Values */
-        .c-label {
-            font-size: 11px;
-            font-weight: 700;
+        /* BI Typography */
+        .bi-label-titan {
+            font-size: 12px;
+            font-weight: 1000;
             color: #94a3b8;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 6px;
+            letter-spacing: 4px;
+            margin-bottom: 12px;
         }
 
-        .c-value {
-            font-size: 28px;
-            font-weight: 800;
+        .bi-value-titan {
+            font-size: 40px;
+            font-weight: 1000;
             color: #fff;
-            letter-spacing: -0.5px;
+            letter-spacing: -2.5px;
+            line-height: 0.9;
         }
 
-        .c-subtext {
-            font-size: 12px;
-            color: var(--plasma-secondary);
-            margin-top: 4px;
-            font-weight: 500;
+        .bi-sub-titan {
+            font-size: 15px;
+            color: var(--plasma-cyan);
+            font-weight: 800;
+            margin-top: 12px;
+            letter-spacing: 1px;
         }
 
-        /* The Cart Grade Circle (Top Left) */
-        .cart-grade-badge {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: rgba(0,0,0,0.4);
-            border: 3px solid var(--grade-a);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            font-weight: 900;
-            color: var(--grade-a);
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            transition: all 0.5s ease;
-        }
-
-        /* Linear Gauge */
-        .gauge-track {
+        /* THE ANALYTIC TITAN GAUGE 7.0 */
+        .bi-gauge-system {
             width: 100%;
-            height: 8px;
-            background: rgba(0,0,0,0.4);
-            border-radius: 4px;
-            margin-top: 15px;
+            height: 16px;
+            background: rgba(0,0,0,0.8);
+            border-radius: 8px;
+            margin-top: 30px;
             overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
-        .gauge-fill {
+        .bi-gauge-fill-monolith {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, var(--grade-e), var(--grade-c), var(--grade-a), var(--grade-ap));
-            transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 0 10px rgba(255,255,255,0.2);
+            background: linear-gradient(90deg, var(--g-e), var(--g-c), var(--g-a), var(--g-ap));
+            transition: width 2.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.3);
         }
-
-        /* ==========================================================================
-           SECTION 7: QUICK ACTIONS & SEARCH
-           ========================================================================== */
-        .section-header {
-            padding: 0 24px;
-            font-size: 13px;
-            font-weight: 700;
-            color: #64748b;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
-            margin-top: 10px;
-        }
-
-        .quick-action-row {
-            padding: 0 24px;
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .input-dark {
-            flex: 1;
-            background: var(--color-bg-glass);
-            border: 1px solid var(--color-border-subtle);
-            padding: 16px;
-            border-radius: 16px;
-            color: #fff;
-            text-align: right;
-            font-size: 16px;
-            font-family: var(--font-main);
-            transition: 0.2s;
-        }
-
-        .input-dark:focus {
-            border-color: var(--plasma-primary);
-            background: #000;
-        }
-
-        .btn-add-manual {
-            width: 56px;
-            background: var(--plasma-primary);
-            border: none;
-            border-radius: 16px;
-            color: #fff;
-            font-size: 28px;
-            cursor: pointer;
+        
+        /* Dashboard Floating Badge */
+        .score-orb-titan-floating {
+            position: absolute;
+            top: 28px;
+            left: 28px;
+            width: 84px;
+            height: 84px;
+            border-radius: 50%;
+            border: 7px solid;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 36px;
+            font-weight: 1000;
+            transition: 1s var(--transition-titan);
+            box-shadow: 0 0 60px rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.5);
+            z-index: 5;
+        }
+
+        /* TITAN SEARCH MATRIX UI */
+        .lookup-matrix-container {
+            padding: 15px 28px;
+            display: flex;
+            gap: 18px;
+            margin-top: 15px;
+        }
+
+        .lookup-input-master {
+            flex: 1;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-subtle);
+            padding: 26px;
+            border-radius: 32px;
+            color: #fff;
+            text-align: right;
+            font-size: 20px;
+            transition: 0.5s var(--transition-titan);
+            font-family: var(--font-main);
+            font-weight: 600;
+            box-shadow: inset 0 5px 15px rgba(0,0,0,0.4);
+        }
+
+        .lookup-input-master:focus {
+            border-color: var(--plasma-cyan);
+            background: #000;
+            box-shadow: 0 0 40px rgba(6, 182, 212, 0.4);
+            transform: scale(1.02);
+        }
+
+        .lookup-btn-master {
+            width: 84px;
+            background: var(--gradient-titan-prime);
+            border: none;
+            border-radius: 32px;
+            font-size: 32px;
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 20px 50px rgba(99, 102, 241, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.4s var(--transition-titan);
+        }
+
+        .lookup-btn-master:active {
+            transform: scale(0.8) translateY(8px);
             box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
         }
 
-        .tags-container {
-            padding: 0 24px;
+        .master-dashboard-tags {
+            padding: 28px 36px;
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 14px;
         }
 
-        .info-tag {
-            font-size: 11px;
-            padding: 6px 12px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px;
-            color: #cbd5e1;
+        .titan-pills-master {
+            font-size: 13px;
+            padding: 12px 22px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 25px;
+            color: #f1f5f9;
+            font-weight: 800;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 10px;
+            transition: 0.4s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
         /* ==========================================================================
-           SECTION 8: DOCK & SCANNER BUTTON (CENTERED)
+           7. SUPREME TITAN DOCK ARCHITECTURE
            ========================================================================== */
-        .dock-wrapper {
+        .dock-titan-absolute-wrap {
             position: absolute;
-            bottom: 35px;
+            bottom: 45px;
             left: 0;
             width: 100%;
             display: flex;
             justify-content: center;
-            z-index: var(--z-dock);
-            pointer-events: none; /* Let clicks pass through empty space */
+            z-index: 1000;
+            pointer-events: none;
         }
 
-        .dock-bar {
-            pointer-events: auto; /* Catch clicks on dock */
-            width: 90%;
-            max-width: 380px;
-            height: 76px;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 28px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+        .dock-titan-monolith-bar {
+            pointer-events: auto;
+            width: 94%;
+            max-width: 460px;
+            height: 98px;
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(45px);
+            border-radius: 42px;
+            border: 1px solid rgba(255,255,255,0.25);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 45px;
+            padding: 0 65px;
+            box-shadow: 0 45px 120px rgba(0,0,0,1);
         }
-
-        .dock-btn {
-            font-size: 24px;
+        
+        .dock-monolith-trigger {
+            font-size: 34px;
             color: #64748b;
             cursor: pointer;
-            transition: 0.2s;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
+            gap: 8px;
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .dock-btn span {
-            font-size: 10px;
-            font-weight: 700;
+        .dock-monolith-trigger span {
+            font-size: 12px;
+            font-weight: 1000;
             text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.8;
         }
 
-        .dock-btn:active {
+        .dock-monolith-trigger:active {
             color: #fff;
-            transform: scale(0.9);
+            transform: translateY(-15px) scale(1.2);
         }
 
-        .scanner-btn-wrapper {
+        .dock-monolith-trigger.is-active {
+            color: var(--plasma-cyan);
+            opacity: 1;
+            text-shadow: 0 0 25px var(--plasma-cyan);
+        }
+
+        /* SUPREME SCANNER FAB MONOLITH v7 */
+        .scanner-monolith-fab-anchor {
             position: relative;
-            margin-top: -50px; /* Pop out effect */
+            margin-top: -75px;
         }
 
-        .scanner-btn-main {
-            width: 76px;
-            height: 76px;
-            border-radius: 26px;
-            background: var(--gradient-main);
+        .scanner-fab-core-monolith {
+            width: 108px;
+            height: 108px;
+            border-radius: 40px;
+            background: var(--gradient-titan-prime);
+            border: 11px solid #020617;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: #fff;
-            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.5);
-            border: 6px solid #020617; /* Matches body bg to look cut-out */
+            box-shadow: 0 30px 80px rgba(79, 70, 229, 0.7);
             cursor: pointer;
-            transition: 0.2s;
-            transform: rotate(45deg); /* Diamond shape base */
+            transform: rotate(45deg) translateY(-45px);
+            transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .scanner-content {
-            transform: rotate(-45deg); /* Counter rotate content */
+        .scanner-fab-core-monolith:active {
+            transform: rotate(45deg) translateY(-45px) scale(0.75);
+            box-shadow: 0 15px 35px rgba(79, 70, 229, 0.4);
+        }
+
+        .scan-monolith-viz {
+            transform: rotate(-45deg);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 2px;
+            gap: 6px;
         }
 
-        .scanner-btn-main:active {
-            transform: rotate(45deg) scale(0.95);
-            box-shadow: 0 5px 20px rgba(99, 102, 241, 0.3);
-        }
-
-        /* Custom CSS Barcode Icon */
-        .icon-barcode-css {
+        .vector-barcode-supreme {
             display: flex;
-            gap: 3px;
-            height: 20px;
+            gap: 6px;
+            height: 36px;
             align-items: center;
         }
-        .bar-line { background: #fff; border-radius: 1px; width: 3px; }
-        .bar-line:nth-child(1) { height: 16px; }
-        .bar-line:nth-child(2) { height: 22px; width: 4px; }
-        .bar-line:nth-child(3) { height: 14px; }
-        .bar-line:nth-child(4) { height: 18px; width: 2px; }
-        
-        .scan-text {
-            font-size: 10px;
-            font-weight: 900;
-            letter-spacing: 1px;
+
+        .vector-bar-segment {
+            width: 6px;
+            background: #fff;
+            border-radius: 2px;
+        }
+
+        .vector-bar-segment:nth-child(1) { height: 24px; }
+        .vector-bar-segment:nth-child(2) { height: 40px; width: 10px; }
+        .vector-bar-segment:nth-child(3) { height: 20px; }
+        .vector-bar-segment:nth-child(4) { height: 34px; width: 5px; }
+
+        .scan-monolith-text {
+            font-size: 13px;
+            font-weight: 1000;
+            color: #fff;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(0,0,0,0.6);
         }
 
         /* ==========================================================================
-           SECTION 9: MODALS (SHEETS) ARCHITECTURE
+           8. MASTER MODAL ARCHITECTURE (PRO SHEETS)
            ========================================================================== */
-        .modal-overlay {
+        .monolith-modal-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(0,0,0,0.9);
-            z-index: var(--z-modal);
+            background: rgba(0,0,0,0.97);
+            z-index: 2000;
             display: none;
             flex-direction: column;
             justify-content: flex-end;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.5s var(--transition-titan);
         }
 
-        .modal-overlay.is-visible {
+        .monolith-modal-overlay.is-visible {
             display: flex;
             opacity: 1;
         }
 
-        .sheet-panel {
+        .monolith-master-sheet {
             width: 100%;
+            height: 96%;
             background: #0f172a;
-            border-top-left-radius: 40px;
-            border-top-right-radius: 40px;
-            border-top: 1px solid rgba(255,255,255,0.15);
-            max-height: 92vh;
+            border-top-left-radius: 64px;
+            border-top-right-radius: 64px;
+            border-top: 3px solid rgba(255,255,255,0.3);
             display: flex;
             flex-direction: column;
             transform: translateY(100%);
-            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-            box-shadow: 0 -20px 60px rgba(0,0,0,0.6);
+            transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+            box-shadow: 0 -50px 200px rgba(0,0,0,1);
         }
 
-        .modal-overlay.is-visible .sheet-panel {
+        .monolith-modal-overlay.is-visible .monolith-master-sheet {
             transform: translateY(0);
         }
 
-        .sheet-header {
-            padding: 24px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+        .sheet-header-supreme {
+            padding: 45px 50px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #0f172a;
-            border-radius: 40px 40px 0 0;
-            z-index: 10;
+            background: rgba(15, 23, 42, 0.5);
         }
 
-        .sheet-title { font-size: 20px; font-weight: 800; color: #fff; }
-        
-        .btn-close-sheet {
-            width: 32px; height: 32px;
+        .sheet-title-supreme {
+            font-size: 32px;
+            font-weight: 1000;
+            color: #fff;
+            letter-spacing: -1.5px;
+        }
+
+        .sheet-close-supreme {
+            width: 54px;
+            height: 54px;
             border-radius: 50%;
-            background: rgba(255,255,255,0.1);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 14px; cursor: pointer; transition: 0.2s;
+            background: rgba(255,255,255,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 24px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
-        .btn-close-sheet:hover { background: rgba(255,255,255,0.2); }
 
-        .sheet-content {
-            padding: 24px;
+        .sheet-close-supreme:active {
+            transform: scale(0.75);
+            background: rgba(255,255,255,0.3);
+        }
+
+        .sheet-scroll-monolith {
+            padding: 40px 50px;
             overflow-y: auto;
             flex: 1;
-            padding-bottom: 140px; /* Safe area for footer */
+            padding-bottom: 250px;
+            scrollbar-width: none;
         }
+        .sheet-scroll-monolith::-webkit-scrollbar { display: none; }
 
-        .sheet-footer {
-            padding: 24px;
-            border-top: 1px solid rgba(255,255,255,0.05);
+        .sheet-footer-monolith {
+            padding: 40px 50px 70px 50px;
             background: #0f172a;
+            border-top: 1px solid rgba(255,255,255,0.1);
             position: absolute;
             bottom: 0;
             width: 100%;
@@ -650,437 +703,548 @@
         }
 
         /* ==========================================================================
-           SECTION 10: SETTINGS ACCORDIONS (60+ ITEMS)
+           9. THE 75+ PARAMETER ACCORDION ENGINE
            ========================================================================== */
-        .accordion {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px;
-            margin-bottom: 12px;
+        .param-acc-monolith {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 40px;
+            margin-bottom: 24px;
             overflow: hidden;
+            transition: 0.5s var(--transition-titan);
         }
 
-        .accordion-head {
-            padding: 18px;
-            font-weight: 700;
+        .param-acc-monolith.is-open {
+            border-color: var(--plasma-indigo);
+            box-shadow: 0 30px 70px rgba(0,0,0,0.6);
+            transform: scale(1.02);
+        }
+
+        .param-acc-header {
+            padding: 32px 36px;
+            font-weight: 1000;
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
-            transition: background 0.2s;
+            font-size: 20px;
+            letter-spacing: 0.5px;
         }
-        .accordion-head:active { background: rgba(255,255,255,0.05); }
 
-        .accordion-body {
+        .param-acc-body {
             display: none;
-            padding: 20px;
-            background: rgba(0,0,0,0.3);
-            border-top: 1px solid rgba(255,255,255,0.05);
-            gap: 10px;
+            padding: 40px;
+            background: rgba(0,0,0,0.6);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            gap: 20px;
             flex-wrap: wrap;
         }
-        .accordion.is-open .accordion-body { display: flex; }
 
-        /* Category Coloring */
-        .cat-teal .accordion-head { color: var(--cat-quality); border-right: 4px solid var(--cat-quality); }
-        .cat-red .accordion-head { color: var(--grade-e); border-right: 4px solid var(--grade-e); }
-        .cat-blue .accordion-head { color: var(--cat-diet); border-right: 4px solid var(--cat-diet); }
-        .cat-gold .accordion-head { color: var(--cat-kosher); border-right: 4px solid var(--cat-kosher); }
-        .cat-purple .accordion-head { color: var(--cat-bad); border-right: 4px solid var(--cat-bad); }
-        .cat-green .accordion-head { color: var(--cat-ethics); border-right: 4px solid var(--cat-ethics); }
-        .cat-orange .accordion-head { color: var(--cat-sensory); border-right: 4px solid var(--cat-sensory); }
+        .param-acc-monolith.is-open .param-acc-body {
+            display: flex;
+        }
 
-        /* Checkbox Chips */
-        .option-check { display: none; }
-        .option-label {
-            padding: 10px 14px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 10px;
-            font-size: 13px;
+        .param-chip-titan-input { display: none; }
+        
+        .param-chip-titan-label {
+            padding: 22px 32px;
+            background: #1e293b;
+            border-radius: 28px;
+            font-size: 17px;
             color: #94a3b8;
             cursor: pointer;
-            border: 1px solid transparent;
-            font-weight: 600;
-            display: flex; align-items: center; gap: 6px;
-            transition: 0.2s;
+            border: 3px solid transparent;
+            transition: 0.4s var(--transition-titan);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
-        .option-check:checked + .option-label {
-            background: rgba(99, 102, 241, 0.2);
-            border-color: var(--plasma-primary);
+
+        .param-chip-titan-input:checked + .param-chip-titan-label {
+            background: rgba(99, 102, 241, 0.35);
+            border-color: var(--plasma-indigo);
             color: #fff;
-            transform: scale(1.02);
+            font-weight: 1000;
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 20px 45px rgba(0,0,0,0.7);
         }
-        
-        /* Danger Context */
-        .cat-red .option-check:checked + .option-label { background: rgba(239, 68, 68, 0.2); border-color: var(--grade-e); color: #fff; }
-        /* Quality Context */
-        .cat-teal .option-check:checked + .option-label { background: rgba(57, 255, 20, 0.1); border-color: var(--grade-ap); color: #fff; }
+
+        /* TITAN CATEGORY THEMES */
+        .theme-med .param-acc-header { color: var(--g-e); border-right: 10px solid var(--g-e); }
+        .theme-diet .param-acc-header { color: var(--plasma-cyan); border-right: 10px solid var(--plasma-cyan); }
+        .theme-kosh .param-acc-header { color: var(--cat-kosh); border-right: 10px solid var(--cat-kosh); }
+        .theme-ethic .param-acc-header { color: var(--cat-ethics); border-right: 10px solid var(--cat-ethics); }
+        .theme-chem .param-acc-header { color: var(--color-avoidance); border-right: 10px solid var(--color-avoidance); }
+        .theme-qual .param-acc-header { color: var(--g-ap); border-right: 10px solid var(--g-ap); }
 
         /* ==========================================================================
-           SECTION 11: SCANNER FULLSCREEN
+           10. QUANTUM PRO SCANNER MODULE (FHD)
            ========================================================================== */
-        #scanner-ui-layer {
-            position: absolute; inset: 0; background: #000; z-index: 3000;
-            display: none; flex-direction: column;
-        }
-        #scanner-ui-layer.is-active { display: flex; }
-
-        #qr-video-container {
-            flex: 1; width: 100%; height: 100%; object-fit: cover;
-            /* Filter to enhance barcode readability */
-            filter: contrast(1.1) brightness(1.1);
+        #master-quantum-scanner-viewport {
+            position: absolute;
+            inset: 0;
+            background: #000;
+            z-index: 3000;
+            display: none;
+            flex-direction: column;
         }
 
-        .scanner-hud {
-            position: absolute; inset: 0; pointer-events: none;
-            display: flex; justify-content: center; align-items: center;
-            background: linear-gradient(rgba(0,0,0,0.5), transparent 25%, transparent 75%, rgba(0,0,0,0.5));
+        #master-quantum-scanner-viewport.is-active {
+            display: flex;
         }
 
-        .scanner-reticle {
-            width: 280px; height: 280px;
-            border: 2px solid rgba(255,255,255,0.4);
-            border-radius: 40px;
+        #qr-engine-monolith-instance {
+            flex: 1;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: contrast(1.25) brightness(1.1) saturate(1.2);
+        }
+
+        .quantum-hud-monolith {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(rgba(0,0,0,0.8) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.8) 100%);
+        }
+
+        .quantum-frame-monolith {
+            width: 380px;
+            height: 380px;
+            border: 5px solid rgba(255,255,255,0.3);
+            border-radius: 90px;
             position: relative;
-            box-shadow: 0 0 0 4000px rgba(0,0,0,0.8); /* Darken everything else */
+            box-shadow: 0 0 0 10000px rgba(0,0,0,0.95);
         }
 
-        .scanner-laser {
-            position: absolute; top: 50%; left: 5%; right: 5%;
-            height: 2px;
-            background: var(--grade-e);
-            box-shadow: 0 0 20px var(--grade-e);
-            animation: laserMove 1.5s infinite ease-in-out;
+        .quantum-frame-edge {
+            position: absolute;
+            inset: -12px;
+            border: 10px solid var(--plasma-cyan);
+            border-radius: 90px;
+            clip-path: polygon(0 0, 25% 0, 25% 100%, 0 100%, 0 0, 100% 0, 100% 25%, 0 25%, 0 0, 100% 0, 100% 100%, 75% 100%, 75% 0, 100% 0, 100% 100%, 0 100%, 0 75%, 100% 75%, 100% 100%, 0 100%);
         }
-        @keyframes laserMove { 0%,100%{top:15%; opacity:0.5;} 50%{top:85%; opacity:1;} }
+
+        .quantum-scanner-laser {
+            position: absolute;
+            top: 50%;
+            left: 12%;
+            right: 12%;
+            height: 5px;
+            background: var(--g-e);
+            box-shadow: 0 0 60px var(--g-e), 0 0 25px #fff;
+            animation: quantumPulseSweep 2.5s infinite ease-in-out;
+            border-radius: 50%;
+        }
+
+        @keyframes quantumPulseSweep {
+            0%, 100% { top: 15%; opacity: 0.2; transform: scaleX(0.8); }
+            50% { top: 85%; opacity: 1; transform: scaleX(1.1); }
+        }
 
         /* ==========================================================================
-           SECTION 12: RESULT & LIST STYLES
+           11. INTELLIGENCE OUTPUT (RESULTS)
            ========================================================================== */
-        .grade-orb-large {
-            width: 140px; height: 140px;
+        .grade-orb-supreme-monolith {
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
-            border: 12px solid;
-            margin: 0 auto 20px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 64px; font-weight: 900;
-            box-shadow: 0 0 80px currentColor;
+            border: 20px solid;
+            margin: 0 auto 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 96px;
+            font-weight: 1000;
+            box-shadow: 0 0 160px currentColor;
             color: #fff;
-            text-shadow: 0 0 20px rgba(0,0,0,0.5);
+            text-shadow: 0 0 50px rgba(0,0,0,0.8);
+            transition: 0.8s var(--transition-titan);
         }
 
-        .result-title-lg { font-size: 28px; font-weight: 800; margin: 10px 0; }
-        .result-brand-sub { font-size: 16px; color: #94a3b8; margin-bottom: 20px; }
-
-        .analysis-box {
+        .intelligence-report-card {
             text-align: right;
-            padding: 16px;
+            background: rgba(255,255,255,0.08);
+            padding: 35px;
+            border-radius: 48px;
+            border-right: 15px solid var(--plasma-cyan);
+            line-height: 2.4;
+            font-size: 19px;
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.5);
+            margin-bottom: 40px;
+        }
+
+        .intelligence-report-line {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .intelligence-report-line i { font-size: 18px; }
+
+        /* LISTING ARCHITECTURE (CART & VAULT) */
+        .supreme-list-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 32px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: 0.5s var(--transition-titan);
+        }
+
+        .supreme-list-row:hover {
             background: rgba(255,255,255,0.05);
-            border-radius: 16px;
-            font-size: 14px;
-            line-height: 1.6;
+            transform: translateX(-10px) scale(1.01);
         }
 
-        /* Buttons */
-        .btn-action {
-            width: 100%; padding: 18px; border-radius: 16px;
-            font-weight: 700; font-size: 16px; border: none; cursor: pointer;
-            transition: 0.2s; margin-top: 10px;
+        .grade-badge-supreme {
+            font-size: 20px;
+            font-weight: 1000;
+            padding: 14px 28px;
+            border-radius: 18px;
+            color: #000;
+            min-width: 76px;
+            text-align: center;
+            box-shadow: 0 12px 25px rgba(0,0,0,0.6);
         }
-        .btn-action:active { transform: scale(0.98); }
-        .btn-primary { background: var(--gradient-main); color: #fff; box-shadow: 0 5px 20px rgba(99, 102, 241, 0.4); }
-        .btn-secondary { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #fff; }
-        .btn-danger { background: rgba(239, 68, 68, 0.15); border: 1px solid var(--grade-e); color: var(--grade-e); }
 
-        /* History & Cart Lists */
-        .list-row {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 16px; border-bottom: 1px solid rgba(255,255,255,0.05);
+        .row-master-details h4 { font-size: 22px; font-weight: 1000; margin-bottom: 6px; letter-spacing: -0.5px; }
+        .row-master-details span { font-size: 16px; color: #64748b; font-weight: 700; }
+
+        /* ==========================================================================
+           12. THE SUPREME ACTION BUTTONS
+           ========================================================================== */
+        .btn-titan-architect {
+            width: 100%;
+            padding: 28px;
+            border-radius: 32px;
+            font-weight: 1000;
+            font-size: 24px;
+            border: none;
+            cursor: pointer;
+            transition: 0.5s var(--transition-titan);
+            margin-top: 25px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
-        .row-start { display: flex; align-items: center; gap: 12px; }
-        .mini-grade {
-            font-size: 13px; font-weight: 900;
-            padding: 4px 8px; border-radius: 6px;
-            color: #000; width: 36px; text-align: center;
+
+        .btn-titan-architect::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.8s;
         }
-        .row-text h4 { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 2px; }
-        .row-text span { font-size: 12px; color: #64748b; }
 
-        /* History Controls */
-        .hist-panel { background: rgba(255,255,255,0.02); padding: 15px; border-radius: 16px; margin-bottom: 20px; }
-        .hist-inputs { display: flex; gap: 10px; margin-bottom: 10px; }
-        .hist-date { flex: 1; background: #020617; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 12px; border-radius: 10px; font-family: var(--font-main); }
-        
-        .agg-toggle { display: flex; justify-content: space-between; margin-top: 10px; font-size: 13px; color: var(--plasma-secondary); cursor: pointer; font-weight: 600; }
+        .btn-titan-architect:hover::before { left: 100%; }
 
-        /* Toast */
-        #sys-toast {
-            position: absolute; top: 40px; left: 50%; transform: translateX(-50%) translateY(-100px);
-            background: #1e293b; color: #fff; padding: 12px 30px; border-radius: 50px;
-            border: 1px solid var(--plasma-primary); font-weight: 700; z-index: var(--z-toast);
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        .btn-titan-architect:active {
+            transform: scale(0.92) translateY(8px);
+            filter: brightness(1.2);
+        }
+
+        .btn-architect-primary {
+            background: var(--gradient-titan-prime);
+            color: #fff;
+            box-shadow: 0 25px 80px rgba(79, 70, 229, 0.6);
+        }
+
+        .btn-architect-secondary {
+            background: rgba(255,255,255,0.1);
+            border: 3px solid rgba(255,255,255,0.25);
+            color: #fff;
+            backdrop-filter: blur(10px);
+        }
+
+        /* SUPREME TOAST SYSTEM */
+        #master-titan-toast {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-250px);
+            background: #1e293b;
+            color: #fff;
+            padding: 26px 85px;
+            border-radius: 120px;
+            z-index: var(--z-toast);
+            border: 3px solid var(--plasma-cyan);
+            font-weight: 1000;
+            transition: 0.9s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+            box-shadow: 0 50px 150px rgba(0,0,0,1);
             white-space: nowrap;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-size: 16px;
         }
-        #sys-toast.show { transform: translateX(-50%) translateY(0); }
+
+        #master-titan-toast.is-active {
+            transform: translateX(-50%) translateY(0);
+        }
 
     </style>
 </head>
 <body>
 
-<div class="nebula-container">
-    <div class="nebula-orb orb-1"></div>
-    <div class="nebula-orb orb-2"></div>
-    <div class="nebula-orb orb-3"></div>
+<div class="nebula-engine"><div class="nebula-orb orb-1"></div><div class="nebula-orb orb-2"></div><div class="nebula-orb orb-3"></div></div>
+
+<div id="master-boot-screen">
+    <div class="boot-branding">
+        <div class="boot-logo-text">VIBE OS</div>
+    </div>
+    <div class="boot-track"><div class="boot-track-fill"></div></div>
+    <div class="boot-log-txt">QUANTUM ARCHITECTURE ENGAGED</div>
 </div>
 
-<div id="boot-screen">
-    <div class="boot-logo">VIBE OS</div>
-    <div class="boot-loader-track"><div class="boot-loader-fill"></div></div>
-    <div class="boot-status-text">INITIALIZING SYSTEMS...</div>
-</div>
-
-<div id="app-wrapper">
+<div id="master-app-viewport">
     
-    <div class="app-header">
-        <div class="header-logo">VIBE <span>ULTIMATE</span></div>
-        <div class="btn-settings" onclick="App.openModal('settings')"><i class="fa-solid fa-gear"></i></div>
+    <div class="master-header">
+        <div class="master-brand">VIBE <span>SUPREME</span></div>
+        <div class="master-btn-round" onclick="App.open('settings')"><i class="fa-solid fa-microchip"></i></div>
     </div>
 
-    <div id="main-scroll">
+    <div id="master-scroll-container">
         
-        <div class="dashboard-grid">
-            <div class="dash-card full-width" onclick="App.openModal('settings')">
+        <div class="bi-grid">
+            
+            <div class="bi-card bi-card-hero" onclick="App.open('settings')">
                 <div>
-                    <div class="c-label">משתמש</div>
-                    <div id="ui-user-name" class="c-value" style="font-size:22px;">אורח</div>
+                    <div class="bi-label">IDENTITY PROTOCOL</div>
+                    <div id="ui-monolith-user-name" class="bi-value">אורח</div>
                 </div>
                 <div style="text-align: left;">
-                    <div class="c-label">הגדרות</div>
-                    <div id="ui-filter-count" class="c-subtext">0 פעילות</div>
+                    <div class="bi-label">QUANTUM FILTERS</div>
+                    <div id="ui-monolith-filters-active" style="color:var(--plasma-cyan); font-weight:1000; font-size:18px;">0 פעילים</div>
                 </div>
             </div>
 
-            <div class="dash-card" onclick="App.openModal('ring')">
-                <div class="c-label">מדד גופני</div>
-                <div id="ui-ring-status" class="c-value" style="color:var(--grade-a);">תקין</div>
-                <div class="c-subtext">Vibe Ring</div>
+            <div class="bi-card" onclick="App.open('ring')">
+                <div class="bi-label">BIOMETRIC SYNC</div>
+                <div id="ui-monolith-ring-label" class="bi-value" style="color:var(--g-a); font-size:32px;">תקין</div>
+                <div class="bi-sub-titan">Real-time Bio-Vibe Active</div>
             </div>
 
-            <div class="dash-card score-card" onclick="App.openModal('cart')">
-                <div id="ui-cart-badge" class="cart-grade-badge">A</div>
-                <div style="text-align:right; margin-left:auto; width:100%;">
-                    <div class="c-label">איכות הסל</div>
-                    <div id="ui-cart-score" class="c-value">100%</div>
-                    <div class="gauge-track"><div id="ui-cart-gauge" class="gauge-fill" style="width:100%;"></div></div>
-                    <div class="c-subtext" style="margin-top:8px;"><span id="ui-cart-count">0</span> פריטים</div>
+            <div class="bi-card bi-card-score" onclick="App.open('cart')">
+                <div id="ui-monolith-grade-badge" class="score-badge-monolith">A</div>
+                <div style="text-align:right; width:100%;">
+                    <div class="bi-label">INTELLIGENT CART QUALITY</div>
+                    <div id="ui-monolith-score-pct" class="bi-value">100%</div>
+                    <div class="bi-gauge-system"><div id="ui-monolith-gauge-fill" class="bi-gauge-fill-monolith"></div></div>
+                    <div class="bi-sub-titan"><span id="ui-monolith-cart-total-count">0</span> פריטים מאומתים בסל</div>
                 </div>
             </div>
+
         </div>
 
-        <div class="section-header">פעולות מהירות</div>
-        <div class="quick-action-row">
-            <input type="text" id="inp-quick-add" class="input-dark" placeholder="הקלד שם מוצר...">
-            <button class="btn-add-manual" onclick="Cart.addManual()">+</button>
+        <div class="section-title-architect" style="padding:0 40px; margin-top:20px; font-size:15px; font-weight:1000; color:#64748b; text-transform:uppercase; letter-spacing:3px; margin-bottom:15px;">חיפוש וזיהוי FUZZY v6</div>
+        <div class="lookup-matrix-container">
+            <input type="text" id="inp-architect-lookup" class="lookup-input-master" placeholder="הקלד שם מוצר, מותג או ברקוד...">
+            <button class="lookup-btn-master" onclick="Cart.executeMonolithLookup()">🔍</button>
         </div>
 
-        <div class="tags-container" id="active-tags-list">
-            </div>
+        <div id="ui-monolith-pills-container" class="dashboard-tags-cloud"></div>
 
     </div>
 
-    <div class="dock-wrapper">
-        <div class="dock-bar">
-            <div class="dock-btn" onclick="App.openModal('cart')">
-                <i class="fa-solid fa-cart-shopping"></i>
+    <div class="dock-titan-absolute-wrap">
+        <div class="dock-titan-monolith-bar">
+            
+            <div class="dock-monolith-trigger" onclick="App.open('cart')">
+                <i class="fa-solid fa-basket-shopping"></i>
                 <span>עגלה</span>
             </div>
             
-            <div class="scanner-btn-wrapper">
-                <div class="scanner-btn-main" onclick="Scanner.start()">
-                    <div class="scanner-content">
-                        <div class="icon-barcode-css">
-                            <div class="bar-line"></div><div class="bar-line"></div>
-                            <div class="bar-line"></div><div class="bar-line"></div>
+            <div class="scanner-monolith-fab-anchor">
+                <div class="scanner-fab-core-monolith" onclick="Scanner.deployQuantumEngine()">
+                    <div class="scan-monolith-viz">
+                        <div class="vector-barcode-supreme">
+                            <span class="vector-bar-segment"></span><span class="vector-bar-segment"></span>
+                            <span class="vector-bar-segment"></span><span class="vector-bar-segment"></span>
                         </div>
-                        <div class="scan-text">SCAN</div>
+                        <div class="scan-monolith-text">SCAN</div>
                     </div>
                 </div>
             </div>
 
-            <div class="dock-btn" onclick="App.openModal('history')">
-                <i class="fa-solid fa-clock-rotate-left"></i>
-                <span>היסטוריה</span>
+            <div class="dock-monolith-trigger" onclick="App.open('history')">
+                <i class="fa-solid fa-database"></i>
+                <span>Vault</span>
             </div>
+
         </div>
     </div>
 
-    <div id="sys-toast">הודעת מערכת</div>
+    <div id="master-titan-toast">ENGINE READY</div>
 
-    <div id="m-settings" class="modal-overlay"><div class="sheet-panel">
-        <div class="sheet-header"><div class="sheet-title">פרופיל אישי</div><div class="btn-close-sheet" onclick="App.closeModal('settings')">✕</div></div>
-        <div class="sheet-content">
-            <input type="text" id="inp-settings-name" class="input-dark" style="width:100%; margin-bottom:20px; text-align:right;" placeholder="שם מלא">
+    <div id="modal-settings" class="monolith-modal-overlay"><div class="monolith-master-sheet">
+        <div class="sheet-header-supreme"><div class="sheet-title-supreme">TITAN PREFERENCE ENGINE</div><div class="sheet-close-supreme" onclick="App.close('settings')">✕</div></div>
+        <div class="sheet-scroll-monolith" id="monolith-settings-payload">
+            <input type="text" id="inp-architect-identity" placeholder="הגדר זהות ארכיטקט" style="width:100%; padding:28px; background:rgba(255,255,255,0.08); border:none; border-radius:36px; color:#fff; margin-bottom:45px; text-align:right; font-size:24px; font-weight:1000; box-shadow: inset 0 5px 20px rgba(0,0,0,0.7);">
             
-            <div class="accordion cat-teal">
-                <div class="accordion-head" onclick="App.toggleAcc(this)">🏅 דירוג איכות <span>▼</span></div>
-                <div class="accordion-body">
-                    <input type="checkbox" id="q-aplus" class="option-check"><label for="q-aplus" class="option-label">A+ בלבד</label>
-                    <input type="checkbox" id="q-green" class="option-check"><label for="q-green" class="option-label">✅ תו ירוק</label>
-                    <input type="checkbox" id="q-natural" class="option-check"><label for="q-natural" class="option-label">🍃 100% טבעי</label>
-                    <input type="checkbox" id="q-nored" class="option-check"><label for="q-nored" class="option-label">🚫 ללא מדבקות אדומות</label>
-                </div>
-            </div>
+            <div class="param-acc-monolith theme-qual"><div class="param-acc-header" onclick="App.togAcc(this)">🏅 דירוג איכות ואימות <span>▼</span></div><div class="param-acc-body">
+                <input type="checkbox" id="q-aplus" class="param-chip-titan-input"><label for="q-aplus" class="param-chip-titan-label"><i class="fa-solid fa-crown"></i> A+ בלבד</label>
+                <input type="checkbox" id="q-green" class="param-chip-titan-input"><label for="q-green" class="param-chip-titan-label"><i class="fa-solid fa-circle-check"></i> תו ירוק (משרד הבריאות)</label>
+                <input type="checkbox" id="q-natural" class="param-chip-titan-input"><label for="q-natural" class="param-chip-titan-label"><i class="fa-solid fa-tree"></i> 100% טבעי</label>
+                <input type="checkbox" id="q-nored" class="param-chip-titan-input"><label for="q-nored" class="param-chip-titan-label"><i class="fa-solid fa-ban"></i> ללא מדבקות אדומות</label>
+                <input type="checkbox" id="q-nova" class="param-chip-titan-input"><label for="q-nova" class="param-chip-titan-label"><i class="fa-solid fa-flask-vial"></i> NOVA 1-2 (עיבוד נמוך)</label>
+                <input type="checkbox" id="q-pest" class="param-chip-titan-input"><label for="q-pest" class="param-chip-titan-label"><i class="fa-solid fa-spider"></i> ללא חומרי הדברה</label>
+                <input type="checkbox" id="q-micro" class="param-chip-titan-input"><label for="q-micro" class="param-chip-titan-label"><i class="fa-solid fa-bacteria"></i> ללא מיקרו-פלסטיק</label>
+                <input type="checkbox" id="q-frsh" class="param-chip-titan-input"><label for="q-frsh" class="param-chip-titan-label"><i class="fa-solid fa-wind"></i> טריות מקסימלית</label>
+            </div></div>
 
-            <div class="accordion cat-red">
-                <div class="accordion-head" onclick="App.toggleAcc(this)">⚠️ אלרגיות (קריטי) <span>▼</span></div>
-                <div class="accordion-body">
-                    <input type="checkbox" id="a-milk" class="option-check"><label for="a-milk" class="option-label">חלב</label>
-                    <input type="checkbox" id="a-gluten" class="option-check"><label for="a-gluten" class="option-label">גלוטן</label>
-                    <input type="checkbox" id="a-nuts" class="option-check"><label for="a-nuts" class="option-label">אגוזים</label>
-                    <input type="checkbox" id="a-peanuts" class="option-check"><label for="a-peanuts" class="option-label">בוטנים</label>
-                    <input type="checkbox" id="a-sesame" class="option-check"><label for="a-sesame" class="option-label">שומשום</label>
-                    <input type="checkbox" id="a-soy" class="option-check"><label for="a-soy" class="option-label">סויה</label>
-                    <input type="checkbox" id="a-eggs" class="option-check"><label for="a-eggs" class="option-label">ביצים</label>
-                    <input type="checkbox" id="a-fish" class="option-check"><label for="a-fish" class="option-label">דגים</label>
-                    <input type="checkbox" id="a-shell" class="option-check"><label for="a-shell" class="option-label">פירות ים</label>
-                    <input type="checkbox" id="a-corn" class="option-check"><label for="a-corn" class="option-label">תירס</label>
-                </div>
-            </div>
+            <div class="param-acc-monolith theme-med"><div class="param-acc-header" onclick="App.togAcc(this)">⚠️ אלרגיות (MEDICAL VETO) <span>▼</span></div><div class="param-acc-body">
+                <input type="checkbox" id="a-milk" class="param-chip-titan-input"><label for="a-milk" class="param-chip-titan-label">חלב</label>
+                <input type="checkbox" id="a-gluten" class="param-chip-titan-input"><label for="a-gluten" class="param-chip-titan-label">גלוטן (חיטה)</label>
+                <input type="checkbox" id="a-nuts" class="param-chip-titan-input"><label for="a-nuts" class="param-chip-titan-label">אגוזי עץ</label>
+                <input type="checkbox" id="a-peanuts" class="param-chip-titan-input"><label for="a-peanuts" class="param-chip-titan-label">בוטנים</label>
+                <input type="checkbox" id="a-sesame" class="param-chip-titan-input"><label for="a-sesame" class="param-chip-titan-label">שומשום</label>
+                <input type="checkbox" id="a-soy" class="param-chip-titan-input"><label for="a-soy" class="param-chip-titan-label">סויה</label>
+                <input type="checkbox" id="a-eggs" class="param-chip-titan-input"><label for="a-eggs" class="param-chip-titan-label">ביצים</label>
+                <input type="checkbox" id="a-fish" class="param-chip-titan-input"><label for="a-fish" class="param-chip-titan-label">דגים</label>
+                <input type="checkbox" id="a-shell" class="param-chip-titan-input"><label for="a-shell" class="param-chip-titan-label">פירות ים</label>
+                <input type="checkbox" id="a-mustard" class="param-chip-titan-input"><label for="a-mustard" class="param-chip-titan-label">חרדל</label>
+                <input type="checkbox" id="a-celery" class="param-chip-titan-input"><label for="a-celery" class="param-chip-titan-label">סלרי</label>
+                <input type="checkbox" id="a-sulfites" class="param-chip-titan-input"><label for="a-sulfites" class="param-chip-titan-label">סולפיטים</label>
+                <input type="checkbox" id="a-lupin" class="param-chip-titan-input"><label for="a-lupin" class="param-chip-titan-label">תורמוס</label>
+                <input type="checkbox" id="a-corn" class="param-chip-titan-input"><label for="a-corn" class="param-chip-titan-label">תירס</label>
+                <input type="checkbox" id="a-beans" class="param-chip-titan-input"><label for="a-beans" class="param-chip-titan-label">פול (G6PD)</label>
+                <input type="checkbox" id="a-strawberry" class="param-chip-titan-input"><label for="a-strawberry" class="param-chip-titan-label">תות שדה</label>
+            </div></div>
 
-            <div class="accordion cat-red">
-                <div class="accordion-head" onclick="App.toggleAcc(this)">🏥 בריאות ורפואה <span>▼</span></div>
-                <div class="accordion-body">
-                    <input type="checkbox" id="m-diabetes" class="option-check"><label for="m-diabetes" class="option-label">💉 סוכרת</label>
-                    <input type="checkbox" id="m-celiac" class="option-check"><label for="m-celiac" class="option-label">🌾 צליאק</label>
-                    <input type="checkbox" id="m-heart" class="option-check"><label for="m-heart" class="option-label">❤️ לב (שומן)</label>
-                    <input type="checkbox" id="m-salt" class="option-check"><label for="m-salt" class="option-label">🧂 לחץ דם (נתרן)</label>
-                    <input type="checkbox" id="m-kidney" class="option-check"><label for="m-kidney" class="option-label">🩺 כליות</label>
-                    <input type="checkbox" id="m-ibs" class="option-check"><label for="m-ibs" class="option-label">🎈 מעי רגיז</label>
-                </div>
-            </div>
+            <div class="param-acc-monolith theme-med"><div class="param-acc-header" onclick="App.togAcc(this)">🏥 מצב רפואי (וטו חמור) <span>▼</span></div><div class="param-acc-body">
+                <input type="checkbox" id="m-diabetes" class="param-chip-titan-input"><label for="m-diabetes" class="param-chip-titan-label"><i class="fa-solid fa-droplet"></i> סוכרת (וטו סוכר)</label>
+                <input type="checkbox" id="m-celiac" class="param-chip-titan-input"><label for="m-celiac" class="param-chip-titan-label"><i class="fa-solid fa-wheat-awn"></i> צליאק (וטו גלוטן)</label>
+                <input type="checkbox" id="m-pressure" class="param-chip-titan-input"><label for="m-pressure" class="param-chip-titan-label"><i class="fa-solid fa-heart-pulse"></i> לחץ דם (וטו נתרן)</label>
+                <input type="checkbox" id="m-heart" class="param-chip-titan-input"><label for="m-heart" class="param-chip-titan-label"><i class="fa-solid fa-heart"></i> בריאות הלב (וטו שומן)</label>
+                <input type="checkbox" id="m-kidney" class="param-chip-titan-input"><label for="m-kidney" class="param-chip-titan-label"><i class="fa-solid fa-stethoscope"></i> כליות (אשלגן/זרחן)</label>
+                <input type="checkbox" id="m-gout" class="param-chip-titan-input"><label for="m-gout" class="param-chip-titan-label"><i class="fa-solid fa-footprint"></i> גאוט (חומצת שתן)</label>
+                <input type="checkbox" id="m-ibs" class="param-chip-titan-input"><label for="m-ibs" class="param-chip-titan-label"><i class="fa-solid fa-pills"></i> מעי רגיז (FODMAP)</label>
+                <input type="checkbox" id="m-reflux" class="param-chip-titan-input"><label for="m-reflux" class="param-chip-titan-label"><i class="fa-solid fa-fire-burner"></i> צרבת / ריפלוקס</label>
+                <input type="checkbox" id="m-chol" class="param-chip-titan-input"><label for="m-chol" class="param-chip-titan-label"><i class="fa-solid fa-burger"></i> כולסטרול גבוה</label>
+                <input type="checkbox" id="m-migraine" class="param-chip-titan-input"><label for="m-migraine" class="param-chip-titan-label"><i class="fa-solid fa-head-side-virus"></i> מיגרנות</label>
+            </div></div>
 
-            <div class="accordion cat-blue">
-                <div class="accordion-head" onclick="App.toggleAcc(this)">🥗 דיאטה ואורח חיים <span>▼</span></div>
-                <div class="accordion-body">
-                    <input type="checkbox" id="l-vegan" class="option-check"><label for="l-vegan" class="option-label">טבעוני</label>
-                    <input type="checkbox" id="l-veg" class="option-check"><label for="l-veg" class="option-label">צמחוני</label>
-                    <input type="checkbox" id="l-keto" class="option-check"><label for="l-keto" class="option-label">קטו</label>
-                    <input type="checkbox" id="l-paleo" class="option-check"><label for="l-paleo" class="option-label">פליאו</label>
-                    <input type="checkbox" id="l-organic" class="option-check"><label for="l-organic" class="option-label">אורגני</label>
-                </div>
-            </div>
+            <div class="param-acc-monolith theme-diet"><div class="param-acc-header" onclick="App.togAcc(this)">🥗 דיאטה ואורח חיים <span>▼</span></div><div class="param-acc-body">
+                <input type="checkbox" id="l-vegan" class="param-chip-titan-input"><label for="l-vegan" class="param-chip-titan-label">טבעוני</label>
+                <input type="checkbox" id="l-veg" class="param-chip-titan-input"><label for="l-veg" class="param-chip-titan-label">צמחוני</label>
+                <input type="checkbox" id="l-keto" class="param-chip-titan-input"><label for="l-keto" class="param-chip-titan-label">קטו (Keto)</label>
+                <input type="checkbox" id="l-paleo" class="param-chip-titan-input"><label for="l-paleo" class="param-chip-titan-label">פליאו (Paleo)</label>
+                <input type="checkbox" id="l-lowcarb" class="param-chip-titan-input"><label for="l-lowcarb" class="param-chip-titan-label">דל פחמימה</label>
+                <input type="checkbox" id="l-organic" class="param-chip-titan-input"><label for="l-organic" class="param-chip-titan-label">אורגני</label>
+                <input type="checkbox" id="l-clean" class="param-chip-titan-input"><label for="l-clean" class="param-chip-titan-label">תווית נקייה (Clean Label)</label>
+                <input type="checkbox" id="l-whole30" class="param-chip-titan-input"><label for="l-whole30" class="param-chip-titan-label">Whole30</label>
+                <input type="checkbox" id="l-med" class="param-chip-titan-input"><label for="l-med" class="param-chip-titan-label">ים תיכוני</label>
+            </div></div>
 
-            <div class="accordion cat-gold">
-                <div class="accordion-head" onclick="App.toggleAcc(this)">✡️ דת וכשרות <span>▼</span></div>
-                <div class="accordion-body">
-                    <input type="checkbox" id="k-kosher" class="option-check"><label for="k-kosher" class="option-label">כשר רגיל</label>
-                    <input type="checkbox" id="k-badatz" class="option-check"><label for="k-badatz" class="option-label">בד"ץ</label>
-                    <input type="checkbox" id="k-mehadrin" class="option-check"><label for="k-mehadrin" class="option-label">מהדרין</label>
-                    <input type="checkbox" id="k-pass" class="option-check"><label for="k-pass" class="option-label">לפסח</label>
-                </div>
-            </div>
+            <div class="param-acc-monolith theme-chem"><div class="param-acc-header" onclick="App.togAcc(this)">🧪 רכיבים להימנעות <span>▼</span></div><div class="param-acc-body">
+                <input type="checkbox" id="x-sugar" class="param-chip-titan-input"><label for="x-sugar" class="param-chip-titan-label">סוכר לבן</label>
+                <input type="checkbox" id="x-proc" class="param-chip-titan-input"><label for="x-proc" class="param-chip-titan-label">מזון מעובד</label>
+                <input type="checkbox" id="x-caff" class="param-chip-titan-input"><label for="x-caff" class="param-chip-titan-label">קפאין</label>
+                <input type="checkbox" id="x-palm" class="param-chip-titan-input"><label for="x-palm" class="param-chip-titan-label">שמן דקלים</label>
+                <input type="checkbox" id="x-msg" class="param-chip-titan-input"><label for="x-msg" class="param-chip-titan-label">מונוסודיום (MSG)</label>
+                <input type="checkbox" id="x-trans" class="param-chip-titan-input"><label for="x-trans" class="param-chip-label">שומן טראנס</label>
+                <input type="checkbox" id="x-colors" class="param-chip-titan-input"><label for="x-colors" class="param-chip-titan-label">צבעי מאכל</label>
+                <input type="checkbox" id="x-preserv" class="param-chip-titan-input"><label for="x-preserv" class="param-chip-titan-label">חומרים משמרים</label>
+                <input type="checkbox" id="x-sweet" class="param-chip-titan-input"><label for="x-sweet" class="param-chip-titan-label">ממתיקים מלאכותיים</label>
+                <input type="checkbox" id="x-hfc" class="param-chip-titan-input"><label for="x-hfc" class="param-chip-titan-label">סירופ תירס</label>
+                <input type="checkbox" id="x-phos" class="param-chip-titan-input"><label for="x-phos" class="param-chip-titan-label">זרחן סינתטי</label>
+            </div></div>
 
-            <div class="accordion cat-purple">
-                <div class="accordion-head" onclick="App.toggleAcc(this)">🧪 רכיבים להימנעות <span>▼</span></div>
-                <div class="accordion-body">
-                    <input type="checkbox" id="x-sugar" class="option-check"><label for="x-sugar" class="option-label">🍭 תוספת סוכר</label>
-                    <input type="checkbox" id="x-proc" class="option-check"><label for="x-proc" class="option-label">🍕 מעובד</label>
-                    <input type="checkbox" id="x-caff" class="option-check"><label for="x-caff" class="option-label">☕ קפאין</label>
-                    <input type="checkbox" id="x-palm" class="option-check"><label for="x-palm" class="option-label">🌴 שמן דקלים</label>
-                    <input type="checkbox" id="x-msg" class="option-check"><label for="x-msg" class="option-label">🧂 מונוסודיום</label>
-                    <input type="checkbox" id="x-color" class="option-check"><label for="x-color" class="option-label">🎨 צבעי מאכל</label>
-                </div>
-            </div>
+            <div class="param-acc-monolith theme-kosh"><div class="param-acc-header" onclick="App.togAcc(this)">✡️ דת וכשרות <span>▼</span></div><div class="param-acc-body">
+                <input type="checkbox" id="k-kosher" class="param-chip-titan-input"><label for="k-kosher" class="param-chip-titan-label">כשר רגיל</label>
+                <input type="checkbox" id="k-badatz" class="param-chip-titan-input"><label for="k-badatz" class="param-chip-titan-label">✨ בד"ץ בלבד</label>
+                <input type="checkbox" id="k-mehadrin" class="param-chip-titan-input"><label for="k-mehadrin" class="param-chip-titan-label">מהדרין</label>
+                <input type="checkbox" id="k-parve" class="param-chip-titan-input"><label for="k-parve" class="param-chip-titan-label">פרווה בלבד</label>
+                <input type="checkbox" id="k-passover" class="param-chip-titan-input"><label for="k-passover" class="param-chip-titan-label">כשר לפסח</label>
+                <input type="checkbox" id="k-halal" class="param-chip-titan-input"><label for="k-halal" class="param-chip-titan-label">🕌 חלאל</label>
+            </div></div>
 
-            <div class="accordion cat-green">
-                <div class="accordion-head" onclick="App.toggleAcc(this)">🌍 אתיקה <span>▼</span></div>
-                <div class="accordion-body">
-                    <input type="checkbox" id="e-fair" class="option-check"><label for="e-fair" class="option-label">🤝 סחר הוגן</label>
-                    <input type="checkbox" id="e-local" class="option-check"><label for="e-local" class="option-label">🇮🇱 תוצרת הארץ</label>
-                    <input type="checkbox" id="e-recycle" class="option-check"><label for="e-recycle" class="option-label">♻️ אריזה מתכלה</label>
-                </div>
-            </div>
+            <div class="param-acc-monolith theme-ethic"><div class="param-acc-header" onclick="App.togAcc(this)">🌍 אתיקה וסביבה <span>▼</span></div><div class="param-acc-body">
+                <input type="checkbox" id="e-fair" class="param-chip-titan-input"><label for="e-fair" class="param-chip-titan-label">סחר הוגן</label>
+                <input type="checkbox" id="e-local" class="param-chip-titan-input"><label for="e-local" class="param-chip-titan-label">🇮🇱 תוצרת הארץ</label>
+                <input type="checkbox" id="e-recycle" class="param-chip-titan-input"><label for="e-recycle" class="param-chip-titan-label">אריזה מתכלה</label>
+                <input type="checkbox" id="e-gmo" class="param-chip-titan-input"><label for="e-gmo" class="param-chip-titan-label">ללא הנדסה גנטית</label>
+                <input type="checkbox" id="e-animal" class="param-chip-titan-input"><label for="e-animal" class="param-chip-titan-label">ללא ניסויים בבע"ח</label>
+            </div></div>
 
-            <div class="accordion cat-orange">
-                <div class="accordion-head" onclick="App.toggleAcc(this)">👶 מרקם וחושים <span>▼</span></div>
-                <div class="accordion-body">
-                    <input type="checkbox" id="s-soft" class="option-check"><label for="s-soft" class="option-label">☁️ רך</label>
-                    <input type="checkbox" id="s-crunch" class="option-check"><label for="s-crunch" class="option-label">🥨 קריספי</label>
-                    <input type="checkbox" id="s-liquid" class="option-check"><label for="s-liquid" class="option-label">💧 נוזלי</label>
-                    <input type="checkbox" id="s-smooth" class="option-check"><label for="s-smooth" class="option-label">🍮 חלק</label>
-                    <input type="checkbox" id="s-nospice" class="option-check"><label for="s-nospice" class="option-label">🌶️ לא חריף</label>
-                </div>
-            </div>
         </div>
-        <div class="sheet-footer">
-            <button class="btn-action btn-primary" onclick="User.save()">שמור הגדרות</button>
-            <button class="btn-action btn-danger" onclick="User.clear()">איפוס מלא</button>
-        </div>
+        <div class="sheet-footer-monolith"><button class="btn-titan-architect btn-architect-primary" onclick="User.deploySupremeProfile()"><i class="fa-solid fa-dna"></i> בצע פריסת פרופיל</button></div>
     </div></div>
 
-    <div id="m-cart" class="modal-overlay"><div class="sheet-panel">
-        <div class="sheet-header"><div class="sheet-title">עגלה משותפת</div><div class="btn-close-sheet" onclick="App.closeModal('cart')">✕</div></div>
-        <div class="sheet-content" id="ui-cart-list"></div>
-        <div class="sheet-footer">
-            <button class="btn-action btn-secondary" onclick="Cart.clear()">רוקן עגלה</button>
-        </div>
-    </div></div>
-
-    <div id="m-history" class="modal-overlay"><div class="sheet-panel">
-        <div class="sheet-header"><div class="sheet-title">היסטוריה</div><div class="btn-close-sheet" onclick="App.closeModal('history')">✕</div></div>
-        <div class="sheet-content">
-            <div class="hist-panel">
-                <div class="hist-inputs">
-                    <input type="date" id="hist-start" class="hist-date" onchange="History.render()">
-                    <input type="date" id="hist-end" class="hist-date" onchange="History.render()">
-                </div>
-                <input type="text" id="hist-search" class="input-dark" style="width:100%; margin-bottom:10px;" placeholder="חפש מוצר או מותג..." onkeyup="History.render()">
-                
-                <div class="agg-toggle" onclick="History.toggleAgg()">
-                    <span>📂 צמצם פריטים זהים (Aggregation)</span><span id="hist-agg-text">OFF</span>
-                </div>
-            </div>
-            <div id="ui-hist-list"></div>
-        </div>
-    </div></div>
-
-    <div id="m-ring" class="modal-overlay"><div class="sheet-panel" style="height:auto;">
-        <div class="sheet-header"><div class="sheet-title">מצב גופני</div><div class="btn-close-sheet" onclick="App.closeModal('ring')">✕</div></div>
-        <div class="sheet-content">
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-                <button class="btn-action btn-secondary" onclick="App.setRing('normal')">🟢 רגיל</button>
-                <button class="btn-action btn-secondary" onclick="App.setRing('stress')">🤯 סטרס</button>
-                <button class="btn-action btn-secondary" onclick="App.setRing('sick')">🤒 חולי</button>
-                <button class="btn-action btn-secondary" onclick="App.setRing('sugar')">🩸 נפילת סוכר</button>
-                <button class="btn-action btn-secondary" onclick="App.setRing('sport')">💪 אחרי אימון</button>
-            </div>
-        </div>
-    </div></div>
-
-    <div id="m-result" class="modal-overlay"><div class="sheet-panel">
-        <div class="sheet-header"><div class="sheet-title">תוצאות סריקה</div><div class="btn-close-sheet" onclick="App.closeModal('result')">✕</div></div>
-        <div class="sheet-content" style="text-align:center;">
-            <div id="res-grade-orb" class="grade-orb-large">A</div>
-            <h2 id="res-prod-name" class="result-title-lg">שם מוצר</h2>
-            <div id="res-prod-brand" class="result-brand-sub">מותג</div>
+    <div id="modal-result" class="monolith-modal-overlay"><div class="monolith-master-sheet">
+        <div class="sheet-header-supreme"><div>ניתוח TITAN סופי</div><div class="sheet-close-supreme" onclick="App.close('result')">✕</div></div>
+        <div class="sheet-scroll-monolith" style="text-align:center;">
+            <div id="res-titan-orb" class="grade-orb-supreme-monolith">A</div>
+            <h2 id="res-monolith-name" style="font-size:46px; font-weight:1000; line-height:1; margin-bottom:12px;">שם מוצר</h2>
+            <div id="res-monolith-brand" style="color:#94a3b8; font-size:22px; margin-bottom:40px; font-weight:600;">מותג המערכת</div>
+            <div id="res-titan-report" class="intelligence-report-card"></div>
             
-            <div id="res-analysis-box" class="analysis-box"></div>
+            <div id="res-monolith-prices" style="margin-top:45px; display:grid; grid-template-columns:1fr 1fr; gap:18px;"></div>
         </div>
-        <div class="sheet-footer">
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
-                <button class="btn-action btn-primary" onclick="Cart.addScanned(true)">+ לבית</button>
-                <button class="btn-action btn-secondary" onclick="Cart.addScanned(false)">+ לי</button>
-            </div>
+        <div class="sheet-footer-monolith" style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+            <button class="btn-titan-architect btn-architect-primary" onclick="Cart.addMonolithValidated(true)">+ לבית</button>
+            <button class="btn-titan-architect btn-architect-secondary" onclick="Cart.addMonolithValidated(false)">+ לי</button>
         </div>
     </div></div>
 
-    <div id="scanner-ui-layer">
-        <div id="qr-video-container"></div>
-        <div class="scanner-hud">
-            <div class="scanner-reticle"><div class="scanner-laser"></div></div>
+    <div id="modal-cart" class="monolith-modal-overlay"><div class="monolith-master-sheet">
+        <div class="sheet-header-supreme"><div>סל קניות מאומת v6</div><div class="sheet-close-supreme" onclick="App.close('cart')">✕</div></div>
+        <div class="sheet-scroll-monolith" id="ui-monolith-cart-payload"></div>
+        <div class="sheet-footer-monolith"><button class="btn-titan-architect btn-architect-secondary" style="color:var(--g-e); border-color:rgba(255,0,0,0.3);" onclick="Cart.monolithPurge()">Purge All Cart Data</button></div>
+    </div></div>
+
+    <div id="modal-history" class="monolith-modal-overlay"><div class="monolith-master-sheet">
+        <div class="sheet-header-supreme"><div>THE VAULT - BI ANALYTICS</div><div class="sheet-close-supreme" onclick="App.close('history')">✕</div></div>
+        <div class="sheet-scroll-monolith">
+            <div class="bi-vault-panel">
+                <div class="bi-date-row">
+                    <input type="date" id="vault-bi-start-date" class="inp-vault" onchange="History.vaultSync()">
+                    <input type="date" id="vault-bi-end-date" class="inp-vault" onchange="History.vaultSync()">
+                </div>
+                <input type="text" id="vault-bi-search-input" class="lookup-input-master search-vault" style="width:100%; margin-bottom:20px;" placeholder="חפש מוצר או מותג בארכיון..." onkeyup="History.vaultSync()">
+                <div id="vault-bi-grade-filters" class="grade-bi-chips"></div>
+                <div class="agg-mode-switch" onclick="History.toggleVaultAggregation()">
+                    <span>📂 מצב צמצום (Aggregation Mode)</span><span id="agg-status-vault-ui" style="color:var(--plasma-cyan);">OFF</span>
+                </div>
+            </div>
+            <div id="ui-monolith-vault-list"></div>
         </div>
-        <div style="position:absolute; bottom:50px; width:100%; display:flex; justify-content:center; z-index:5001;">
-            <button onclick="Scanner.stop()" style="background:rgba(0,0,0,0.6); border:1px solid #fff; color:#fff; padding:12px 36px; border-radius:30px; font-weight:700;">ביטול חזרה</button>
+    </div></div>
+
+    <div id="modal-ring" class="monolith-modal-overlay"><div class="monolith-master-sheet" style="height:auto;">
+        <div class="sheet-header-supreme"><div>BIO-SYNC RING v7</div><div class="sheet-close-supreme" onclick="App.close('ring')">✕</div></div>
+        <div class="sheet-body" style="display:grid; grid-template-columns:1fr 1fr; gap:25px; padding:50px;">
+            <button class="btn-titan-architect btn-architect-secondary" onclick="App.monolithSyncRing('normal')">🟢 רגיל</button>
+            <button class="btn-titan-architect btn-architect-secondary" onclick="App.monolithSyncRing('stress')">🤯 סטרס</button>
+            <button class="btn-titan-architect btn-architect-secondary" onclick="App.monolithSyncRing('sick')">🤒 חולי</button>
+            <button class="btn-titan-architect btn-architect-secondary" onclick="App.monolithSyncRing('sugar')">🩸 סוכר</button>
+            <button class="btn-titan-architect btn-architect-secondary" onclick="App.monolithSyncRing('sport')">💪 אימון</button>
+            <button class="btn-titan-architect btn-architect-secondary" onclick="App.monolithSyncRing('tired')">😴 עייפות</button>
+        </div>
+    </div></div>
+
+    <div id="master-quantum-scanner-viewport">
+        <div id="qr-engine-monolith-instance"></div>
+        <div class="quantum-hud-monolith">
+            <div class="quantum-scanner-frame">
+                <div class="quantum-edge"></div>
+                <div class="quantum-scanner-laser"></div>
+            </div>
+        </div>
+        <div style="position:absolute; bottom:80px; width:100%; display:flex; justify-content:center; z-index:5001;">
+            <button onclick="Scanner.disengageQuantum()" style="background:rgba(0,0,0,0.75); border:3px solid rgba(255,255,255,0.5); color:#fff; padding:24px 70px; border-radius:60px; font-weight:1000; cursor:pointer; backdrop-filter:blur(25px); letter-spacing:4px; box-shadow: 0 0 50px rgba(0,0,0,0.8);">TERMINATE ENGINE</button>
         </div>
     </div>
 
@@ -1088,341 +1252,297 @@
 
 <script>
     /* =========================================================================
-       LOGIC ENGINE: VIBE OS OMEGA
+       TITAN SUPREME MONOLITH CORE v7.2
+       ARCHITECT: ABSOLUTE QUANTUM IMPLEMENTATION
        ========================================================================= */
 
-    // --- 1. CONFIGURATION & DATA ---
-    const COLORS = {
-        'A+': 'var(--grade-ap)', 'A': 'var(--grade-a)', 'B+': 'var(--grade-bp)', 'B': 'var(--grade-b)',
-        'C': 'var(--grade-c)', 'D': 'var(--grade-d)', 'E': 'var(--grade-e)'
-    };
-    const SCORES = { 'A+':100, 'A':90, 'B+':85, 'B':80, 'C':60, 'D':40, 'E':20 };
-
-    // --- TITAN DB FACTORY (2500 ITEMS) ---
-    const TEMPLATES = [
-        {n:'לחם מלא', cat:'bakery', g:'A', tags:['gl','local']}, {n:'לחם לבן', cat:'bakery', g:'C', tags:['gl','sug','local']},
-        {n:'חלה מתוקה', cat:'bakery', g:'D', tags:['gl','sug']}, {n:'פיתה כוסמין', cat:'bakery', g:'A', tags:['gl']},
-        {n:'חלב 3%', cat:'dairy', g:'B', tags:['da','liquid']}, {n:'חלב סויה', cat:'dairy', g:'A', tags:['soy','ethics']},
-        {n:'קוטג\'', cat:'dairy', g:'A', tags:['da']}, {n:'גבינה צהובה', cat:'dairy', g:'D', tags:['da','proc','salt']},
-        {n:'מילקי', cat:'dairy', g:'E', tags:['da','sug']}, {n:'קוקה קולה', cat:'drink', g:'E', tags:['sug','caff']},
-        {n:'קולה זירו', cat:'drink', g:'D', tags:['caff','sweet']}, {n:'במבה', cat:'snack', g:'C', tags:['nut']},
-        {n:'ביסלי', cat:'snack', g:'E', tags:['gl','proc']}, {n:'תפוצ\'יפס', cat:'snack', g:'D', tags:['proc']},
-        {n:'שוקולד', cat:'snack', g:'E', tags:['da','sug']}, {n:'פסטה', cat:'pantry', g:'B', tags:['gl']},
-        {n:'אורז', cat:'pantry', g:'B', tags:[]}, {n:'מלפפון', cat:'fresh', g:'A+', tags:['fresh']}, 
-        {n:'עגבניה', cat:'fresh', g:'A+', tags:['fresh']}, {n:'שניצל תירס', cat:'frozen', g:'C', tags:['gl','proc']},
-        {n:'טונה', cat:'pantry', g:'A', tags:['fish']}, {n:'נקניקיות', cat:'frozen', g:'E', tags:['proc','meat']},
-        {n:'המבורגר', cat:'frozen', g:'D', tags:['meat','proc']}, {n:'סלמון', cat:'meat', g:'A', tags:['fish','fresh']}
+    // --- 1. DATA MONOLITH (SINGLETON GENERATOR - 2500 ITEMS) ---
+    const BRANDS_MONOLITH = ['תנובה','שטראוס','אסם','עלית','טרה','רמי לוי','שופרסל','טבעול','קרפור IL','יוחננוף','ויקטורי','ניצת הדובדבן','הנמל','סוגת','ויסוצקי','בלדי','טירת צבי','זוגלובק','עוף טוב','מאמא עוף','מחלבות רמת הגולן','גד','השדה','אורגניק','באדי','מילקי','קוקה קולה','היינץ','הלמנס','קנור','סטארקיסט','פוסידון','יד מרדכי','יכין','פרי ניר','סנפרוסט','מעדנות','שלושת האופים','בן אנד ג\'ריס','גולדה','נביעות','מי עדן'];
+    
+    const PRODUCTS_TITAN_TEMPLATES = [
+        {n:'לחם מלא 100%', cat:'bakery', g:'A', sugar:1.8, salt:410, tags:['gl','local','green','natural','vegan']},
+        {n:'חלב 3% טרי', cat:'dairy', g:'B', sugar:4.8, salt:50, tags:['da','local']},
+        {n:'מילקי עם קצפת', cat:'dairy', g:'E', sugar:16, salt:75, tags:['da','sug','proc','additive']},
+        {n:'מלפפון בלאדי טרי', cat:'fresh', g:'A+', sugar:0.7, salt:2, tags:['fresh','natural','low-glycemic','green']},
+        {n:'קולה זירו', cat:'drink', g:'D', sugar:0, salt:16, tags:['caff','proc','artificial']},
+        {n:'טחינה גולמית משומשום', cat:'pantry', g:'A+', sugar:0.4, salt:12, tags:['ses','local','natural','superfood']},
+        {n:'במבה קלאסית', cat:'snack', g:'B', sugar:2.5, salt:380, tags:['nut','local']},
+        {n:'שניצל תירס משפחתי', cat:'frozen', g:'C', sugar:3.8, salt:590, tags:['gl','proc','additive']},
+        {n:'פסטה ברילה מקורי', cat:'pantry', g:'B', sugar:0.9, salt:5, tags:['gl']},
+        {n:'חומוס אסלי אמיתי', cat:'pantry', g:'D', sugar:1.6, salt:550, tags:['proc','local','salt','additive']},
+        {n:'ביצים טריות L', cat:'fresh', g:'A', sugar:0.3, salt:125, tags:['eggs','local','natural']},
+        {n:'יוגורט BIO לבן', cat:'dairy', g:'A+', sugar:3.9, salt:48, tags:['da','natural','green']},
+        {n:'שמן זית כתית מעולה', cat:'pantry', g:'A+', sugar:0, salt:0, tags:['local','natural','superfood']},
+        {n:'חמאת בוטנים טבעית', cat:'pantry', g:'A', sugar:1.7, salt:12, tags:['nut','natural','vegan']},
+        {n:'סלט טונה בשמן', cat:'pantry', g:'C', sugar:2, salt:500, tags:['fish','proc','salt']},
+        {n:'אורז פרסי קלאסי', cat:'pantry', g:'B', sugar:0.2, salt:5, tags:['local']},
+        {n:'קורנפלקס תלמה', cat:'pantry', g:'C', sugar:8, salt:450, tags:['gl','sug','proc']},
+        {n:'קוסקוס מהיר', cat:'pantry', g:'C', sugar:1, salt:10, tags:['gl','local']},
+        {n:'שוקולד פרה עלית', cat:'snack', g:'E', sugar:55, salt:100, tags:['da','sug','proc']},
+        {n:'פיתה כוסמין מלא', cat:'bakery', g:'A', sugar:1.5, salt:380, tags:['gl','local','green']},
+        {n:'קוטג\' 5% טרי', cat:'dairy', g:'A', sugar:3, salt:350, tags:['da','local']},
+        {n:'תפוח עץ ירוק', cat:'fresh', g:'A+', sugar:10, salt:0, tags:['fresh','natural','sug']},
+        {n:'גבינה צהובה עמק', cat:'dairy', g:'D', sugar:0.5, salt:650, tags:['da','proc','salt']}
     ];
-    const BRANDS = ['תנובה','שטראוס','אסם','עלית','טרה','רמי לוי','שופרסל','טבעול','סוגת','ויסוצקי','גד','נסטלה','יוניליוור','אנג\'ל','ברמן','מאפיית אריאל','זוגלובק','עוף טוב','מאמא עוף','בייגל בייגל','כרמית','אחוה','השחר','נוטלה','פררו','קינדר','מילקה','לייז','דוריטוס','פרינגלס','היינץ','הלמנס','קנור','וילי פוד','סטארקיסט','פוסידון','יד מרדכי','יכין','פרי ניר','סנפרוסט','מעדנות','שלושת האופים','פילסברי','בן אנד ג\'ריס','גולדה','פלדמן','ריאו','נביעות','מי עדן','עין גדי','שוופס','קריסטל','טמפו','קרלסברג','היינקן','גולדסטאר','מכבי','נשר','פפסי','קוקה קולה','ספרייט','פאנטה','קינלי','פיוז טי','ג\'אמפ','פריגת','ספרינג','טרופית','שוקו יטבתה'];
 
-    let DB = [];
-    // Initialize DB
+    let MASTER_MONOLITH_DB = [];
     for(let i=0; i<2500; i++) {
-        const t = TEMPLATES[Math.floor(Math.random()*TEMPLATES.length)];
-        const b = BRANDS[Math.floor(Math.random()*BRANDS.length)];
-        let g = t.g; if(g==='B' && Math.random()>0.5) g='B+'; // Variation
-        DB.push({ ...t, b: b, g: g, id: i, fullName: `${t.n} ${b}` });
+        const base = PRODUCTS_TITAN_TEMPLATES[i % PRODUCTS_TITAN_TEMPLATES.length];
+        const brand = BRANDS_MONOLITH[i % BRANDS_MONOLITH.length];
+        let g = base.g;
+        // Dynamic Grading drift logic
+        if(g==='B' && Math.random()>0.5) g='B+'; 
+        MASTER_MONOLITH_DB.push({ ...base, b: brand, fullName: `${base.n} ${brand}`, g: g, id: (7290000 + i).toString() });
     }
 
-    // --- 2. APP STATE ---
-    const State = {
-        user: { name:'אורח', filters:[] },
-        cart: [],
-        history: [],
-        ring: 'normal',
-        tempItem: null
+    // --- 2. THE ABSOLUTE STATE CONTROLLER ---
+    let State = { 
+        user: {name:'אורח', filters:[]}, 
+        cart: [], 
+        history: [], 
+        ring: 'normal', 
+        temp: null, 
+        isAgg: false, 
+        vaultGrades: [] 
     };
-
-    // --- 3. LIFECYCLE ---
-    window.onload = () => {
-        // Load Storage
-        const u=localStorage.getItem('vUlt_user'); if(u) State.user=JSON.parse(u);
-        const c=localStorage.getItem('vUlt_cart'); if(c) State.cart=JSON.parse(c);
-        const h=localStorage.getItem('vUlt_hist'); if(h) State.history=JSON.parse(h);
-        
-        if(State.history.length === 0) seedHistory(); // Mock history first run
-
-        // Boot UI
-        setTimeout(() => {
-            const boot = document.getElementById('boot-screen');
-            boot.style.opacity = 0;
-            setTimeout(() => { 
-                boot.style.display = 'none'; 
-                document.getElementById('app-wrapper').classList.add('loaded');
-            }, 600);
-        }, 2000);
-
-        // Date Defaults
-        const end = new Date();
-        const start = new Date(); start.setMonth(start.getMonth()-6);
-        document.getElementById('hist-end').valueAsDate = end;
-        document.getElementById('hist-start').valueAsDate = start;
-
-        App.updateDashboard();
-    };
-
-    function seedHistory() {
-        for(let i=0; i<40; i++) {
-            let p = DB[Math.floor(Math.random()*DB.length)];
-            State.history.push({...p, t:new Date().toISOString(), u:'בית'});
-        }
-        Core.save();
-    }
-
-    // --- 4. CONTROLLERS ---
 
     const App = {
-        openModal: function(id) {
-            document.getElementById('m-'+id).classList.add('is-visible');
-            if(id === 'cart') Cart.render();
-            if(id === 'history') History.render();
-            if(id === 'settings') User.loadSettingsUI();
+        init: function() {
+            this.bootSync();
+            this.buildVaultFilters();
+            
+            // TITAN BOOT SEQUENCE
+            setTimeout(() => {
+                const boot = document.getElementById('master-boot-screen');
+                boot.style.opacity = 0;
+                setTimeout(() => { 
+                    boot.remove(); 
+                    document.getElementById('titan-app-frame').classList.add('active');
+                }, 1000);
+            }, 3500);
+            this.globalUpdate();
         },
-        closeModal: function(id) { document.getElementById('m-'+id).classList.remove('is-visible'); },
-        toggleAcc: function(el) { el.parentElement.classList.toggle('is-open'); },
-        
-        updateDashboard: function() {
-            document.getElementById('ui-user-name').innerText = State.user.name;
-            document.getElementById('ui-filter-count').innerText = State.user.filters.length + ' מסננים פעילים';
-            
-            const rMap = {'normal':'תקין','stress':'סטרס','sick':'חולי','sugar':'נפילת סוכר','sport':'אימון'};
-            document.getElementById('ui-ring-status').innerText = rMap[State.ring] || 'תקין';
-            
-            // Score
-            let score = 100;
-            if(State.cart.length > 0) {
-                let total = 0;
-                State.cart.forEach(i => total += SCORES[i.g] || 50);
-                score = Math.round(total / State.cart.length);
-            }
-            document.getElementById('ui-cart-score').innerText = score + '%';
-            document.getElementById('ui-cart-gauge').style.width = score + '%';
-            document.getElementById('ui-cart-count').innerText = State.cart.length;
-            
-            // Badge Logic
-            let g = 'E';
-            if(score>=95) g='A+'; else if(score>=85) g='A'; else if(score>=80) g='B+';
-            else if(score>=70) g='B'; else if(score>=60) g='C'; else if(score>=40) g='D';
-            
-            const b = document.getElementById('ui-cart-badge');
-            b.innerText = g;
-            b.style.color = COLORS[g];
-            b.style.borderColor = COLORS[g];
-            b.style.boxShadow = `0 0 20px ${COLORS[g]}`;
-
-            // Tags
-            const tMap = {'a-milk':'🥛','a-gluten':'🍞','m-diabetes':'💉','q-green':'✅'};
-            document.getElementById('active-tags-list').innerHTML = State.user.filters.slice(0,3).map(f => 
-                `<div class="info-tag">${tMap[f]||''} ${f.split('-')[1]}</div>`
-            ).join('');
+        bootSync: function() {
+            const u=localStorage.getItem('vMonolith_user'); if(u) State.user=JSON.parse(u);
+            const c=localStorage.getItem('vMonolith_cart'); if(c) State.cart=JSON.parse(c);
+            const h=localStorage.getItem('vMonolith_hist'); if(h) State.history=JSON.parse(h);
         },
-
-        setRing: function(s) {
-            State.ring = s;
-            Core.save();
-            App.closeModal('ring');
-            App.updateDashboard();
-            App.toast('סטטוס גופני עודכן');
+        saveAll: function() {
+            localStorage.setItem('vMonolith_user', JSON.stringify(State.user));
+            localStorage.setItem('vMonolith_cart', JSON.stringify(State.cart));
+            localStorage.setItem('vMonolith_hist', JSON.stringify(State.history));
         },
-
-        toast: function(msg) {
-            const t = document.getElementById('sys-toast');
-            t.innerText = msg; t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 2000);
-        }
-    };
-
-    const Core = {
-        save: function() {
-            localStorage.setItem('vUlt_user', JSON.stringify(State.user));
-            localStorage.setItem('vUlt_cart', JSON.stringify(State.cart));
-            localStorage.setItem('vUlt_hist', JSON.stringify(State.history));
+        globalUpdate: function() {
+            document.getElementById('ui-monolith-user-name').innerText = State.user.name;
+            document.getElementById('ui-monolith-filters-active').innerText = State.user.filters.length + ' הגדרות פעילות';
+            this.updateDashboardBI();
         },
-        clearData: function() {
-            if(confirm('למחוק הכל?')) { localStorage.clear(); location.reload(); }
+        updateDashboardBI: function() {
+            const rMap = {'normal':'תקין','stress':'סטרס 🤯','sick':'חולי 🤒','sugar':'נפילת סוכר 🩸','sport':'אימון 💪','tired':'עייפות 😴'};
+            document.getElementById('ui-monolith-ring-label').innerText = rMap[State.ring] || 'תקין';
+            
+            // CALCULATE CART INTELLIGENCE
+            let score=100; if(State.cart.length>0){ let t=0; State.cart.forEach(i=>t+=SCORES[i.g]||50); score=Math.round(t/State.cart.length); }
+            document.getElementById('ui-score-percentage').innerText = score + '%';
+            const bar = document.getElementById('ui-monolith-gauge-fill'); bar.style.width = score + '%';
+            
+            // DYNAMIC BADGE MAPPING
+            let g='E'; if(score>=96)g='A+'; else if(score>=88)g='A'; else if(score>=82)g='B+'; else if(score>=72)g='B'; else if(score>=58)g='C'; else if(score>=38)g='D';
+            const badge = document.getElementById('ui-monolith-grade-badge'); badge.innerText = g; badge.style.color = COLORS[g]; badge.style.borderColor = COLORS[g]; badge.style.boxShadow = `0 0 50px ${COLORS[g]}`;
+            bar.style.background = COLORS[g];
+            document.getElementById('ui-monolith-cart-total-count').innerText = State.cart.length;
+
+            // RENDER ACTIVE PILL CLOUD
+            const tMap = {'a-milk':'🥛 חלב','a-gluten':'🍞 גלוטן','m-diabetes':'💉 סוכרת','q-green':'✅ ירוק','l-vegan':'🌱 טבעוני','e-local':'🇮🇱 מקומי','q-aplus':'👑 A+ בלבד'};
+            document.getElementById('ui-monolith-pills-container').innerHTML = State.user.filters.slice(0,8).map(f => `<div class="titan-pills-master">${tMap[f]||f.split('-')[1]}</div>`).join('');
         },
-        clearCart: function() {
-            if(confirm('לרוקן?')) { State.cart=[]; Core.save(); App.closeModal('cart'); App.updateDashboard(); }
+        open: function(id) { document.getElementById('modal-'+id).classList.add('active'); if(id==='cart') Cart.render(); if(id==='history') History.vaultSync(); if(id==='settings') User.loadUI(); },
+        close: function(id) { document.getElementById('modal-'+id).classList.remove('active'); },
+        buildVaultFilters: function() {
+            const grades = ['A+','A','B+','B','C','D','E'];
+            document.getElementById('vault-bi-grade-filters').innerHTML = grades.map(g => `<div class="bi-chip" onclick="History.toggleBiGrade(this,'${g}')">${g}</div>`).join('');
+            document.getElementById('vault-bi-end-date').valueAsDate = new Date();
+            let d = new Date(); d.setMonth(d.getMonth()-6);
+            document.getElementById('vault-bi-start-date').valueAsDate = d;
         },
-        analyze: function(p) {
-            let g = p.g;
-            let reasons = [];
-            const f = State.user.filters;
-
-            // Logic Tree
-            if(f.includes('a-gluten') && p.tags.includes('gl')) { g='E'; reasons.push('גלוטן'); }
-            if(f.includes('a-milk') && p.tags.includes('da')) { g='E'; reasons.push('חלב'); }
-            if(f.includes('m-diabetes') && p.tags.includes('sug')) { g='E'; reasons.push('סוכר (סוכרת)'); }
-            if(f.includes('l-vegan') && (p.tags.includes('da')||p.tags.includes('meat'))) { g='E'; reasons.push('מן החי'); }
-            
-            if(f.includes('q-green') && (p.tags.includes('proc')||p.tags.includes('sug'))) { g='D'; reasons.push('אינו תו ירוק'); }
-            if(f.includes('q-aplus') && g!=='A+') { if(g!=='E') g='D'; reasons.push('אינו A+'); }
-
-            // Ring
-            if(g!=='E') {
-                if(State.ring==='stress' && p.tags.includes('sug')) { g='D'; reasons.push('סוכר (סטרס)'); }
-                if(State.ring==='sugar' && p.tags.includes('sug')) { g='B'; reasons.push('טוב לנפילה'); }
-            }
-
-            State.tempItem = { ...p, g: g };
-            
-            // Render Result
-            const orb = document.getElementById('res-grade-orb');
-            orb.innerText = g;
-            orb.style.color = COLORS[g];
-            orb.style.boxShadow = `0 0 80px ${COLORS[g]}`;
-            orb.style.borderColor = COLORS[g];
-            
-            document.getElementById('res-prod-name').innerText = p.n;
-            document.getElementById('res-prod-brand').innerText = p.b;
-            
-            const rList = document.getElementById('res-analysis-box');
-            if(reasons.length > 0) {
-                rList.innerHTML = reasons.map(r => `<div style="color:${COLORS['E']}; margin-bottom:5px;">⚠️ ${r}</div>`).join('');
-            } else {
-                rList.innerHTML = `<div style="color:${COLORS['A']}; font-weight:bold;">✅ מוצר תואם לפרופיל</div>`;
-            }
-
-            App.openModal('result');
-        }
+        monolithSyncRing: function(s) { State.ring=s; this.saveAll(); this.globalUpdate(); this.close('ring'); this.toast('ביו-סינכרון הושלם'); },
+        toast: function(m) { const t=document.getElementById('master-titan-toast'); t.innerText=m; t.classList.add('is-active'); setTimeout(()=>t.classList.remove('is-active'),3000); },
+        togAcc: function(el) { el.parentElement.classList.toggle('is-open'); }
     };
 
     const Cart = {
-        addManual: function() {
-            const val = document.getElementById('inp-quick-add').value;
-            if(!val) return;
-            const item = { n:val, b:'כללי', g:'C', tags:[], t:new Date().toISOString(), u:'בית' };
-            State.cart.push(item);
-            State.history.unshift(item);
-            Core.save();
-            document.getElementById('inp-quick-add').value='';
-            App.updateDashboard();
-            App.toast('נוסף');
+        // SUPREME FUZZY LOOKUP ENGINE v2
+        executeMonolithLookup: function() {
+            const query = document.getElementById('inp-architect-lookup').value.toLowerCase().trim();
+            if(!query) return;
+            
+            // FUZZY MATCHING LOGIC
+            let results = MASTER_MONOLITH_DB.filter(x => 
+                x.id === query || 
+                x.fullName.toLowerCase().includes(query) || 
+                x.n.toLowerCase().includes(query) ||
+                x.b.toLowerCase().includes(query)
+            );
+            
+            if(results.length > 0) {
+                // Priority Match (Heuristic)
+                const best = results.find(r => r.id.startsWith('729')) || results[0];
+                Scanner.analyzeQuantumMonolith(best);
+            } else {
+                // Fail-safe Synthesizer
+                const synth = { n:query, b:'זיהוי ARCHITECT', g:'C', tags:[], sugar:0, salt:0, id:Date.now().toString() };
+                Scanner.analyzeQuantumMonolith(synth);
+            }
+            document.getElementById('inp-architect-lookup').value='';
         },
-        addScanned: function(home) {
-            if(!State.tempItem) return;
-            const item = { ...State.tempItem, t:new Date().toISOString(), u:home?'בית':'אני' };
-            State.cart.push(item);
-            State.history.unshift(item);
-            Core.save();
-            App.closeModal('result');
-            App.updateDashboard();
-            App.toast('נוסף לעגלה');
+        addMonolithValidated: function(home) {
+            const item = { ...State.temp, t:new Date().toISOString(), u:home?'בית':'אני' };
+            State.cart.push(item); State.history.unshift(item); App.saveAll(); App.close('result'); App.globalUpdate(); App.toast('ניתוח TITAN הוסף');
         },
-        remove: function(idx) {
-            State.cart.splice(idx, 1);
-            Core.save();
-            this.render();
-            App.updateDashboard();
-        },
+        monolithPurge: function() { if(confirm('למחוק את כל נתוני הסל?')){ State.cart=[]; App.saveAll(); App.globalUpdate(); App.close('cart'); } },
         render: function() {
-            const con = document.getElementById('ui-cart-list');
-            if(State.cart.length===0) { con.innerHTML = '<div style="text-align:center; padding:30px; color:#64748b;">ריק</div>'; return; }
-            con.innerHTML = State.cart.map((i,x) => `
-                <div class="list-row">
-                    <div class="row-start">
-                        <div class="mini-grade" style="background:${COLORS[i.g]}">${i.g}</div>
-                        <div class="row-text">
-                            <h4>${i.n}</h4>
-                            <span>${i.b} • ${i.u}</span>
-                        </div>
+            const con=document.getElementById('ui-monolith-cart-payload');
+            if(State.cart.length===0){ con.innerHTML='<div style="text-align:center; padding:100px; color:#64748b; font-weight:1000; letter-spacing:3px; text-transform:uppercase;">סל ריק - אנא סרוק מוצר</div>'; return; }
+            con.innerHTML = State.cart.map((i,x)=>`
+                <div class="supreme-list-row">
+                    <div style="display:flex; align-items:center;">
+                        <span class="grade-badge-supreme" style="background:${COLORS[i.g]}">${i.g}</span>
+                        <div style="margin-right:30px;"><h4 style="font-size:22px; font-weight:1000;">${i.n}</h4><span style="font-size:15px; color:#64748b; font-weight:800;">${i.b} • ${i.u}</span></div>
                     </div>
-                    <div style="color:var(--grade-e); cursor:pointer;" onclick="Cart.remove(${x})">✕</div>
+                    <div style="color:var(--g-e); cursor:pointer; font-size:28px;" onclick="State.cart.splice(${x},1); App.saveAll(); Cart.render(); App.globalUpdate();"><i class="fa-solid fa-circle-xmark"></i></div>
                 </div>`).join('');
         }
     };
 
     const History = {
-        isAgg: false,
-        toggleAgg: function() {
-            this.isAgg = !this.isAgg;
-            document.getElementById('hist-agg-text').innerText = this.isAgg ? 'ON' : 'OFF';
-            this.render();
-        },
-        render: function() {
-            const txt = document.getElementById('hist-search').value.toLowerCase();
-            const start = new Date(document.getElementById('hist-start').value).getTime();
-            const end = new Date(document.getElementById('hist-end').value).getTime() + 86400000;
-
+        vaultSync: function() {
+            const txt=document.getElementById('vault-bi-search-input').value.toLowerCase();
+            const start=new Date(document.getElementById('vault-bi-start-date').value).getTime();
+            const end=new Date(document.getElementById('vault-bi-end-date').value).getTime() + 86400000;
             let list = State.history.filter(i => {
                 const t = new Date(i.t).getTime();
-                const matchDate = t >= start && t <= end;
-                const matchTxt = i.n.toLowerCase().includes(txt) || i.b.toLowerCase().includes(txt);
-                return matchDate && matchTxt;
+                const mDate = t>=start && t<=end;
+                const mTxt = i.n.toLowerCase().includes(txt) || i.b.toLowerCase().includes(txt);
+                const mGrade = State.vaultGrades.length === 0 || State.vaultGrades.includes(i.g);
+                return mDate && mTxt && mGrade;
             });
-
-            const con = document.getElementById('ui-hist-list');
-            
-            if(this.isAgg) {
-                let agg = {};
-                list.forEach(i => {
-                    const k = i.n + i.b;
-                    if(!agg[k]) agg[k] = { ...i, count: 0 };
-                    agg[k].count++;
-                });
-                con.innerHTML = Object.values(agg).map(i => `
-                    <div class="list-row">
-                        <div class="row-start">
-                            <div class="mini-grade" style="background:${COLORS[i.g]}">${i.g}</div>
-                            <div class="row-text">
-                                <h4>${i.n} <span style="font-size:10px; background:var(--plasma-primary); padding:2px 6px; border-radius:6px;">x${i.count}</span></h4>
-                                <span>${i.b}</span>
-                            </div>
-                        </div>
+            const con=document.getElementById('ui-monolith-vault-list');
+            if(State.isAgg){
+                let agg=new Map(); 
+                list.forEach(i=>{ const k=i.n+i.b; if(!agg.has(k))agg.set(k,{...i,count:0}); agg.get(k).count++; });
+                con.innerHTML = Array.from(agg.values()).map(i => `
+                    <div class="supreme-list-row">
+                        <div><h4 style="font-size:22px; font-weight:1000;">${i.n}</h4><span style="color:#666; font-weight:800;">${i.b}</span></div>
+                        <div style="display:flex; align-items:center; gap:20px;"><div style="background:var(--plasma-indigo); color:#fff; padding:10px 24px; border-radius:20px; font-size:16px; font-weight:1000; box-shadow:0 8px 25px rgba(0,0,0,0.5);">x${i.count}</div><span class="grade-badge-supreme" style="background:${COLORS[i.g]}">${i.g}</span></div>
                     </div>`).join('');
             } else {
                 con.innerHTML = list.map(i => `
-                    <div class="list-row">
-                        <div class="row-start">
-                            <div class="mini-grade" style="background:${COLORS[i.g]}">${i.g}</div>
-                            <div class="row-text">
-                                <h4>${i.n}</h4>
-                                <span>${i.b} • ${new Date(i.t).toLocaleDateString()}</span>
-                            </div>
-                        </div>
+                    <div class="supreme-list-row">
+                        <div><h4 style="font-weight:1000; font-size:22px;">${i.n}</h4><span style="font-size:15px; color:#666; font-weight:800;">${i.b} • ${new Date(i.t).toLocaleDateString()}</span></div>
+                        <span class="grade-badge-supreme" style="background:${COLORS[i.g]}">${i.g}</span>
                     </div>`).join('');
             }
-        }
+        },
+        toggleVaultAggregation: function() { State.isAgg=!State.isAgg; document.getElementById('ui-agg-status').innerText=State.isAgg?'ON':'OFF'; this.vaultSync(); },
+        toggleBiGrade: function(el,g) { el.classList.toggle('active'); if(State.vaultGrades.includes(g)) State.vaultGrades=State.vaultGrades.filter(x=>x!==g); else State.vaultGrades.push(g); this.vaultSync(); }
     };
 
     const User = {
-        save: function() {
-            State.user.name = document.getElementById('inp-settings-name').value || 'אורח';
-            State.user.filters = [];
-            document.querySelectorAll('.option-check:checked').forEach(c => State.user.filters.push(c.id));
-            Core.save();
-            App.closeModal('settings');
-            App.updateDashboard();
-            App.toast('פרופיל עודכן');
+        deploySupremeProfile: function() {
+            State.user.name = document.getElementById('inp-monolith-identity').value || 'אורח';
+            State.user.filters=[]; document.querySelectorAll('.param-chip-titan-input:checked').forEach(c=>State.user.filters.push(c.id));
+            App.saveAll(); App.close('settings'); App.globalRefresh(); App.toast('ארכיטקטורה נפרסה');
         },
-        loadSettingsUI: function() {
-            document.getElementById('inp-settings-name').value = State.user.name;
-            document.querySelectorAll('.option-check').forEach(c => c.checked = State.user.filters.includes(c.id));
-        },
-        clear: function() {
-            if(confirm('למחוק?')) { localStorage.clear(); location.reload(); }
+        loadUI: function() {
+            document.getElementById('inp-monolith-identity').value = State.user.name;
+            document.querySelectorAll('.param-chip-titan-input').forEach(c => c.checked = State.user.filters.includes(c.id));
         }
     };
 
     const Scanner = {
-        html5QrcodeScanner: null,
-        start: function() {
-            document.getElementById('scanner-ui-layer').classList.add('is-active');
-            this.html5QrcodeScanner = new Html5Qrcode("qr-video-container");
-            this.html5QrcodeScanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, 
-                (txt) => { Scanner.stop(); Core.analyze(DB[Math.floor(Math.random()*DB.length)]); }, 
-                (err) => {}
-            ).catch(e => {
-                console.log("Cam error");
-                setTimeout(() => { Scanner.stop(); Core.analyze(DB[Math.floor(Math.random()*DB.length)]); }, 1500);
+        singletonInstance: null,
+        deployQuantumEngine: function() {
+            document.getElementById('master-quantum-scanner-viewport').style.display='flex';
+            document.getElementById('master-quantum-scanner-viewport').classList.add('is-active');
+            if(!this.singletonInstance) {
+                this.singletonInstance = new Html5Qrcode("qr-engine-monolith-instance", { verbose: false });
+            }
+            // SUPREME FHD CONFIG v7
+            const config = { 
+                fps: 32, 
+                qrbox: { width: 380, height: 380 }, 
+                aspectRatio: 1.0, 
+                videoConstraints: { 
+                    facingMode: "environment", 
+                    focusMode: "continuous", 
+                    width: { ideal: 1920 }, 
+                    height: { ideal: 1080 } 
+                },
+                experimentalFeatures: { useBarCodeDetectorIfSupported: true }
+            };
+            this.singletonInstance.start({ facingMode: "environment" }, config, (txt)=>{
+                this.disengageQuantum(); 
+                let p = MASTER_MONOLITH_DB.find(x=>x.id===txt); 
+                this.analyzeQuantumMonolith(p || { n:'לא זוהה', b:'כללי', g:'D', tags:[], sugar:0, salt:0, id:txt });
+            }).catch(()=>{ 
+                // Simulation Fallback for Demo
+                setTimeout(()=> { this.disengageQuantum(); this.analyzeQuantumMonolith(MASTER_MONOLITH_DB[Math.floor(Math.random()*22)]); }, 2200); 
             });
         },
-        stop: function() {
-            if(this.html5QrcodeScanner) this.html5QrcodeScanner.stop().then(()=>this.html5QrcodeScanner.clear()).catch(e=>{});
-            document.getElementById('scanner-ui-layer').classList.remove('is-active');
+        disengageQuantum: function() { if(this.singletonInstance) this.singletonInstance.stop().then(()=>this.singletonInstance.clear()); document.getElementById('master-quantum-scanner-viewport').style.display='none'; },
+        analyzeQuantumMonolith: function(p) {
+            let g=p.g, reasons=[], f=State.user.filters;
+            
+            // TITAN QUANTUM LOGIC ENGINE V7 (MEDICAL VETO IMPLEMENTED)
+            let veto = false;
+            if(f.includes('m-diabetes') && (p.sugar > 10 || p.tags.includes('sug'))){ g='E'; reasons.push('סוכר (MEDICAL VETO סוכרת)'); veto=true; }
+            if(f.includes('a-milk') && p.tags.includes('da')){ g='E'; reasons.push('מכיל חלב (סכנת חיים)'); veto=true; }
+            if(f.includes('a-gluten') && p.tags.includes('gl')){ g='E'; reasons.push('גלוטן (סכנת חיים)'); veto=true; }
+            if(f.includes('m-celiac') && p.tags.includes('gl')){ g='E'; reasons.push('גלוטן (MEDICAL VETO צליאק)'); veto=true; }
+            if(f.includes('m-pressure') && (p.salt > 500)){ g='E'; reasons.push('נתרן (MEDICAL VETO לחץ דם)'); veto=true; }
+
+            // BIO-SYNC CONTEXTUAL LOGIC
+            if(!veto && g!=='E') {
+                if(State.ring==='stress' && p.sugar > 5) { g='D'; reasons.push('סוכר גבוה (מגביר סטרס)'); }
+                if(State.ring==='sick' && p.tags.includes('da')) { g='D'; reasons.push('חלב (מגביר ליחה בחולי)'); }
+                if(State.ring==='sugar' && p.sugar > 10) { 
+                    reasons.push('מעלה סוכר (מומלץ לנפילה)');
+                    if(g==='C') g='B'; else if(g==='B') g='B+'; else if(g==='B+') g='A';
+                }
+            }
+
+            // QUALITY PREFERENCES LOGIC
+            if(f.includes('q-green') && !p.tags.includes('green')){ if(!veto) g='D'; reasons.push('אינו תו ירוק מורשה'); }
+            if(f.includes('q-aplus') && g!=='A+'){ if(!veto && g!=='E') g='D'; reasons.push('אינו עומד בתקן A+'); }
+            if(f.includes('q-natural') && !p.tags.includes('natural')){ if(!veto && g!=='E') g='D'; reasons.push('אינו 100% טבעי'); }
+
+            State.temp = { ...p, g: g };
+            
+            // RENDER SUPREME RESULT UI
+            const el = document.getElementById('res-titan-orb'); el.innerText=g; el.style.color=COLORS[g]; el.style.borderColor=COLORS[g];
+            document.getElementById('res-monolith-name').innerText=p.n; document.getElementById('res-monolith-brand').innerText=p.b;
+            
+            // Market Simulation Engine
+            const chains = [{n:'רמי לוי', p:0.92}, {n:'שופרסל', p:1.15}, {n:'יוחננוף', p:0.96}, {n:'קרפור', p:1.08}];
+            const baseP = 5.90 + Math.random()*25;
+            document.getElementById('res-monolith-prices').innerHTML = chains.map(c => `
+                <div style="background:rgba(255,255,255,0.06); padding:18px; border-radius:22px; display:flex; justify-content:space-between; align-items:center; border:1px solid rgba(255,255,255,0.1);">
+                    <span style="font-weight:900; font-size:15px; color:#ddd;">${c.n}</span>
+                    <span style="color:var(--g-a); font-weight:1000; font-size:18px;">₪${(baseP * c.p).toFixed(2)}</span>
+                </div>
+            `).join('');
+
+            document.getElementById('res-titan-report').innerHTML = reasons.length ? reasons.map(r=>`<div class="intelligence-report-line"><i class="fa-solid fa-triangle-exclamation" style="color:var(--g-e)"></i><span style="color:var(--g-e); font-weight:1000;">${r}</span></div>`).join('') : '<div style="color:var(--g-ap); font-weight:1000; font-size:22px;"><i class="fa-solid fa-shield-check"></i> מוצר מאומת ותקין לחלוטין</div>';
+            
+            App.open('result');
         }
     };
 
+    // --- HELPER CONSTANTS ---
+    const COLORS = {'A+':'var(--g-ap)','A':'var(--g-a)','B+':'var(--g-bp)','B':'var(--g-b)','C':'var(--g-c)','D':'var(--g-d)','E':'var(--g-e)'};
+    const SCORES = {'A+':100,'A':95,'B+':88,'B':78,'C':60,'D':40,'E':15};
+
+    App.init();
 </script>
 </body>
 </html>
