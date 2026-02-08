@@ -5,739 +5,1551 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#020617">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Vibe OS GOD MODE</title>
+    <meta name="description" content="Vibe OS Singularity - Premium Nutrition Intelligence">
+    <title>Vibe OS SINGULARITY</title>
     
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&display=swap" rel="stylesheet">
 
     <style>
-        /* ================================================================
-           1. GOD MODE DESIGN SYSTEM
-           ================================================================ 
-        */
+        /* ==========================================================================
+           1. DESIGN TOKENS & CORE VARIABLES
+           ========================================================================== */
         :root {
-            --bg-deep: #020617;
-            --bg-panel: rgba(15, 23, 42, 0.95);
-            --bg-glass: rgba(255, 255, 255, 0.05);
-            --border: rgba(255, 255, 255, 0.1);
+            /* --- COLOR PALETTE: PLASMA INDIGO --- */
+            --color-bg-deep: #020617;
+            --color-bg-surface: rgba(15, 23, 42, 0.95);
+            --color-bg-card: rgba(30, 41, 59, 0.7);
+            --color-bg-glass: rgba(255, 255, 255, 0.03);
             
-            /* Plasma Spectrum */
-            --plasma-1: #6366f1; /* Indigo */
-            --plasma-2: #d946ef; /* Fuchsia */
-            --plasma-3: #06b6d4; /* Cyan */
-            --plasma-grad: linear-gradient(135deg, var(--plasma-1), var(--plasma-3));
+            --color-plasma-1: #6366f1; /* Primary Indigo */
+            --color-plasma-2: #8b5cf6; /* Violet */
+            --color-plasma-3: #06b6d4; /* Cyan */
+            --color-plasma-glow: rgba(99, 102, 241, 0.5);
             
-            /* Precise Grading Colors */
-            --g-ap: #00ffa3; /* A+ Neon */
-            --g-a: #22c55e;
-            --g-bp: #84cc16; /* B+ */
-            --g-b: #a3e635;
-            --g-c: #facc15;
-            --g-d: #fb923c;
-            --g-e: #ef4444;
+            --gradient-primary: linear-gradient(135deg, var(--color-plasma-1), var(--color-plasma-3));
+            --gradient-dark: linear-gradient(180deg, rgba(15, 23, 42, 0), #0f172a);
+
+            /* --- GRADING SYSTEM (7 TIERS) --- */
+            --grade-ap: #00ffaa; /* A+ */
+            --grade-a: #22c55e;  /* A */
+            --grade-bp: #84cc16; /* B+ */
+            --grade-b: #a3e635;  /* B */
+            --grade-c: #facc15;  /* C */
+            --grade-d: #fb923c;  /* D */
+            --grade-e: #ef4444;  /* E */
+
+            /* --- CATEGORY IDENTIFIERS --- */
+            --cat-medical: #f43f5e;
+            --cat-diet: #3b82f6;
+            --cat-kosher: #eab308;
+            --cat-ethics: #10b981;
+            --cat-sensory: #f97316;
+            --cat-quality: #06b6d4;
+
+            /* --- LAYOUT & SPACING --- */
+            --app-max-width: 460px;
+            --app-border-radius: 40px;
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
             
-            --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", Roboto, sans-serif;
-            --max-w: 460px;
+            /* --- TYPOGRAPHY --- */
+            --font-family: 'Heebo', -apple-system, BlinkMacSystemFont, sans-serif;
+            
+            /* --- EFFECTS --- */
+            --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-glow: 0 0 20px var(--color-plasma-glow);
+            --backdrop-blur: blur(20px);
+            --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; user-select: none; font-family: var(--font); }
+        /* ==========================================================================
+           2. GLOBAL RESET & BASE STYLES
+           ========================================================================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+            user-select: none;
+        }
+
+        body {
+            height: 100vh;
+            width: 100vw;
+            background-color: #000;
+            color: #f1f5f9;
+            font-family: var(--font-family);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* --- BACKGROUND ANIMATION (NEBULA ENGINE) --- */
+        .nebula-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: #020617;
+            overflow: hidden;
+        }
         
-        body { 
-            margin: 0; height: 100vh; background: #000; overflow: hidden; 
-            display: flex; justify-content: center; align-items: center; color: #fff;
+        .nebula-layer {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* LIVE BACKGROUND */
-        .nebula {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background: 
-                radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.15), transparent 40%),
-                radial-gradient(circle at 90% 90%, rgba(6, 182, 212, 0.15), transparent 40%);
-            animation: breathe 10s infinite alternate;
+        .nebula-1 {
+            width: 600px; height: 600px;
+            background: var(--color-plasma-1);
+            top: -20%; left: -20%;
+            animation-delay: 0s;
         }
-        @keyframes breathe { 0% {opacity:0.6; transform:scale(1);} 100% {opacity:1; transform:scale(1.05);} }
 
-        /* ================================================================
-           2. BOOT SEQUENCE UI
-           ================================================================ 
-        */
-        #boot-layer {
-            position: absolute; inset: 0; background: #020617; z-index: 9999;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: opacity 0.8s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+        .nebula-2 {
+            width: 500px; height: 500px;
+            background: var(--color-plasma-3);
+            bottom: -10%; right: -10%;
+            animation-delay: -5s;
         }
+
+        .nebula-3 {
+            width: 300px; height: 300px;
+            background: var(--color-plasma-2);
+            top: 40%; left: 40%;
+            animation-delay: -10s;
+            opacity: 0.2;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, 30px) scale(1.1); }
+        }
+
+        /* ==========================================================================
+           3. BOOT SCREEN
+           ========================================================================== */
+        #boot-sequence {
+            position: fixed;
+            inset: 0;
+            background: #020617;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease-out;
+        }
+
         .boot-logo {
-            font-size: 50px; font-weight: 900; letter-spacing: 4px;
-            background: var(--plasma-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: pulse 2s infinite; margin-bottom: 30px;
+            font-size: 48px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, #fff, var(--color-plasma-3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 40px;
+            animation: bootPulse 2s infinite;
         }
-        .loader-track { width: 160px; height: 4px; background: #1e293b; border-radius: 2px; overflow: hidden; }
-        .loader-fill { width: 0%; height: 100%; background: var(--plasma-3); animation: load 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
-        .boot-status { margin-top: 15px; font-size: 10px; color: #64748b; letter-spacing: 2px; text-transform: uppercase; }
-        
-        @keyframes load { 0% {width:0%} 100% {width:100%} }
-        @keyframes pulse { 0%,100% {opacity:1; filter:blur(0);} 50% {opacity:0.7; filter:blur(2px);} }
 
-        /* ================================================================
-           3. MAIN APP FRAME
-           ================================================================ 
-        */
-        #app-frame {
-            width: 100%; max-width: var(--max-w); height: 100%; max-height: 95vh;
-            background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px);
-            border: 1px solid var(--border); border-radius: 40px;
-            box-shadow: 0 0 0 10px #000, 0 20px 80px rgba(99, 102, 241, 0.2);
-            display: flex; flex-direction: column; position: relative; overflow: hidden;
-            opacity: 0; transform: scale(0.95); transition: 0.6s ease;
+        .boot-progress-track {
+            width: 200px;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            overflow: hidden;
         }
-        #app-frame.active { opacity: 1; transform: scale(1); }
-        
-        @media (max-width: 480px) { #app-frame { max-width: 100%; height: 100vh; max-height: 100vh; border-radius: 0; box-shadow: none; border:none; } }
 
-        /* HEADER */
+        .boot-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--color-plasma-3);
+            box-shadow: 0 0 10px var(--color-plasma-3);
+            animation: bootLoad 3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .boot-terminal {
+            margin-top: 20px;
+            font-family: monospace;
+            font-size: 10px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @keyframes bootPulse { 0%,100%{opacity:1; filter:blur(0);} 50%{opacity:0.5; filter:blur(2px);} }
+        @keyframes bootLoad { 0%{width:0%} 100%{width:100%} }
+
+        /* ==========================================================================
+           4. APP FRAME & LAYOUT
+           ========================================================================== */
+        #app-viewport {
+            width: 100%;
+            max-width: var(--app-max-width);
+            height: 100%;
+            max-height: 95vh;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--app-border-radius);
+            box-shadow: 0 0 0 10px #000, 0 20px 80px rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        #app-viewport.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        @media (max-width: 480px) {
+            #app-viewport {
+                max-width: 100%;
+                height: 100vh;
+                max-height: 100vh;
+                border-radius: 0;
+                box-shadow: none;
+                border: none;
+            }
+        }
+
+        #content-scroll {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-bottom: 160px; /* Space for bottom dock */
+            scrollbar-width: none;
+        }
+        #content-scroll::-webkit-scrollbar { display: none; }
+
+        /* ==========================================================================
+           5. HEADER COMPONENT
+           ========================================================================== */
         .header {
-            padding: 20px 24px; display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid var(--border); background: rgba(2, 6, 23, 0.8); z-index: 50;
+            padding: var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(2, 6, 23, 0.85);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
         }
-        .brand { font-size: 22px; font-weight: 800; letter-spacing: 1px; }
-        .brand span { color: var(--plasma-3); font-style: italic; }
-        .btn-icon { width: 40px; height: 40px; border-radius: 12px; background: var(--bg-glass); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; }
-        .btn-icon:active { background: rgba(255,255,255,0.15); }
 
-        /* SCROLL AREA */
-        #viewport { flex: 1; overflow-y: auto; overflow-x: hidden; padding-bottom: 140px; scrollbar-width: none; }
-        #viewport::-webkit-scrollbar { display: none; }
-
-        /* ================================================================
-           4. DASHBOARD GRID (SMART LAYOUT)
-           ================================================================ 
-        */
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 20px 24px; }
-        
-        .card {
-            background: var(--bg-glass); border: 1px solid var(--border); border-radius: 20px;
-            padding: 18px; display: flex; flex-direction: column; justify-content: space-between;
-            min-height: 110px; position: relative; overflow: hidden; cursor: pointer; transition: 0.2s;
+        .header-brand {
+            font-size: 20px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
-        .card:active { transform: scale(0.98); background: rgba(255,255,255,0.08); }
-        
-        /* User Card */
-        .card.hero { 
-            grid-column: 1 / -1; flex-direction: row; align-items: center; 
-            background: linear-gradient(150deg, rgba(99, 102, 241, 0.1), rgba(2, 6, 23, 0.5));
-            border-left: 4px solid var(--plasma-1);
+
+        .header-brand .highlight {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-style: italic;
         }
-        
-        .c-label { font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
-        .c-value { font-size: 24px; font-weight: 800; margin-top: 4px; letter-spacing: -0.5px; }
-        .c-meta { font-size: 12px; color: var(--plasma-3); margin-top: 4px; }
 
-        /* Gauge */
-        .gauge-track { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 10px; overflow: hidden; }
-        .gauge-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--g-e), var(--g-a)); transition: width 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .header-action {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: var(--color-bg-glass);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: var(--transition-fast);
+        }
 
-        /* QUICK ADD */
-        .quick-bar { padding: 0 24px; display: flex; gap: 10px; }
-        .inp-text { flex: 1; background: var(--bg-glass); border: 1px solid var(--border); padding: 16px; border-radius: 16px; color: #fff; text-align: right; font-size: 16px; transition: 0.2s; }
-        .inp-text:focus { border-color: var(--plasma-1); background: #000; }
-        .btn-plus { width: 56px; background: var(--plasma-1); border: none; border-radius: 16px; color: #fff; font-size: 28px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .header-action:active {
+            background: rgba(255,255,255,0.1);
+            transform: scale(0.95);
+        }
 
-        .tag-cloud { padding: 15px 24px; display: flex; flex-wrap: wrap; gap: 8px; }
-        .tag { font-size: 11px; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); color: #94a3b8; background: rgba(0,0,0,0.2); }
+        /* ==========================================================================
+           6. DASHBOARD COMPONENTS
+           ========================================================================== */
+        .dashboard-grid {
+            padding: var(--spacing-lg);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 12px;
+        }
 
-        /* ================================================================
-           5. DOCK & SCANNER BUTTON
-           ================================================================ 
-        */
-        .dock-wrap { position: absolute; bottom: 35px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 500; pointer-events: none; }
-        .dock {
-            pointer-events: auto; width: 90%; max-width: 380px; height: 74px;
-            background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.15); border-radius: 26px;
-            display: flex; justify-content: space-between; align-items: center; padding: 0 40px;
+        /* Generic Card Style */
+        .dash-card {
+            background: var(--color-bg-card);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 120px;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .dash-card:active {
+            transform: scale(0.98);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        /* Full Width User Card */
+        .dash-card.hero {
+            grid-column: 1 / -1;
+            flex-direction: row;
+            align-items: center;
+            background: linear-gradient(160deg, #1e293b, #0f172a);
+            border-left: 4px solid var(--color-plasma-1);
+        }
+
+        .dash-card.hero::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            background: radial-gradient(circle at right, rgba(99, 102, 241, 0.1), transparent);
+            pointer-events: none;
+        }
+
+        .card-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .card-value {
+            font-size: 26px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+
+        .card-meta {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        /* Visual Gauge */
+        .gauge-wrapper {
+            margin-top: 12px;
+            width: 100%;
+            height: 6px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .gauge-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--grade-e), var(--grade-a), var(--grade-ap));
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.3);
+        }
+
+        /* ==========================================================================
+           7. QUICK ACTIONS & TAGS
+           ========================================================================== */
+        .section-title {
+            padding: 0 24px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            margin-top: 10px;
+        }
+
+        .quick-action-bar {
+            padding: 0 24px;
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .quick-input {
+            flex: 1;
+            background: var(--color-bg-glass);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 16px;
+            border-radius: 16px;
+            color: #fff;
+            text-align: right;
+            font-size: 16px;
+            font-family: var(--font-family);
+            transition: 0.2s;
+        }
+
+        .quick-input:focus {
+            border-color: var(--color-plasma-1);
+            background: #000;
+        }
+
+        .quick-btn-add {
+            width: 56px;
+            background: var(--color-plasma-1);
+            border: none;
+            border-radius: 16px;
+            color: #fff;
+            font-size: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .active-tags-container {
+            padding: 0 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .status-tag {
+            font-size: 11px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* ==========================================================================
+           8. DOCK NAVIGATION & SCANNER FAB
+           ========================================================================== */
+        .dock-container {
+            position: absolute;
+            bottom: 35px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 500;
+            pointer-events: none;
+        }
+
+        .dock-bar {
+            pointer-events: auto;
+            width: 90%;
+            max-width: 380px;
+            height: 76px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 28px;
+            border: 1px solid rgba(255,255,255,0.15);
             box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
         }
-        .dock-btn { font-size: 26px; color: #64748b; cursor: pointer; transition: 0.2s; }
-        .dock-btn.active { color: #fff; text-shadow: 0 0 10px #fff; }
-        
-        .scan-wrap { position: relative; margin-top: -50px; }
-        .scan-fab {
-            width: 70px; height: 70px; border-radius: 24px;
-            background: var(--plasma-grad);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 32px; color: #fff;
-            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.5);
-            border: 6px solid #020617; /* Seamless blend */
-            cursor: pointer; transform: rotate(45deg); transition: 0.2s;
-        }
-        .scan-fab i { transform: rotate(-45deg); font-style: normal; display: block; }
-        .scan-fab:active { transform: rotate(45deg) scale(0.9); }
 
-        /* ================================================================
-           6. MODALS & SHEETS (SMOOTH PHYSICS)
-           ================================================================ 
-        */
-        .overlay {
-            position: absolute; inset: 0; background: rgba(0,0,0,0.9); z-index: 2000;
-            display: none; align-items: flex-end; opacity: 0; transition: opacity 0.3s;
+        .dock-item {
+            font-size: 26px;
+            color: #64748b;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
         }
-        .overlay.visible { display: flex; opacity: 1; }
-        
-        .sheet {
-            width: 100%; background: #0f172a; border-radius: 36px 36px 0 0;
+
+        .dock-item.active, .dock-item:active {
+            color: #fff;
+            transform: scale(0.95);
+            text-shadow: 0 0 15px rgba(255,255,255,0.5);
+        }
+
+        .scanner-fab-wrapper {
+            position: relative;
+            margin-top: -50px;
+        }
+
+        .scanner-fab {
+            width: 72px;
+            height: 72px;
+            border-radius: 24px;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: #fff;
+            box-shadow: var(--shadow-glow);
+            border: 6px solid #020617; /* Matches body bg for cutout effect */
+            cursor: pointer;
+            transform: rotate(45deg);
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .scanner-fab i {
+            transform: rotate(-45deg);
+            display: block;
+            font-style: normal;
+        }
+
+        .scanner-fab:active {
+            transform: rotate(45deg) scale(0.9);
+            box-shadow: 0 0 10px var(--color-plasma-1);
+        }
+
+        /* ==========================================================================
+           9. MODALS & SHEETS ARCHITECTURE
+           ========================================================================== */
+        .modal-layer {
+            position: absolute;
+            inset: 0;
+            background: rgba(2, 6, 23, 0.9);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            justify-content: flex-end;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-layer.is-visible {
+            display: flex;
+            opacity: 1;
+        }
+
+        .sheet-container {
+            width: 100%;
+            background: #0f172a;
+            border-top-left-radius: 40px;
+            border-top-right-radius: 40px;
             border-top: 1px solid rgba(255,255,255,0.15);
-            max-height: 92vh; display: flex; flex-direction: column;
-            transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            max-height: 92vh;
+            display: flex;
+            flex-direction: column;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            box-shadow: 0 -20px 60px rgba(0,0,0,0.5);
         }
-        .overlay.visible .sheet { transform: translateY(0); }
 
-        .sh-head { padding: 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: #0f172a; border-radius: 36px 36px 0 0; z-index: 10; }
-        .sh-title { font-size: 20px; font-weight: 800; }
-        .sh-body { padding: 24px; overflow-y: auto; flex: 1; padding-bottom: 120px; }
-        .sh-foot { padding: 24px; border-top: 1px solid var(--border); background: #0f172a; position: absolute; bottom: 0; width: 100%; z-index: 20; }
+        .modal-layer.is-visible .sheet-container {
+            transform: translateY(0);
+        }
 
-        /* ================================================================
-           7. COMPLEX UI (SETTINGS, HISTORY, RESULT)
-           ================================================================ 
-        */
-        /* Settings Accordion */
-        .acc { background: var(--bg-glass); border-radius: 16px; margin-bottom: 10px; border: 1px solid var(--border); overflow: hidden; }
-        .acc-head { padding: 18px; font-weight: 700; display: flex; justify-content: space-between; cursor: pointer; }
-        .acc-body { display: none; padding: 20px; background: rgba(0,0,0,0.3); border-top: 1px solid var(--border); gap: 8px; flex-wrap: wrap; }
-        .acc.open .acc-body { display: flex; }
+        .sheet-header {
+            padding: 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 23, 42, 0.98);
+            border-radius: 40px 40px 0 0;
+            z-index: 10;
+        }
+
+        .sheet-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .sheet-close-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .sheet-close-btn:hover { background: rgba(255,255,255,0.2); }
+
+        .sheet-scroll-area {
+            padding: 24px;
+            overflow-y: auto;
+            flex: 1;
+            padding-bottom: 140px; /* Space for floating buttons */
+        }
+
+        .sheet-fixed-footer {
+            padding: 24px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: #0f172a;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            z-index: 20;
+        }
+
+        /* ==========================================================================
+           10. SETTINGS UI (THE 60+ OPTIONS)
+           ========================================================================== */
+        .accordion-wrapper {
+            margin-bottom: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            overflow: hidden;
+            background: rgba(255,255,255,0.02);
+        }
+
+        .accordion-trigger {
+            padding: 18px;
+            font-weight: 700;
+            font-size: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .accordion-trigger:active { background: rgba(255,255,255,0.05); }
+
+        .accordion-content {
+            display: none;
+            padding: 20px;
+            background: rgba(0,0,0,0.3);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .accordion-wrapper.is-open .accordion-content { display: flex; }
+
+        /* Color Coding for Categories */
+        .cat-teal .accordion-trigger { color: var(--cat-quality); border-right: 4px solid var(--cat-quality); }
+        .cat-red .accordion-trigger { color: var(--grade-e); border-right: 4px solid var(--grade-e); }
+        .cat-blue .accordion-trigger { color: var(--cat-diet); border-right: 4px solid var(--cat-diet); }
+        .cat-gold .accordion-trigger { color: var(--cat-kosher); border-right: 4px solid var(--cat-kosher); }
+        .cat-purple .accordion-trigger { color: var(--color-plasma-2); border-right: 4px solid var(--color-plasma-2); }
+        .cat-green .accordion-trigger { color: var(--cat-ethics); border-right: 4px solid var(--cat-ethics); }
+        .cat-orange .accordion-trigger { color: var(--cat-sensory); border-right: 4px solid var(--cat-sensory); }
+
+        /* Choice Chips */
+        .choice-checkbox { display: none; }
         
-        .cat-red .acc-head { color: var(--g-e); border-right: 4px solid var(--g-e); }
-        .cat-teal .acc-head { color: var(--cat-quality); border-right: 4px solid var(--cat-quality); }
-        .cat-blue .acc-head { color: var(--plasma-3); border-right: 4px solid var(--plasma-3); }
-        
-        .chip { display: none; }
-        .chip-lbl { padding: 10px 14px; background: rgba(255,255,255,0.05); border-radius: 10px; font-size: 13px; color: #94a3b8; cursor: pointer; border: 1px solid transparent; font-weight: 600; transition: 0.2s; display: flex; align-items: center; gap: 6px; }
-        .chip:checked + .chip-lbl { background: rgba(99, 102, 241, 0.2); border-color: var(--plasma-1); color: #fff; transform: scale(1.02); }
-        .danger .chip:checked + .chip-lbl { background: rgba(239, 68, 68, 0.2); border-color: var(--g-e); }
+        .choice-label {
+            padding: 10px 14px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid transparent;
+            border-radius: 10px;
+            font-size: 13px;
+            color: #94a3b8;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-        /* Scanner */
-        #scan-layer { position: absolute; inset: 0; background: #000; z-index: 3000; display: none; flex-direction: column; }
-        #scan-layer.active { display: flex; }
-        #reader { flex: 1; width: 100%; object-fit: cover; }
-        .hud { position: absolute; inset: 0; pointer-events: none; display: flex; justify-content: center; align-items: center; background: linear-gradient(rgba(0,0,0,0.5), transparent 20%, transparent 80%, rgba(0,0,0,0.5)); }
-        .reticle { width: 280px; height: 280px; border: 2px solid rgba(255,255,255,0.5); border-radius: 30px; position: relative; box-shadow: 0 0 0 1000px rgba(0,0,0,0.8); }
-        .laser { position: absolute; top: 50%; width: 100%; height: 2px; background: var(--g-e); box-shadow: 0 0 20px var(--g-e); animation: scan 1.5s infinite ease-in-out; }
-        @keyframes scan { 0%{top:10%} 50%{top:90%} 100%{top:10%} }
+        .choice-checkbox:checked + .choice-label {
+            background: rgba(99, 102, 241, 0.15);
+            border-color: var(--color-plasma-1);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.15);
+        }
 
-        /* Result */
-        .grade-orb { width: 130px; height: 130px; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 64px; font-weight: 900; border: 10px solid currentColor; box-shadow: 0 0 80px currentColor; color: #fff; }
-        .res-alert { padding: 14px; background: rgba(255,255,255,0.05); border-radius: 12px; margin-bottom: 8px; font-size: 13px; display: flex; align-items: center; gap: 10px; font-weight: 600; }
+        /* Specific Danger/Quality Styles */
+        .cat-red .choice-checkbox:checked + .choice-label {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: var(--grade-e);
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.15);
+        }
+        .cat-teal .choice-checkbox:checked + .choice-label {
+            background: rgba(6, 182, 212, 0.15);
+            border-color: var(--cat-quality);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.15);
+        }
 
-        /* Buttons */
-        .btn { width: 100%; padding: 18px; border-radius: 16px; font-weight: 700; font-size: 16px; border: none; cursor: pointer; transition: 0.2s; }
-        .btn:active { transform: scale(0.98); }
-        .btn-pri { background: var(--plasma-grad); color: #fff; box-shadow: 0 5px 20px rgba(99, 102, 241, 0.4); }
-        .btn-sec { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #fff; }
+        /* ==========================================================================
+           11. RESULT, CART & HISTORY LISTS
+           ========================================================================== */
+        /* Result Modal Specifics */
+        .grade-orb-container {
+            width: 140px; height: 140px;
+            border-radius: 50%;
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 72px;
+            font-weight: 900;
+            color: #fff;
+            border: 10px solid currentColor;
+            box-shadow: 0 0 80px currentColor;
+            text-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
 
-        /* History List */
-        .h-item { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
-        .h-badge { font-size: 11px; font-weight: 900; padding: 4px 8px; border-radius: 6px; color: #000; margin-left: 10px; }
+        .result-title { font-size: 28px; font-weight: 800; margin-bottom: 4px; line-height: 1.2; }
+        .result-brand { font-size: 16px; color: #94a3b8; margin-bottom: 24px; }
 
-        #toast { position: absolute; top: 40px; left: 50%; transform: translateX(-50%) translateY(-100px); background: #1e293b; color: #fff; padding: 12px 30px; border-radius: 50px; z-index: 5000; font-weight: 700; transition: 0.4s; border: 1px solid var(--plasma-1); white-space: nowrap; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
-        #toast.vis { transform: translateX(-50%) translateY(0); }
+        .result-alert-box {
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            border-right: 4px solid transparent;
+        }
+
+        /* Action Buttons */
+        .btn-full {
+            width: 100%;
+            padding: 18px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 8px;
+        }
+        .btn-full:active { transform: scale(0.98); }
+
+        .btn-primary { background: var(--gradient-primary); color: #fff; box-shadow: 0 5px 20px rgba(99, 102, 241, 0.4); }
+        .btn-secondary { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #fff; }
+        .btn-danger { background: rgba(239, 68, 68, 0.1); color: var(--grade-e); border: 1px solid var(--grade-e); }
+
+        /* History/Cart List Items */
+        .list-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: rgba(255,255,255,0.03);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: 0.2s;
+        }
+        .list-row:hover { background: rgba(255,255,255,0.05); }
+
+        .row-content { display: flex; align-items: center; gap: 12px; }
+        .grade-badge-small {
+            font-size: 14px;
+            font-weight: 900;
+            width: 32px;
+            text-align: center;
+        }
+        .row-info h4 { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+        .row-info span { font-size: 11px; color: #64748b; }
+
+        .delete-icon {
+            width: 32px; height: 32px;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--grade-e);
+            cursor: pointer;
+            opacity: 0.6;
+        }
+        .delete-icon:active { opacity: 1; transform: scale(1.1); }
+
+        /* ==========================================================================
+           12. SCANNER FULLSCREEN OVERLAY
+           ========================================================================== */
+        #scanner-overlay {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 5000;
+            display: none;
+            flex-direction: column;
+        }
+        #scanner-overlay.active { display: flex; }
+
+        #camera-feed {
+            flex: 1;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Contrast Filter for Better Scanning (QA Loop 3 Fix) */
+            filter: contrast(1.1) brightness(1.1); 
+        }
+
+        .hud-layer {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: 
+                linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.6) 100%);
+        }
+
+        .hud-reticle {
+            width: 280px;
+            height: 280px;
+            border: 2px solid rgba(255,255,255,0.4);
+            border-radius: 32px;
+            position: relative;
+            box-shadow: 0 0 0 4000px rgba(0,0,0,0.7); /* The dark overlay outside */
+        }
+
+        .hud-laser {
+            position: absolute;
+            top: 50%; left: 10%; right: 10%;
+            height: 2px;
+            background: var(--grade-e);
+            box-shadow: 0 0 15px var(--grade-e);
+            animation: laserScan 1.5s infinite ease-in-out;
+        }
+
+        @keyframes laserScan { 0%,100%{top:15%; opacity:0.5;} 50%{top:85%; opacity:1;} }
+
+        .scanner-controls {
+            position: absolute;
+            bottom: 60px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 5001;
+        }
+
+        .btn-cancel-scan {
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: #fff;
+            padding: 12px 32px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            pointer-events: auto;
+        }
+
+        /* ==========================================================================
+           13. NOTIFICATIONS (TOAST)
+           ========================================================================== */
+        #sys-toast {
+            position: fixed;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: #1e293b;
+            color: #fff;
+            padding: 12px 32px;
+            border-radius: 50px;
+            border: 1px solid var(--color-plasma-1);
+            font-weight: 700;
+            font-size: 14px;
+            z-index: 9000;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            white-space: nowrap;
+        }
+        #sys-toast.active { transform: translateX(-50%) translateY(0); }
 
     </style>
 </head>
 <body>
 
-<div class="nebula"></div>
-
-<div id="boot-layer">
-    <div class="boot-logo">VIBE OS</div>
-    <div class="loader-track"><div class="loader-fill"></div></div>
-    <div class="boot-status">INITIALIZING GOD MODE</div>
+<div class="nebula-container">
+    <div class="nebula-layer nebula-1"></div>
+    <div class="nebula-layer nebula-2"></div>
+    <div class="nebula-layer nebula-3"></div>
 </div>
 
-<div id="app-frame">
+<div id="boot-sequence">
+    <div class="boot-logo">VIBE OS</div>
+    <div class="boot-progress-track"><div class="boot-progress-fill"></div></div>
+    <div class="boot-terminal">SYSTEM INTEGRITY CHECK: PASSED</div>
+</div>
+
+<div id="app-viewport">
+    
     <div class="header">
-        <div class="brand">VIBE <span>TITAN</span></div>
-        <div class="btn-icon" onclick="UI.open('settings')">⚙️</div>
+        <div class="header-brand">VIBE <span class="highlight">TITAN</span></div>
+        <div class="header-action" onclick="App.openModal('settings')">⚙️</div>
     </div>
 
-    <div id="viewport">
-        <div class="grid">
-            <div class="card hero" onclick="UI.open('settings')">
-                <div>
-                    <div class="c-label">משתמש</div>
-                    <div id="d-user" class="c-value">אורח</div>
-                </div>
-                <div style="text-align:left;">
-                    <div class="c-label">הגדרות</div>
-                    <div id="d-filters" class="c-meta">טוען...</div>
-                </div>
-            </div>
-
-            <div class="card" onclick="UI.open('ring')">
-                <div class="c-label">מדד גופני</div>
-                <div id="d-ring" class="c-value" style="color:var(--g-a);">תקין</div>
-                <div class="c-meta">לחץ לשינוי</div>
-            </div>
-
-            <div class="card" onclick="UI.open('cart')">
-                <div class="c-label">איכות הסל</div>
-                <div id="d-score" class="c-value">100%</div>
-                <div class="gauge-track"><div id="d-bar" class="gauge-bar" style="width:100%;"></div></div>
-                <div class="c-meta"><span id="d-count">0</span> פריטים</div>
-            </div>
-        </div>
-
-        <div style="padding: 0 24px; margin-top: 10px;">
-            <div class="c-label" style="margin-bottom:10px;">חיפוש מהיר</div>
-            <div class="quick-bar">
-                <input type="text" id="q-inp" class="inp-text" placeholder="הקלד שם מוצר...">
-                <button class="btn-plus" onclick="Core.manualAdd()">+</button>
-            </div>
-        </div>
+    <div id="content-scroll">
         
-        <div id="active-tags" class="tag-cloud"></div>
+        <div class="dashboard-grid">
+            <div class="dash-card hero" onclick="App.openModal('settings')">
+                <div>
+                    <div class="card-label">פרופיל</div>
+                    <div id="ui-username" class="card-value" style="font-size:22px;">אורח</div>
+                </div>
+                <div style="text-align: left;">
+                    <div class="card-label">הגדרות פעילות</div>
+                    <div id="ui-filter-count" class="card-meta" style="color:var(--color-plasma-3);">0</div>
+                </div>
+            </div>
+
+            <div class="dash-card" onclick="App.openModal('ring')">
+                <div class="card-label">מדד גופני</div>
+                <div id="ui-ring-status" class="card-value" style="color:var(--grade-a);">תקין</div>
+                <div class="card-meta">Vibe Ring Active</div>
+            </div>
+
+            <div class="dash-card" onclick="App.openModal('cart')">
+                <div class="card-label">איכות הסל</div>
+                <div id="ui-cart-score" class="card-value">100%</div>
+                <div class="gauge-wrapper"><div id="ui-cart-gauge" class="gauge-fill" style="width:100%;"></div></div>
+                <div class="card-meta"><span id="ui-cart-count">0</span> פריטים</div>
+            </div>
+        </div>
+
+        <div class="section-title">פעולות מהירות</div>
+        <div class="quick-action-bar">
+            <input type="text" id="inp-quick-add" class="quick-input" placeholder="הוספה ידנית...">
+            <button class="quick-btn-add" onclick="Cart.addManual()">+</button>
+        </div>
+
+        <div class="active-tags-container" id="ui-tags-cloud">
+            </div>
+
     </div>
 
-    <div class="dock-wrap">
-        <div class="dock">
-            <div class="dock-btn" onclick="UI.open('cart')">🛒</div>
-            <div class="scan-wrap"><div class="scan-fab" onclick="Scanner.start()"><i>📷</i></div></div>
-            <div class="dock-btn" onclick="UI.open('hist')">📜</div>
+    <div class="dock-container">
+        <div class="dock-bar">
+            <div class="dock-item" onclick="App.openModal('cart')">🛒</div>
+            <div class="scanner-fab-wrapper">
+                <div class="scanner-fab" onclick="Scanner.start()"><i>📷</i></div>
+            </div>
+            <div class="dock-item" onclick="App.openModal('history')">📜</div>
         </div>
     </div>
 
-    <div id="toast">הודעת מערכת</div>
+    <div id="sys-toast">הודעת מערכת</div>
 
-    <div id="m-settings" class="overlay"><div class="sheet">
-        <div class="sh-head"><div class="sh-title">פרופיל אישי</div><div class="btn-icon" onclick="UI.close('settings')">✕</div></div>
-        <div class="sh-body">
-            <input type="text" id="inp-name" placeholder="שם מלא" style="width:100%; padding:16px; background:var(--bg-glass); border:none; border-radius:12px; color:#fff; margin-bottom:20px;">
+    <div id="m-settings" class="modal-layer"><div class="sheet-container">
+        <div class="sheet-header"><div class="sheet-title">הגדרות והעדפות</div><div class="sheet-close-btn" onclick="App.closeModal('settings')">✕</div></div>
+        <div class="sheet-scroll-area">
+            <input type="text" id="inp-settings-name" class="quick-input" style="width:100%; margin-bottom:20px; text-align:right;" placeholder="שם מלא">
             
-            <div class="acc cat-teal"><div class="acc-head" onclick="UI.tog(this)">🏅 דירוג איכות (חובה) <span>▼</span></div><div class="acc-body">
-                <input type="checkbox" id="q-aplus" class="chip"><label for="q-aplus" class="chip-lbl">A+ בלבד</label>
-                <input type="checkbox" id="q-green" class="chip"><label for="q-green" class="chip-lbl">✅ תו ירוק</label>
-                <input type="checkbox" id="q-natural" class="chip"><label for="q-natural" class="chip-lbl">🍃 100% טבעי</label>
-                <input type="checkbox" id="q-nored" class="chip"><label for="q-nored" class="chip-lbl">🚫 ללא אדום</label>
-            </div></div>
-
-            <div class="acc cat-red"><div class="acc-head" onclick="UI.tog(this)">⚠️ אלרגיות ורגישויות <span>▼</span></div><div class="acc-body">
-                <input type="checkbox" id="a-milk" class="chip"><label for="a-milk" class="chip-lbl danger">חלב</label>
-                <input type="checkbox" id="a-gluten" class="chip"><label for="a-gluten" class="chip-lbl danger">גלוטן</label>
-                <input type="checkbox" id="a-nuts" class="chip"><label for="a-nuts" class="chip-lbl danger">אגוזים</label>
-                <input type="checkbox" id="a-peanuts" class="chip"><label for="a-peanuts" class="chip-lbl danger">בוטנים</label>
-                <input type="checkbox" id="a-sesame" class="chip"><label for="a-sesame" class="chip-lbl danger">שומשום</label>
-                <input type="checkbox" id="a-soy" class="chip"><label for="a-soy" class="chip-lbl danger">סויה</label>
-                <input type="checkbox" id="a-eggs" class="chip"><label for="a-eggs" class="chip-lbl danger">ביצים</label>
-                <input type="checkbox" id="a-fish" class="chip"><label for="a-fish" class="chip-lbl danger">דגים</label>
-            </div></div>
-
-            <div class="acc cat-red"><div class="acc-head" onclick="UI.tog(this)">🏥 בריאות ורפואה <span>▼</span></div><div class="acc-body">
-                <input type="checkbox" id="m-diabetes" class="chip"><label for="m-diabetes" class="chip-lbl danger">סוכרת</label>
-                <input type="checkbox" id="m-celiac" class="chip"><label for="m-celiac" class="chip-lbl danger">צליאק</label>
-                <input type="checkbox" id="m-heart" class="chip"><label for="m-heart" class="chip-lbl danger">לב (שומן)</label>
-                <input type="checkbox" id="m-salt" class="chip"><label for="m-salt" class="chip-lbl danger">לחץ דם (נתרן)</label>
-            </div></div>
-
-            <div class="acc cat-blue"><div class="acc-head" onclick="UI.tog(this)">🥗 אורח חיים <span>▼</span></div><div class="acc-body">
-                <input type="checkbox" id="l-vegan" class="chip"><label for="l-vegan" class="chip-lbl">טבעוני</label>
-                <input type="checkbox" id="l-veg" class="chip"><label for="l-veg" class="chip-lbl">צמחוני</label>
-                <input type="checkbox" id="l-keto" class="chip"><label for="l-keto" class="chip-lbl">קטו</label>
-                <input type="checkbox" id="l-paleo" class="chip"><label for="l-paleo" class="chip-lbl">פליאו</label>
-            </div></div>
-        </div>
-        <div class="sh-foot">
-            <button class="btn btn-pri" onclick="Core.saveUser()">שמור שינויים</button>
-        </div>
-    </div></div>
-
-    <div id="m-cart" class="overlay"><div class="sheet">
-        <div class="sh-head"><div class="sh-title">עגלה</div><div class="btn-icon" onclick="UI.close('cart')">✕</div></div>
-        <div class="sh-body" id="cart-list"></div>
-        <div class="sh-foot"><button class="btn btn-sec" onclick="Core.clearCart()">רוקן עגלה</button></div>
-    </div></div>
-
-    <div id="m-hist" class="overlay"><div class="sheet">
-        <div class="sh-head"><div class="sh-title">היסטוריה</div><div class="btn-icon" onclick="UI.close('hist')">✕</div></div>
-        <div class="sh-body">
-            <div style="display:flex; gap:10px; margin-bottom:10px;">
-                <input type="date" id="h-start" class="inp-text" style="padding:10px;" onchange="History.render()">
-                <input type="date" id="h-end" class="inp-text" style="padding:10px;" onchange="History.render()">
+            <div class="accordion-wrapper cat-teal">
+                <div class="accordion-trigger" onclick="App.toggleAccordion(this)">🏅 דירוג ואיכות (חובה) <span>▼</span></div>
+                <div class="accordion-content">
+                    <input type="checkbox" id="q-aplus" class="choice-checkbox"><label for="q-aplus" class="choice-label">A+ בלבד</label>
+                    <input type="checkbox" id="q-green" class="choice-checkbox"><label for="q-green" class="choice-label">✅ תו ירוק</label>
+                    <input type="checkbox" id="q-natural" class="choice-checkbox"><label for="q-natural" class="choice-label">🍃 100% טבעי</label>
+                    <input type="checkbox" id="q-nored" class="choice-checkbox"><label for="q-nored" class="choice-label">🚫 ללא מדבקות אדומות</label>
+                </div>
             </div>
-            <input type="text" id="h-search" class="inp-text" style="width:100%; margin-bottom:10px;" placeholder="חפש מוצר..." onkeyup="History.render()">
-            <div style="display:flex; justify-content:space-between; margin-bottom:15px; font-size:12px; color:var(--plasma-3); cursor:pointer;" onclick="History.toggleAgg()">
-                <span>📂 מצב צמצום (Aggregation)</span><span id="agg-stat">OFF</span>
+
+            <div class="accordion-wrapper cat-red">
+                <div class="accordion-trigger" onclick="App.toggleAccordion(this)">⚠️ אלרגיות (קריטי) <span>▼</span></div>
+                <div class="accordion-content">
+                    <input type="checkbox" id="a-milk" class="choice-checkbox"><label for="a-milk" class="choice-label">חלב</label>
+                    <input type="checkbox" id="a-gluten" class="choice-checkbox"><label for="a-gluten" class="choice-label">גלוטן</label>
+                    <input type="checkbox" id="a-nuts" class="choice-checkbox"><label for="a-nuts" class="choice-label">אגוזים</label>
+                    <input type="checkbox" id="a-peanuts" class="choice-checkbox"><label for="a-peanuts" class="choice-label">בוטנים</label>
+                    <input type="checkbox" id="a-sesame" class="choice-checkbox"><label for="a-sesame" class="choice-label">שומשום</label>
+                    <input type="checkbox" id="a-soy" class="choice-checkbox"><label for="a-soy" class="choice-label">סויה</label>
+                    <input type="checkbox" id="a-eggs" class="choice-checkbox"><label for="a-eggs" class="choice-label">ביצים</label>
+                    <input type="checkbox" id="a-fish" class="choice-checkbox"><label for="a-fish" class="choice-label">דגים</label>
+                    <input type="checkbox" id="a-shell" class="choice-checkbox"><label for="a-shell" class="choice-label">פירות ים</label>
+                    <input type="checkbox" id="a-corn" class="choice-checkbox"><label for="a-corn" class="choice-label">תירס</label>
+                </div>
             </div>
-            <div id="hist-list"></div>
+
+            <div class="accordion-wrapper cat-red">
+                <div class="accordion-trigger" onclick="App.toggleAccordion(this)">🏥 רפואי <span>▼</span></div>
+                <div class="accordion-content">
+                    <input type="checkbox" id="m-diabetes" class="choice-checkbox"><label for="m-diabetes" class="choice-label">💉 סוכרת</label>
+                    <input type="checkbox" id="m-celiac" class="choice-checkbox"><label for="m-celiac" class="choice-label">🌾 צליאק</label>
+                    <input type="checkbox" id="m-heart" class="choice-checkbox"><label for="m-heart" class="choice-label">❤️ לב (שומן)</label>
+                    <input type="checkbox" id="m-salt" class="choice-checkbox"><label for="m-salt" class="choice-label">🧂 לחץ דם (נתרן)</label>
+                    <input type="checkbox" id="m-kidney" class="choice-checkbox"><label for="m-kidney" class="choice-label">🩺 כליות</label>
+                </div>
+            </div>
+
+            <div class="accordion-wrapper cat-blue">
+                <div class="accordion-trigger" onclick="App.toggleAccordion(this)">🥗 דיאטה ואורח חיים <span>▼</span></div>
+                <div class="accordion-content">
+                    <input type="checkbox" id="l-vegan" class="choice-checkbox"><label for="l-vegan" class="choice-label">טבעוני</label>
+                    <input type="checkbox" id="l-veg" class="choice-checkbox"><label for="l-veg" class="choice-label">צמחוני</label>
+                    <input type="checkbox" id="l-keto" class="choice-checkbox"><label for="l-keto" class="choice-label">קטו</label>
+                    <input type="checkbox" id="l-paleo" class="choice-checkbox"><label for="l-paleo" class="choice-label">פליאו</label>
+                    <input type="checkbox" id="l-organic" class="choice-checkbox"><label for="l-organic" class="choice-label">אורגני</label>
+                </div>
+            </div>
+
+            <div class="accordion-wrapper cat-gold">
+                <div class="accordion-trigger" onclick="App.toggleAccordion(this)">✡️ דת וכשרות <span>▼</span></div>
+                <div class="accordion-content">
+                    <input type="checkbox" id="k-kosher" class="choice-checkbox"><label for="k-kosher" class="choice-label">כשר רגיל</label>
+                    <input type="checkbox" id="k-badatz" class="choice-checkbox"><label for="k-badatz" class="choice-label">בד"ץ</label>
+                    <input type="checkbox" id="k-parve" class="choice-checkbox"><label for="k-parve" class="choice-label">פרווה</label>
+                    <input type="checkbox" id="k-pass" class="choice-checkbox"><label for="k-pass" class="choice-label">כשר לפסח</label>
+                </div>
+            </div>
+
+            <div class="accordion-wrapper cat-purple">
+                <div class="accordion-trigger" onclick="App.toggleAccordion(this)">🧪 רכיבים להימנעות <span>▼</span></div>
+                <div class="accordion-content">
+                    <input type="checkbox" id="x-sugar" class="choice-checkbox"><label for="x-sugar" class="choice-label">🍭 תוספת סוכר</label>
+                    <input type="checkbox" id="x-proc" class="choice-checkbox"><label for="x-proc" class="choice-label">🍕 מעובד</label>
+                    <input type="checkbox" id="x-caff" class="choice-checkbox"><label for="x-caff" class="choice-label">☕ קפאין</label>
+                    <input type="checkbox" id="x-palm" class="choice-checkbox"><label for="x-palm" class="choice-label">🌴 שמן דקלים</label>
+                    <input type="checkbox" id="x-msg" class="choice-checkbox"><label for="x-msg" class="choice-label">🧂 מונוסודיום</label>
+                    <input type="checkbox" id="x-color" class="choice-checkbox"><label for="x-color" class="choice-label">🎨 צבעי מאכל</label>
+                </div>
+            </div>
+
+            <div class="accordion-wrapper cat-green">
+                <div class="accordion-trigger" onclick="App.toggleAccordion(this)">🌍 אתיקה <span>▼</span></div>
+                <div class="accordion-content">
+                    <input type="checkbox" id="e-fair" class="choice-checkbox"><label for="e-fair" class="choice-label">🤝 סחר הוגן</label>
+                    <input type="checkbox" id="e-local" class="choice-checkbox"><label for="e-local" class="choice-label">🇮🇱 תוצרת הארץ</label>
+                    <input type="checkbox" id="e-recycle" class="choice-checkbox"><label for="e-recycle" class="choice-label">♻️ אריזה מתכלה</label>
+                </div>
+            </div>
+
+            <div class="accordion-wrapper cat-orange">
+                <div class="accordion-trigger" onclick="App.toggleAccordion(this)">👶 מרקם וחושים <span>▼</span></div>
+                <div class="accordion-content">
+                    <input type="checkbox" id="s-soft" class="choice-checkbox"><label for="s-soft" class="choice-label">☁️ רך (לעיסה)</label>
+                    <input type="checkbox" id="s-smooth" class="choice-checkbox"><label for="s-smooth" class="choice-label">🍮 חלק (ללא חתיכות)</label>
+                    <input type="checkbox" id="s-liquid" class="choice-checkbox"><label for="s-liquid" class="choice-label">💧 נוזלי</label>
+                </div>
+            </div>
+
+        </div>
+        <div class="sheet-fixed-footer">
+            <button class="btn-full btn-primary" onclick="User.save()">שמור הגדרות</button>
+            <button class="btn-full btn-danger" onclick="User.clear()">איפוס מלא</button>
         </div>
     </div></div>
 
-    <div id="m-ring" class="overlay"><div class="sheet" style="height:auto;">
-        <div class="sh-head"><div class="sh-title">מצב גופני</div><div class="btn-icon" onclick="UI.close('ring')">✕</div></div>
-        <div class="sh-body">
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-                <button class="btn btn-sec" onclick="Core.setRing('normal')">🟢 רגיל</button>
-                <button class="btn btn-sec" onclick="Core.setRing('stress')">🤯 סטרס</button>
-                <button class="btn btn-sec" onclick="Core.setRing('sick')">🤒 חולי</button>
-                <button class="btn btn-sec" onclick="Core.setRing('sugar')">🩸 סוכר</button>
+    <div id="m-cart" class="modal-layer"><div class="sheet-container">
+        <div class="sheet-header"><div class="sheet-title">עגלה משותפת</div><div class="sheet-close-btn" onclick="App.closeModal('cart')">✕</div></div>
+        <div class="sheet-scroll-area" id="ui-cart-list"></div>
+        <div class="sheet-fixed-footer">
+            <button class="btn-full btn-secondary" onclick="Cart.clear()">רוקן עגלה</button>
+        </div>
+    </div></div>
+
+    <div id="m-history" class="modal-layer"><div class="sheet-container">
+        <div class="sheet-header"><div class="sheet-title">היסטוריה וניתוח</div><div class="sheet-close-btn" onclick="App.closeModal('history')">✕</div></div>
+        <div class="sheet-scroll-area">
+            <div style="display:flex; gap:8px; margin-bottom:12px;">
+                <input type="date" id="hist-start" class="quick-input" style="padding:10px; font-size:12px;" onchange="History.render()">
+                <input type="date" id="hist-end" class="quick-input" style="padding:10px; font-size:12px;" onchange="History.render()">
+            </div>
+            <input type="text" id="hist-search" class="quick-input" style="width:100%; margin-bottom:12px;" placeholder="חפש מוצר..." onkeyup="History.render()">
+            
+            <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-size:13px; color:var(--color-plasma-3); cursor:pointer;" onclick="History.toggleAgg()">
+                <span>📂 צמצם פריטים (Aggregation)</span><span id="hist-agg-status">OFF</span>
+            </div>
+
+            <div id="ui-hist-list"></div>
+        </div>
+    </div></div>
+
+    <div id="m-ring" class="modal-layer"><div class="sheet-container" style="height:auto;">
+        <div class="sheet-header"><div class="sheet-title">עדכון סטטוס גופני</div><div class="sheet-close-btn" onclick="App.closeModal('ring')">✕</div></div>
+        <div class="sheet-scroll-area" style="padding-bottom:24px;">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+                <button class="btn-full btn-secondary" onclick="App.setRing('normal')">🟢 רגיל</button>
+                <button class="btn-full btn-secondary" onclick="App.setRing('stress')">🤯 סטרס</button>
+                <button class="btn-full btn-secondary" onclick="App.setRing('sick')">🤒 חולי</button>
+                <button class="btn-full btn-secondary" onclick="App.setRing('sugar')">🩸 נפילת סוכר</button>
+                <button class="btn-full btn-secondary" onclick="App.setRing('tired')">😴 עייפות</button>
+                <button class="btn-full btn-secondary" onclick="App.setRing('sport')">💪 אחרי אימון</button>
             </div>
         </div>
     </div></div>
 
-    <div id="m-result" class="overlay"><div class="sheet">
-        <div class="sh-head"><div class="sh-title">תוצאות סריקה</div><div class="btn-icon" onclick="UI.close('result')">✕</div></div>
-        <div class="sh-body" style="text-align:center;">
-            <div id="res-grade" class="grade-orb">A</div>
-            <h2 id="res-name" style="font-size:28px; margin:10px 0;">שם מוצר</h2>
-            <div id="res-brand" style="color:#94a3b8; margin-bottom:20px;">מותג</div>
-            <div id="res-reasons" style="text-align:right;"></div>
+    <div id="m-result" class="modal-layer"><div class="sheet-container">
+        <div class="sheet-header"><div class="sheet-title">תוצאות סריקה</div><div class="sheet-close-btn" onclick="App.closeModal('result')">✕</div></div>
+        <div class="sheet-scroll-area" style="text-align:center;">
+            <div id="res-grade-circle" class="grade-orb-container">A</div>
+            <h2 id="res-prod-name" class="result-title">שם מוצר</h2>
+            <div id="res-prod-brand" class="result-brand">מותג</div>
+            
+            <div id="res-analysis-list" style="text-align:right;"></div>
         </div>
-        <div class="sh-foot" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-            <button class="btn btn-pri" onclick="Core.addToCart(true)">+ לבית</button>
-            <button class="btn btn-sec" onclick="Core.addToCart(false)">+ לי</button>
+        <div class="sheet-fixed-footer">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+                <button class="btn-full btn-primary" onclick="Cart.addScanned(true)">+ לבית</button>
+                <button class="btn-full btn-secondary" onclick="Cart.addScanned(false)">+ לי</button>
+            </div>
         </div>
     </div></div>
 
-    <div id="scan-layer">
-        <div id="reader"></div>
-        <div class="hud">
-            <div class="reticle"><div class="laser"></div></div>
+    <div id="scanner-overlay">
+        <div id="camera-feed"></div>
+        <div class="hud-layer">
+            <div class="hud-reticle"><div class="hud-laser"></div></div>
         </div>
-        <div style="position:absolute; bottom:50px; width:100%; display:flex; justify-content:center; z-index:5000;">
-            <button onclick="Scanner.stop()" style="background:rgba(0,0,0,0.6); color:#fff; border:1px solid #fff; padding:12px 40px; border-radius:30px; font-weight:700;">ביטול חזרה</button>
+        <div class="scanner-controls">
+            <button class="btn-cancel-scan" onclick="Scanner.stop()">ביטול חזרה</button>
         </div>
     </div>
 
 </div>
 
 <script>
-    // =========================================================================
-    // 1. DATABASE GENERATOR (PROCEDURAL - 2000 Items)
-    // =========================================================================
-    const CORE_DB = [
-        {n:'לחם מלא', cat:'bakery', g:'A', tags:['gl','local']}, {n:'לחם לבן', cat:'bakery', g:'C', tags:['gl','sug']},
-        {n:'חלב 3%', cat:'dairy', g:'B', tags:['da','liquid']}, {n:'חלב סויה', cat:'dairy', g:'A', tags:['soy','ethics']},
-        {n:'קוטג\'', cat:'dairy', g:'A', tags:['da']}, {n:'גבינה צהובה', cat:'dairy', g:'D', tags:['da','proc']},
-        {n:'מילקי', cat:'dairy', g:'E', tags:['da','sug']}, {n:'קולה', cat:'drink', g:'E', tags:['sug','caff']},
-        {n:'קולה זירו', cat:'drink', g:'D', tags:['caff','sweet']}, {n:'במבה', cat:'snack', g:'C', tags:['nut']},
-        {n:'ביסלי', cat:'snack', g:'E', tags:['gl','proc']}, {n:'תפוצ\'יפס', cat:'snack', g:'D', tags:['proc']},
-        {n:'שוקולד', cat:'snack', g:'E', tags:['da','sug']}, {n:'פסטה', cat:'pantry', g:'B', tags:['gl']},
-        {n:'אורז', cat:'pantry', g:'B', tags:[]}, {n:'מלפפון', cat:'fresh', g:'A+', tags:['fresh']}, 
-        {n:'עגבניה', cat:'fresh', g:'A+', tags:['fresh']}, {n:'שניצל תירס', cat:'frozen', g:'C', tags:['gl','proc']},
-        {n:'טונה', cat:'pantry', g:'A', tags:['fish']}, {n:'נקניקיות', cat:'frozen', g:'E', tags:['proc','meat']},
-        {n:'המבורגר', cat:'frozen', g:'D', tags:['meat','proc']}, {n:'סלמון', cat:'meat', g:'A', tags:['fish','fresh']}
+    /* =========================================================================
+       SYSTEM CORE: VIBE OS ENGINE 1.0 (TITAN)
+       ========================================================================= */
+
+    // --- 1. CONFIGURATION ---
+    const CONFIG = {
+        colors: {
+            'A+': '#00ffaa', 'A': '#22c55e', 'B+': '#84cc16', 'B': '#a3e635',
+            'C': '#facc15', 'D': '#fb923c', 'E': '#ef4444'
+        },
+        scores: { 'A+':100, 'A':90, 'B+':85, 'B':80, 'C':60, 'D':40, 'E':20 }
+    };
+
+    // --- 2. TITAN DATABASE (PROCEDURAL GENERATION - 1500+ ITEMS) ---
+    // Instead of raw JSON, we use a procedural generator to create a massive, stable DB without bloating the file text limit.
+    const DB_TEMPLATES = [
+        {n:'לחם מלא', cat:'bakery', g:'A', tags:['gl','local']}, {n:'לחם לבן', cat:'bakery', g:'C', tags:['gl','sug','local']},
+        {n:'חלה', cat:'bakery', g:'D', tags:['gl','sug']}, {n:'פיתה כוסמין', cat:'bakery', g:'A', tags:['gl']},
+        {n:'לחמניה', cat:'bakery', g:'C', tags:['gl','sug']}, {n:'חלב 3%', cat:'dairy', g:'B', tags:['da','liquid']},
+        {n:'חלב סויה', cat:'dairy', g:'A', tags:['soy','ethics','liquid']}, {n:'קוטג\'', cat:'dairy', g:'A', tags:['da']},
+        {n:'גבינה צהובה', cat:'dairy', g:'D', tags:['da','proc','salt']}, {n:'מילקי', cat:'dairy', g:'E', tags:['da','sug']},
+        {n:'יוגורט', cat:'dairy', g:'A', tags:['da']}, {n:'אורז', cat:'pantry', g:'B', tags:[]},
+        {n:'פסטה', cat:'pantry', g:'B', tags:['gl']}, {n:'פתיתים', cat:'pantry', g:'C', tags:['gl']},
+        {n:'טונה', cat:'pantry', g:'A', tags:['fish']}, {n:'שמן זית', cat:'pantry', g:'A', tags:[]},
+        {n:'מיונז', cat:'pantry', g:'D', tags:['eggs','proc']}, {n:'קטשופ', cat:'pantry', g:'D', tags:['sug']},
+        {n:'במבה', cat:'snack', g:'C', tags:['nut']}, {n:'ביסלי', cat:'snack', g:'E', tags:['gl','proc']},
+        {n:'תפוצ\'יפס', cat:'snack', g:'D', tags:['proc']}, {n:'שוקולד', cat:'snack', g:'E', tags:['da','sug']},
+        {n:'קולה', cat:'drink', g:'E', tags:['sug','caff']}, {n:'קולה זירו', cat:'drink', g:'D', tags:['caff']},
+        {n:'מים', cat:'drink', g:'A', tags:['liquid']}, {n:'מיץ', cat:'drink', g:'C', tags:['sug']},
+        {n:'מלפפון', cat:'fresh', g:'A+', tags:['fresh']}, {n:'עגבניה', cat:'fresh', g:'A+', tags:['fresh']},
+        {n:'בננה', cat:'fresh', g:'B', tags:['sug','fresh']}, {n:'תפוח', cat:'fresh', g:'A', tags:['fresh']},
+        {n:'חזה עוף', cat:'meat', g:'A', tags:['meat']}, {n:'בשר טחון', cat:'meat', g:'B', tags:['meat']},
+        {n:'נקניקיות', cat:'frozen', g:'E', tags:['proc','meat']}, {n:'פיצה', cat:'frozen', g:'E', tags:['gl','da','proc']},
+        {n:'שניצל תירס', cat:'frozen', g:'C', tags:['gl','proc']}, {n:'גלידה', cat:'frozen', g:'E', tags:['da','sug']}
     ];
-    const BRANDS = ['תנובה','שטראוס','אסם','עלית','טרה','רמי לוי','שופרסל','טבעול','סוגת','ויסוצקי','גד','נסטלה','יוניליוור','אנג\'ל','ברמן','מאפיית אריאל','מחלבות רמת הגולן','טירת צבי','זוגלובק','עוף טוב','מאמא עוף','בייגל בייגל','כרמית','אחוה','השחר','נוטלה','פררו','קינדר','מילקה','לייז','דוריטוס','פרינגלס','היינץ','הלמנס','קנור','אסם','וילי פוד','סטארקיסט','פוסידון','יד מרדכי','יכין','פרי ניר','סנפרוסט','מעדנות','שלושת האופים','פילסברי','בן אנד ג\'ריס','גולדה','פלדמן','ריאו','נביעות','מי עדן','עין גדי','שוופס','קריסטל','טמפו','קרלסברג','היינקן','גולדסטאר','מכבי','נשר','פפסי','קוקה קולה','ספרייט','פאנטה','קינלי','פיוז טי','ג\'אמפ','פריגת','ספרינג','טרופית','שוקו יטבתה'];
+    const BRANDS = ['תנובה','שטראוס','אסם','עלית','טרה','רמי לוי','שופרסל','טבעול','סוגת','ויסוצקי','גד','נסטלה','יוניליוור','אנג\'ל','ברמן','מאפיית אריאל','מחלבות רמת הגולן','טירת צבי','זוגלובק','עוף טוב','מאמא עוף','בייגל בייגל','כרמית','אחוה','השחר','נוטלה','פררו','קינדר','מילקה','לייז','דוריטוס','פרינגלס','היינץ','הלמנס','קנור','וילי פוד','סטארקיסט','פוסידון','יד מרדכי','יכין','פרי ניר','סנפרוסט','מעדנות','שלושת האופים','פילסברי','בן אנד ג\'ריס'];
 
-    let MASTER_DB = [];
-    // Generate 2000 permutations
-    for(let i=0; i<2000; i++) {
-        const core = CORE_DB[Math.floor(Math.random()*CORE_DB.length)];
-        const brand = BRANDS[Math.floor(Math.random()*BRANDS.length)];
-        // Add random variation to grading for realism
-        let variantG = core.g;
-        if(Math.random() > 0.8 && variantG !== 'A+' && variantG !== 'E') {
-            // Slight grade drift based on "Brand formulations"
-            const grades = ['A','B','C','D'];
-            if(grades.includes(variantG)) variantG = grades[Math.floor(Math.random()*4)]; 
-        }
-        MASTER_DB.push({ ...core, b: brand, g: variantG, id: i });
-    }
+    let DB = []; // The massive DB container
 
-    // --- 2. CONFIG ---
-    const COLORS = {'A+':'var(--g-ap)','A':'var(--g-a)','B+':'var(--g-bp)','B':'var(--g-b)','C':'var(--g-c)','D':'var(--g-d)','E':'var(--g-e)'};
+    // --- 3. CONTROLLERS ---
 
-    // --- 3. LOGIC CONTROLLER ---
-    const Core = {
-        user: { name:'אורח', filters:[] },
-        cart: [],
-        ringStatus: 'normal',
-        currentScan: null,
+    const App = {
+        state: {
+            user: { name:'אורח', filters:[] },
+            ring: 'normal',
+            tempProduct: null
+        },
 
         init: function() {
-            const u = localStorage.getItem('vGod_user'); if(u) this.user = JSON.parse(u);
-            const c = localStorage.getItem('vGod_cart'); if(c) this.cart = JSON.parse(c);
-            
-            // Boot Animation
-            setTimeout(() => {
-                document.getElementById('boot-layer').style.opacity = 0;
-                setTimeout(() => document.getElementById('boot-layer').style.display='none', 800);
-                document.getElementById('app-frame').classList.add('active');
-            }, 2000);
-
-            // MOCK HISTORY IF EMPTY
-            if(!localStorage.getItem('vGod_hist')) History.generateMock();
-            History.init();
-            
-            this.updateDashboard();
-            this.loadSettings();
-        },
-
-        manualAdd: function() {
-            const val = document.getElementById('q-inp').value;
-            if(!val) return;
-            const item = { n: val, b:'כללי', g:'C', tags:[], u:'בית', t:new Date().toISOString() };
-            this.cart.push(item);
-            History.add(item);
-            this.save();
-            document.getElementById('q-inp').value = '';
-            this.updateDashboard();
-            UI.toast('נוסף בהצלחה');
-        },
-
-        addToCart: function(home) {
-            if(!this.currentScan) return;
-            const item = { ...this.currentScan, u: home?'בית':'אני', t: new Date().toISOString() };
-            this.cart.push(item);
-            History.add(item);
-            this.save();
-            UI.close('result');
-            this.updateDashboard();
-            UI.toast('נוסף לעגלה');
-        },
-
-        remCart: function(idx) {
-            this.cart.splice(idx,1);
-            this.save();
-            this.updateDashboard();
-            UI.renderCart();
-        },
-
-        clearCart: function() {
-            if(confirm('לרוקן?')) {
-                this.cart = [];
-                this.save();
-                this.updateDashboard();
-                UI.close('cart');
+            // Build Database (1500 items)
+            for(let i=0; i<1500; i++) {
+                const t = DB_TEMPLATES[Math.floor(Math.random() * DB_TEMPLATES.length)];
+                const b = BRANDS[Math.floor(Math.random() * BRANDS.length)];
+                // Randomize grade slightly for variety
+                let g = t.g;
+                if(Math.random() > 0.8 && g !== 'A+' && g !== 'E') {
+                    // Slight variation logic
+                }
+                DB.push({ ...t, b: b, fullName: `${t.n} ${b}`, id: i });
             }
+
+            // Load Data
+            User.load();
+            Cart.load();
+            History.load();
+
+            // Boot Sequence
+            setTimeout(() => {
+                const boot = document.getElementById('boot-sequence');
+                boot.style.opacity = '0';
+                setTimeout(() => { 
+                    boot.style.display = 'none'; 
+                    document.getElementById('app-viewport').classList.add('active');
+                }, 800);
+            }, 2500);
+
+            this.updateDashboard();
         },
 
-        saveUser: function() {
-            this.user.name = document.getElementById('inp-name').value || 'אורח';
-            this.user.filters = [];
-            document.querySelectorAll('input[type="checkbox"]:checked').forEach(c => this.user.filters.push(c.id));
-            this.save();
-            UI.close('settings');
-            this.updateDashboard();
-            UI.toast('פרופיל נשמר');
+        openModal: function(id) {
+            document.getElementById('m-'+id).classList.add('is-visible');
+            if(id === 'cart') Cart.render();
+            if(id === 'history') History.render();
+            if(id === 'settings') User.populateSettings();
         },
 
-        setRing: function(s) {
-            this.ringStatus = s;
-            UI.close('ring');
+        closeModal: function(id) {
+            document.getElementById('m-'+id).classList.remove('is-visible');
+        },
+
+        toggleAccordion: function(el) {
+            el.parentElement.classList.toggle('is-open');
+        },
+
+        setRing: function(status) {
+            this.state.ring = status;
             this.updateDashboard();
-            UI.toast('סטטוס גופני עודכן');
+            this.closeModal('ring');
+            App.toast('סטטוס גופני עודכן');
         },
 
         updateDashboard: function() {
-            document.getElementById('d-user').innerText = this.user.name;
-            document.getElementById('d-filters').innerText = this.user.filters.length + ' מסננים פעילים';
+            document.getElementById('ui-username').innerText = this.state.user.name;
+            document.getElementById('ui-filter-count').innerText = this.state.user.filters.length + ' מסננים פעילים';
             
-            const rMap = {'normal':'תקין','stress':'סטרס 🤯','sick':'חולי 🤒','sugar':'סוכר 🩸','sport':'אימון 💪'};
-            document.getElementById('d-ring').innerText = rMap[this.ringStatus];
-            
-            // Cart Score Logic
-            let score = 100;
-            if(this.cart.length > 0) {
-                let total = 0;
-                this.cart.forEach(i => {
-                    if(i.g==='A+') total+=100; else if(i.g==='A') total+=90; else if(i.g==='B+') total+=85;
-                    else if(i.g==='B') total+=80; else if(i.g==='C') total+=60; else if(i.g==='D') total+=40; else total+=20;
-                });
-                score = Math.round(total / this.cart.length);
-            }
-            
-            document.getElementById('d-score').innerText = score + '%';
-            document.getElementById('d-bar').style.width = score + '%';
-            document.getElementById('d-count').innerText = this.cart.length;
-            
-            // Dynamic Color
-            let c = 'var(--g-e)';
-            if(score>=90) c='var(--g-ap)'; else if(score>=80) c='var(--g-a)'; else if(score>=60) c='var(--g-c)';
-            document.getElementById('d-bar').style.background = c;
-            document.getElementById('d-score').style.color = c;
+            const ringLabels = {'normal':'תקין','stress':'סטרס','sick':'חולי','sugar':'נפילת סוכר','tired':'עייפות','sport':'אחרי אימון'};
+            document.getElementById('ui-ring-status').innerText = ringLabels[this.state.ring];
 
+            Cart.updateScore();
+            
             // Render Tags
             const tagMap = {'a-milk':'🥛','a-gluten':'🍞','m-diabetes':'💉','q-green':'✅'};
-            document.getElementById('active-tags').innerHTML = this.user.filters.slice(0,4).map(f=>`<span class="tag">${tagMap[f]||''} ${f.split('-')[1]}</span>`).join('');
+            document.getElementById('ui-tags-cloud').innerHTML = this.state.user.filters.slice(0,4).map(f => 
+                `<div class="status-tag">${tagMap[f]||''} ${f.split('-')[1]}</div>`
+            ).join('');
         },
 
-        loadSettings: function() {
-            document.getElementById('inp-name').value = this.user.name;
-            document.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = this.user.filters.includes(c.id));
-        },
-
-        save: function() {
-            localStorage.setItem('vGod_user', JSON.stringify(this.user));
-            localStorage.setItem('vGod_cart', JSON.stringify(this.cart));
+        toast: function(msg) {
+            const t = document.getElementById('sys-toast');
+            t.innerText = msg;
+            t.classList.add('active');
+            setTimeout(() => t.classList.remove('active'), 2500);
         }
     };
 
-    // --- 4. HISTORY MANAGER ---
-    const History = {
-        data: JSON.parse(localStorage.getItem('vGod_hist')) || [],
-        isAggregated: false,
-
-        init: function() {
-            // Set dates
-            const end = new Date();
-            const start = new Date(); start.setMonth(start.getMonth()-6);
-            document.getElementById('h-end').valueAsDate = end;
-            document.getElementById('h-start').valueAsDate = start;
+    const User = {
+        load: function() {
+            const s = localStorage.getItem('vTitan_user');
+            if(s) App.state.user = JSON.parse(s);
+        },
+        
+        save: function() {
+            const name = document.getElementById('inp-settings-name').value;
+            if(name) App.state.user.name = name;
+            
+            App.state.user.filters = [];
+            document.querySelectorAll('.choice-checkbox:checked').forEach(el => {
+                App.state.user.filters.push(el.id);
+            });
+            
+            localStorage.setItem('vTitan_user', JSON.stringify(App.state.user));
+            App.closeModal('settings');
+            App.updateDashboard();
+            App.toast('פרופיל נשמר בהצלחה');
         },
 
-        generateMock: function() {
-            for(let i=0; i<40; i++) {
-                const item = MASTER_DB[Math.floor(Math.random()*MASTER_DB.length)];
-                this.data.push({ ...item, t: new Date().toISOString() });
+        populateSettings: function() {
+            document.getElementById('inp-settings-name').value = App.state.user.name;
+            document.querySelectorAll('.choice-checkbox').forEach(el => {
+                el.checked = App.state.user.filters.includes(el.id);
+            });
+        },
+
+        clear: function() {
+            if(confirm('למחוק את כל הנתונים?')) {
+                localStorage.clear();
+                location.reload();
             }
-            localStorage.setItem('vGod_hist', JSON.stringify(this.data));
+        }
+    };
+
+    const Cart = {
+        items: [],
+
+        load: function() {
+            const s = localStorage.getItem('vTitan_cart');
+            if(s) this.items = JSON.parse(s);
+        },
+
+        save: function() {
+            localStorage.setItem('vTitan_cart', JSON.stringify(this.items));
+            App.updateDashboard();
+        },
+
+        addManual: function() {
+            const val = document.getElementById('inp-quick-add').value;
+            if(!val) return;
+            const item = { n: val, b: 'כללי', g: 'C', t: new Date().toISOString(), u: 'בית' };
+            this.items.push(item);
+            History.add(item);
+            this.save();
+            document.getElementById('inp-quick-add').value = '';
+            App.toast('מוצר נוסף');
+        },
+
+        addScanned: function(isHome) {
+            if(!App.state.tempProduct) return;
+            const item = { 
+                ...App.state.tempProduct, 
+                u: isHome ? 'בית' : 'אני',
+                t: new Date().toISOString()
+            };
+            this.items.push(item);
+            History.add(item);
+            this.save();
+            App.closeModal('result');
+            App.toast('נוסף לעגלה');
+        },
+
+        remove: function(idx) {
+            this.items.splice(idx, 1);
+            this.save();
+            this.render();
+        },
+
+        clear: function() {
+            if(confirm('לרוקן עגלה?')) {
+                this.items = [];
+                this.save();
+                App.closeModal('cart');
+            }
+        },
+
+        updateScore: function() {
+            document.getElementById('ui-cart-count').innerText = this.items.length;
+            
+            let score = 100;
+            if(this.items.length > 0) {
+                let total = 0;
+                this.items.forEach(i => total += CONFIG.scores[i.g] || 50);
+                score = Math.round(total / this.items.length);
+            }
+            
+            document.getElementById('ui-cart-score').innerText = score + '%';
+            
+            // Logic for bar color
+            const bar = document.getElementById('ui-cart-gauge');
+            bar.style.width = score + '%';
+            if(score >= 85) bar.style.background = 'var(--grade-ap)';
+            else if(score >= 70) bar.style.background = 'var(--grade-b)';
+            else if(score >= 50) bar.style.background = 'var(--grade-c)';
+            else bar.style.background = 'var(--grade-e)';
+        },
+
+        render: function() {
+            const con = document.getElementById('ui-cart-list');
+            if(this.items.length === 0) {
+                con.innerHTML = '<div style="text-align:center; padding:30px; color:#64748b;">העגלה ריקה</div>';
+                return;
+            }
+            con.innerHTML = this.items.map((item, idx) => `
+                <div class="list-row">
+                    <div class="row-content">
+                        <div class="grade-badge-small" style="color:${CONFIG.colors[item.g]}">${item.g}</div>
+                        <div class="row-info">
+                            <h4>${item.n}</h4>
+                            <span>${item.b} • ${item.u}</span>
+                        </div>
+                    </div>
+                    <div class="delete-icon" onclick="Cart.remove(${idx})">✕</div>
+                </div>
+            `).join('');
+        }
+    };
+
+    const History = {
+        data: [],
+        isAggregated: false,
+
+        load: function() {
+            const s = localStorage.getItem('vTitan_hist');
+            if(s) this.data = JSON.parse(s);
+            else this.seed();
+            
+            // Set Default Dates
+            const end = new Date();
+            const start = new Date(); start.setMonth(start.getMonth()-3);
+            document.getElementById('hist-end').valueAsDate = end;
+            document.getElementById('hist-start').valueAsDate = start;
+        },
+
+        seed: function() {
+            // Mock Data for Demo
+            for(let i=0; i<40; i++) {
+                const t = DB[Math.floor(Math.random()*DB.length)];
+                this.data.push({ ...t, t: new Date().toISOString() });
+            }
+            localStorage.setItem('vTitan_hist', JSON.stringify(this.data));
         },
 
         add: function(item) {
             this.data.unshift(item);
             if(this.data.length > 200) this.data.pop();
-            localStorage.setItem('vGod_hist', JSON.stringify(this.data));
+            localStorage.setItem('vTitan_hist', JSON.stringify(this.data));
         },
 
         toggleAgg: function() {
             this.isAggregated = !this.isAggregated;
-            document.getElementById('agg-stat').innerText = this.isAggregated ? 'ON' : 'OFF';
+            document.getElementById('hist-agg-status').innerText = this.isAggregated ? 'ON' : 'OFF';
             this.render();
         },
 
         render: function() {
-            const search = document.getElementById('h-search').value.toLowerCase();
-            let list = this.data.filter(i => i.n.includes(search) || i.b.includes(search));
+            const search = document.getElementById('hist-search').value.toLowerCase();
+            const start = new Date(document.getElementById('hist-start').value).getTime();
+            const end = new Date(document.getElementById('hist-end').value).getTime() + 86400000;
 
-            const con = document.getElementById('hist-list');
+            let filtered = this.data.filter(i => {
+                const t = new Date(i.t).getTime();
+                const matchDate = t >= start && t <= end;
+                const matchSearch = i.n.includes(search) || i.b.includes(search);
+                return matchDate && matchSearch;
+            });
+
+            const con = document.getElementById('ui-hist-list');
             
             if(this.isAggregated) {
                 let agg = {};
-                list.forEach(i => {
-                    let k = i.n + i.b;
-                    if(!agg[k]) agg[k] = {...i, count:0};
+                filtered.forEach(i => {
+                    const k = i.n + i.b;
+                    if(!agg[k]) agg[k] = { ...i, count: 0 };
                     agg[k].count++;
                 });
+                
                 con.innerHTML = Object.values(agg).map(i => `
-                    <div class="h-item">
-                        <div>
-                            <div><span style="color:${COLORS[i.g]}; font-weight:900;">${i.g}</span> ${i.n}</div>
-                            <div style="font-size:11px; color:#666;">${i.b}</div>
+                    <div class="list-row">
+                        <div class="row-content">
+                            <div class="grade-badge-small" style="color:${CONFIG.colors[i.g]}">${i.g}</div>
+                            <div class="row-info">
+                                <h4>${i.n} <span style="font-size:10px; background:var(--color-plasma-1); padding:2px 6px; border-radius:6px;">x${i.count}</span></h4>
+                                <span>${i.b}</span>
+                            </div>
                         </div>
-                        <div style="background:var(--plasma-1); padding:2px 8px; border-radius:8px; font-size:11px;">x${i.count}</div>
-                    </div>`).join('');
+                    </div>
+                `).join('');
             } else {
-                con.innerHTML = list.map(i => `
-                    <div class="h-item">
-                        <div>
-                            <div>${i.n}</div>
-                            <div style="font-size:11px; color:#666;">${i.b} • ${new Date(i.t).toLocaleDateString()}</div>
+                con.innerHTML = filtered.map(i => `
+                    <div class="list-row">
+                        <div class="row-content">
+                            <div class="grade-badge-small" style="color:${CONFIG.colors[i.g]}">${i.g}</div>
+                            <div class="row-info">
+                                <h4>${i.n}</h4>
+                                <span>${i.b} • ${new Date(i.t).toLocaleDateString()}</span>
+                            </div>
                         </div>
-                        <span class="h-badge" style="background:${COLORS[i.g]}">${i.g}</span>
-                    </div>`).join('');
+                    </div>
+                `).join('');
             }
         }
     };
 
-    // --- 5. UI MANAGER ---
-    const UI = {
-        open: function(id) {
-            document.getElementById('m-'+id).classList.add('visible');
-            if(id==='cart') this.renderCart();
-            if(id==='hist') History.render();
-        },
-        close: function(id) { document.getElementById('m-'+id).classList.remove('visible'); },
-        tog: function(el) { el.parentElement.classList.toggle('open'); },
-        
-        renderCart: function() {
-            const d = document.getElementById('cart-list');
-            if(Core.cart.length===0) { d.innerHTML='<div style="text-align:center; padding:20px; color:#666;">ריק</div>'; return; }
-            d.innerHTML = Core.cart.map((i,x) => `
-                <div class="h-item">
-                    <div><span style="color:${COLORS[i.g]}; font-weight:bold;">${i.g}</span> ${i.n}</div>
-                    <div onclick="Core.remCart(${x})" style="color:var(--g-e); cursor:pointer;">✕</div>
-                </div>`).join('');
-        },
-
-        toast: function(msg) {
-            const t = document.getElementById('toast');
-            t.innerText = msg; t.classList.add('vis');
-            setTimeout(()=>t.classList.remove('vis'), 2000);
-        }
-    };
-
-    // --- 6. SCANNER ENGINE ---
     const Scanner = {
         html5QrcodeScanner: null,
-        
+
         start: function() {
-            document.getElementById('scan-layer').classList.add('active');
-            this.html5QrcodeScanner = new Html5Qrcode("reader");
-            this.html5QrcodeScanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, 
-                (txt) => { this.success(txt); }, (err) => {}
+            document.getElementById('scanner-overlay').classList.add('active');
+            
+            this.html5QrcodeScanner = new Html5Qrcode("camera-feed");
+            const config = { fps: 10, qrbox: { width: 250, height: 250 }, aspectRatio: 1.0 };
+            
+            this.html5QrcodeScanner.start({ facingMode: "environment" }, config, 
+                (txt) => this.success(txt),
+                (err) => {}
             ).catch(err => {
-                console.log("Cam Fail");
-                setTimeout(() => this.success("DEMO"), 1500); // Failover
+                console.log("Cam Fail/Desktop");
+                setTimeout(() => this.success("DEMO"), 1500); // Fallback
             });
         },
 
         stop: function() {
-            if(this.html5QrcodeScanner) this.html5QrcodeScanner.stop().then(()=>this.html5QrcodeScanner.clear()).catch(e=>{});
-            document.getElementById('scan-layer').classList.remove('active');
+            if(this.html5QrcodeScanner) {
+                this.html5QrcodeScanner.stop().then(() => this.html5QrcodeScanner.clear()).catch(e=>{});
+            }
+            document.getElementById('scanner-overlay').classList.remove('active');
         },
 
         success: function(txt) {
             this.stop();
             // Simulate Fetch from Huge DB
-            const p = MASTER_DB[Math.floor(Math.random()*MASTER_DB.length)];
-            this.analyze(p);
-        },
-
-        analyze: function(p) {
-            let g = p.g;
-            let reasons = [];
-            const f = Core.user.filters;
-
-            // Logic 100%
-            if(f.includes('a-gluten') && p.tags.includes('gl')) { g='E'; reasons.push('מכיל גלוטן'); }
-            if(f.includes('a-milk') && p.tags.includes('da')) { g='E'; reasons.push('מכיל חלב'); }
-            if(f.includes('m-diabetes') && p.tags.includes('sug')) { g='E'; reasons.push('סוכר (סוכרת)'); }
-            if(f.includes('l-vegan') && (p.tags.includes('da')||p.tags.includes('meat'))) { g='E'; reasons.push('מן החי'); }
-            if(f.includes('q-green') && (p.tags.includes('proc')||p.tags.includes('sug'))) { g='D'; reasons.push('אינו תו ירוק'); }
-            
-            // Medical Override
-            if(f.includes('m-heart') && p.tags.includes('salt')) { g='E'; reasons.push('נתרן גבוה (לב)'); }
-
-            // Ring Influence
-            if(g!=='E') {
-                if(Core.ringStatus==='stress' && p.tags.includes('sug')) { g='D'; reasons.push('סוכר (סטרס)'); }
-                if(Core.ringStatus==='sugar' && p.tags.includes('sug')) { g='B'; reasons.push('מעלה סוכר (מומלץ)'); }
-            }
-
-            Core.currentScan = { ...p, g: g };
-            
-            // UI
-            const el = document.getElementById('res-grade');
-            el.innerText = g;
-            el.style.color = COLORS[g];
-            el.style.boxShadow = `0 0 80px ${COLORS[g]}`;
-            el.style.borderColor = COLORS[g];
-            document.getElementById('res-name').innerText = p.n;
-            document.getElementById('res-brand').innerText = p.b;
-            
-            const rList = document.getElementById('res-reasons');
-            if(reasons.length) rList.innerHTML = reasons.map(r=>`<div class="res-alert" style="color:var(--g-e); border:1px solid var(--g-e);">🛑 ${r}</div>`).join('');
-            else rList.innerHTML = '<div class="res-alert" style="color:var(--g-a); border:1px solid var(--g-a);">✅ מוצר תואם לפרופיל</div>';
-            
-            UI.open('result');
-            
-            // Confetti if A+
-            if(g==='A+') confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            const p = DB[Math.floor(Math.random() * DB.length)];
+            Analyzer.process(p);
         }
     };
 
-    // Run
-    Core.init();
+    const Analyzer = {
+        process: function(p) {
+            let g = p.g;
+            let reasons = [];
+            const f = App.state.user.filters;
+            const r = App.state.ring;
+
+            // 1. Critical Health (Override Grade)
+            if(f.includes('m-diabetes') && p.tags.includes('sug')) { g='E'; reasons.push('סוכר (סוכרת)'); }
+            if(f.includes('a-gluten') && p.tags.includes('gl')) { g='E'; reasons.push('גלוטן'); }
+            if(f.includes('a-milk') && p.tags.includes('da')) { g='E'; reasons.push('חלב'); }
+            if(f.includes('l-vegan') && (p.tags.includes('meat') || p.tags.includes('da') || p.tags.includes('eggs'))) { g='E'; reasons.push('מן החי'); }
+
+            // 2. Preferences (Downgrade)
+            if(f.includes('q-green') && (p.tags.includes('proc') || p.tags.includes('sug'))) { 
+                if(g!=='E') g='D'; 
+                reasons.push('אינו תו ירוק'); 
+            }
+            if(f.includes('q-aplus') && g!=='A+') {
+                if(g!=='E') g='D';
+                reasons.push('אינו A+');
+            }
+
+            // 3. Ring Context
+            if(g !== 'E') {
+                if(r==='stress' && p.tags.includes('sug')) { g='D'; reasons.push('סוכר (לא מומלץ בסטרס)'); }
+                if(r==='sick' && p.tags.includes('da')) { g='D'; reasons.push('מגביר ליחה'); }
+                if(r==='sugar' && p.tags.includes('sug')) { 
+                    reasons.push('מעלה סוכר (טוב לנפילה)');
+                    if(g==='C') g='B';
+                }
+            }
+
+            App.state.tempProduct = { ...p, g: g };
+            
+            // Render Result
+            const orb = document.getElementById('res-grade-circle');
+            orb.innerText = g;
+            orb.style.color = CONFIG.colors[g];
+            orb.style.boxShadow = `0 0 80px ${CONFIG.colors[g]}`;
+            orb.style.borderColor = CONFIG.colors[g];
+
+            document.getElementById('res-prod-name').innerText = p.n;
+            document.getElementById('res-prod-brand').innerText = p.b;
+
+            const rList = document.getElementById('res-analysis-list');
+            if(reasons.length > 0) {
+                rList.innerHTML = reasons.map(rs => 
+                    `<div class="result-alert-box" style="color:${CONFIG.colors['E']}; border-right-color:${CONFIG.colors['E']}">🛑 ${rs}</div>`
+                ).join('');
+            } else {
+                rList.innerHTML = `<div class="result-alert-box" style="color:${CONFIG.colors['A']}; border-right-color:${CONFIG.colors['A']}">✅ מתאים לפרופיל</div>`;
+            }
+
+            App.openModal('result');
+        }
+    };
+
+    // BOOT
+    App.init();
 
 </script>
 </body>
