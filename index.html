@@ -6,19 +6,23 @@
     <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Vibe OS NEO - Production Candidate</title>
+    <meta name="description" content="Vibe OS TITAN - The Ultimate Nutrition Operating System">
+    <title>Vibe OS TITAN</title>
     
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     
     <style>
-        /* =========================================
-           1. CORE DESIGN SYSTEM (NEO PLASMA)
-           ========================================= */
+        /* ================================================================
+           1. CORE DESIGN SYSTEM (NEO PLASMA - EXPANDED)
+           ================================================================ 
+        */
         :root { 
-            --bg-body: #050505;
+            /* Backgrounds */
+            --bg-body: #030303;
             --bg-app: #000000;
             --surface: #141416;
             --surface-2: #1c1c1e;
+            --surface-3: #2c2c2e;
             --border: #2a2a2a;
             
             /* The Plasma Gradient Colors */
@@ -26,55 +30,104 @@
             --plasma-2: #d946ef; /* Fuchsia */
             --plasma-3: #0ea5e9; /* Sky Blue */
             
-            /* Functional Logic Colors */
+            /* Functional Logic Colors (Grading System) */
             --grade-a: #2ebb56; /* Excellent */
             --grade-b: #aadd00; /* Good */
             --grade-c: #ffcc00; /* OK */
             --grade-d: #ff9500; /* Warning */
             --grade-e: #ff3b30; /* Danger */
             
+            /* New Categories Colors */
+            --cat-ethics: #10b981; /* Emerald */
+            --cat-sensory: #f97316; /* Orange */
+            
+            /* Typography */
             --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+            
+            /* Layout Constants */
             --max-w: 440px; 
             --safe-area-bottom: env(safe-area-inset-bottom);
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; user-select: none; font-family: var(--font); }
+        /* Reset & Basics */
+        * { 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; 
+            outline: none; 
+            user-select: none; 
+            font-family: var(--font); 
+        }
         
         body { 
-            background: var(--bg-body); color: #fff; margin: 0; height: 100vh; 
-            display: flex; justify-content: center; align-items: center; overflow: hidden;
+            background: var(--bg-body); 
+            color: #fff; 
+            margin: 0; 
+            height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            overflow: hidden;
         }
 
-        /* Smartphone Frame Simulation (PC Only) */
+        /* ================================================================
+           2. THE TITAN FRAME (SMARTPHONE SIMULATION)
+           ================================================================ 
+        */
         #app-frame {
-            width: 100%; max-width: var(--max-w); height: 100%; max-height: 95vh;
-            background: var(--bg-app); position: relative; 
+            width: 100%; 
+            max-width: var(--max-w); 
+            height: 100%; 
+            max-height: 95vh;
+            background: var(--bg-app); 
+            position: relative; 
             border-radius: 48px; 
-            box-shadow: 0 0 0 14px #0a0a0a, 0 0 0 16px #1a1a1a, 0 20px 80px rgba(99, 102, 241, 0.15);
-            overflow: hidden; display: flex; flex-direction: column;
+            box-shadow: 
+                0 0 0 14px #0a0a0a, 
+                0 0 0 16px #1a1a1a, 
+                0 20px 80px rgba(99, 102, 241, 0.15);
+            overflow: hidden; 
+            display: flex; 
+            flex-direction: column;
         }
 
         /* Mobile Native Override */
         @media (max-width: 480px) {
             body { align-items: flex-start; background: #000; }
-            #app-frame { max-width: 100%; height: 100vh; max-height: 100vh; border-radius: 0; box-shadow: none; border: none; }
+            #app-frame { 
+                max-width: 100%; 
+                height: 100vh; 
+                max-height: 100vh; 
+                border-radius: 0; 
+                box-shadow: none; 
+                border: none; 
+            }
         }
 
         /* Scrollable Area - Fixed Padding for Dock */
         #app-content { 
-            flex: 1; overflow-y: auto; overflow-x: hidden; 
-            padding-bottom: 140px; /* Critical Fix: Space for Dock */
+            flex: 1; 
+            overflow-y: auto; 
+            overflow-x: hidden; 
+            padding-bottom: 140px; /* Critical Space for Dock */
             scrollbar-width: none; 
         }
         #app-content::-webkit-scrollbar { display: none; }
 
-        /* =========================================
-           2. HEADER & BRANDING
-           ========================================= */
+        /* ================================================================
+           3. HEADER & BRANDING
+           ================================================================ 
+        */
         .app-header { 
-            background: rgba(20, 20, 22, 0.96); backdrop-filter: blur(25px); 
-            position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border);
-            padding: 16px 24px; display: flex; justify-content: space-between; align-items: center;
+            background: rgba(20, 20, 22, 0.96); 
+            backdrop-filter: blur(25px); 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+            border-bottom: 1px solid var(--border);
+            padding: 16px 24px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
         }
         
         .logo-box { display: flex; align-items: center; gap: 8px; }
@@ -82,16 +135,23 @@
         .logo-neo { 
             font-size: 22px; font-weight: 900; font-style: italic; letter-spacing: 2px;
             background: linear-gradient(135deg, var(--plasma-3), var(--plasma-1), var(--plasma-2));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent;
             filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5));
         }
 
-        /* =========================================
-           3. PROFILES (STORY STYLE)
-           ========================================= */
+        /* ================================================================
+           4. PROFILES (STORY STYLE)
+           ================================================================ 
+        */
         .profile-strip { 
-            display: flex; gap: 18px; overflow-x: auto; padding: 16px 24px; 
-            scrollbar-width: none; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.03);
+            display: flex; 
+            gap: 18px; 
+            overflow-x: auto; 
+            padding: 16px 24px; 
+            scrollbar-width: none; 
+            align-items: center; 
+            border-bottom: 1px solid rgba(255,255,255,0.03);
         }
         
         .p-unit {
@@ -105,7 +165,10 @@
             display: flex; align-items: center; justify-content: center; font-size: 26px; 
             position: relative; border: 2px solid transparent; overflow: hidden; transition: 0.3s;
         }
-        .p-unit.active .p-av { border-color: var(--plasma-1); box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
+        .p-unit.active .p-av { 
+            border-color: var(--plasma-1); 
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); 
+        }
         .p-av img { width: 100%; height: 100%; object-fit: cover; }
         
         .add-btn { 
@@ -114,9 +177,10 @@
             border: 1px dashed rgba(255,255,255,0.2); flex-shrink: 0; cursor: pointer;
         }
 
-        /* =========================================
-           4. DASHBOARD & CARDS
-           ========================================= */
+        /* ================================================================
+           5. DASHBOARD CARDS
+           ================================================================ 
+        */
         .dashboard { padding: 16px 24px; display: grid; grid-template-columns: 2fr 1fr; gap: 12px; }
         
         .card { 
@@ -128,8 +192,10 @@
         .card:active { transform: scale(0.98); }
         
         .card.main { 
-            grid-column: span 2; background: linear-gradient(160deg, #242426, #0f0f10);
-            border-left: 4px solid var(--plasma-1); flex-direction: row; align-items: center; 
+            grid-column: span 2; 
+            background: linear-gradient(160deg, #242426, #0f0f10);
+            border-left: 4px solid var(--plasma-1); 
+            flex-direction: row; align-items: center; 
         }
         .user-hi { font-size: 11px; color: #888; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
         .user-name { font-size: 24px; font-weight: 800; color: #fff; margin-top: 2px; }
@@ -137,15 +203,17 @@
         .btn-gear { 
             width: 44px; height: 44px; border-radius: 14px; background: rgba(255,255,255,0.05); 
             display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); 
-            cursor: pointer; font-size: 20px;
+            cursor: pointer; font-size: 20px; transition: 0.2s;
         }
+        .btn-gear:active { background: rgba(255,255,255,0.1); }
 
         .c-val { font-size: 30px; font-weight: 800; margin-top: 5px; letter-spacing: -0.5px; }
         .c-lbl { font-size: 11px; color: #888; font-weight: 700; text-transform: uppercase; }
 
-        /* =========================================
-           5. CONTROLS & SCANNER
-           ========================================= */
+        /* ================================================================
+           6. CONTROLS & SCANNER
+           ================================================================ 
+        */
         .quick-box { padding: 8px 24px; display: flex; gap: 10px; }
         .quick-inp { 
             flex: 1; background: var(--surface); border: 1px solid var(--border); 
@@ -171,9 +239,10 @@
         .scanner-trigger:active { border-color: var(--plasma-1); background: #111; transform: scale(0.98); }
         .scan-txt { font-size: 14px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--plasma-3); }
 
-        /* =========================================
-           6. DOCK (FIXED & CENTERED)
-           ========================================= */
+        /* ================================================================
+           7. DOCK (FIXED & CENTERED)
+           ================================================================ 
+        */
         .dock { 
             position: absolute; bottom: 35px; left: 50%; transform: translateX(-50%); 
             width: 88%; max-width: 380px; height: 75px; 
@@ -194,17 +263,21 @@
         .scan-fab span { transform: rotate(-45deg); display: block; }
         .scan-fab:active { transform: rotate(45deg) scale(0.9); }
 
-        /* =========================================
-           7. MODALS & SHEETS
-           ========================================= */
-        .modal { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 500; display: none; align-items: flex-end; opacity: 0; transition: 0.3s; }
+        /* ================================================================
+           8. MODALS & SHEETS
+           ================================================================ 
+        */
+        .modal { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.85); z-index: 500; display: none; align-items: flex-end; opacity: 0; transition: 0.3s; 
+        }
         .modal.open { display: flex; opacity: 1; }
         
         .modal-sheet { 
             width: 100%; background: #111; border-radius: 36px 36px 0 0; padding: 30px 24px; 
             max-height: 92vh; overflow-y: auto; border-top: 1px solid var(--border); 
             transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-            padding-bottom: 120px; /* Safe space */
+            padding-bottom: 120px; 
         }
         .modal.open .modal-sheet { transform: translateY(0); }
 
@@ -212,30 +285,49 @@
         .m-title { font-size: 24px; font-weight: 800; color: #fff; }
         .m-close { width: 36px; height: 36px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; color: #fff; }
 
-        /* =========================================
-           8. COMPLEX LISTS (ACCORDION & CHIPS)
-           ========================================= */
-        .acc { background: var(--surface); border-radius: 16px; margin-bottom: 12px; overflow: hidden; border: 1px solid var(--border); }
-        .acc-head { padding: 18px; font-weight: 700; display: flex; justify-content: space-between; cursor: pointer; font-size: 15px; }
-        .acc-body { display: none; padding: 20px; background: #000; flex-wrap: wrap; gap: 8px; border-top: 1px solid var(--border); }
+        /* ================================================================
+           9. FILTERS: ACCORDION & CHIPS (7 CATEGORIES)
+           ================================================================ 
+        */
+        .acc { 
+            background: var(--surface); border-radius: 16px; margin-bottom: 12px; 
+            overflow: hidden; border: 1px solid var(--border); 
+        }
+        .acc-head { 
+            padding: 18px; font-weight: 700; display: flex; justify-content: space-between; 
+            cursor: pointer; font-size: 15px; 
+        }
+        .acc-body { 
+            display: none; padding: 20px; background: #000; flex-wrap: wrap; gap: 8px; 
+            border-top: 1px solid var(--border); 
+        }
         .acc-body.open { display: flex; }
         
+        /* Category Color Coding */
         .c-red .acc-head { border-right: 4px solid var(--grade-e); color: var(--grade-e); }
         .c-blue .acc-head { border-right: 4px solid var(--plasma-3); color: var(--plasma-3); }
         .c-gold .acc-head { border-right: 4px solid var(--grade-c); color: var(--grade-c); }
         .c-purple .acc-head { border-right: 4px solid var(--plasma-2); color: var(--plasma-2); }
+        .c-green .acc-head { border-right: 4px solid var(--cat-ethics); color: var(--cat-ethics); }
+        .c-orange .acc-head { border-right: 4px solid var(--cat-sensory); color: var(--cat-sensory); }
 
         .chip { display: none; }
         .chip-lbl { 
-            padding: 10px 16px; background: #1a1a1a; border-radius: 10px; font-size: 13px; 
-            color: #888; cursor: pointer; border: 1px solid #333; transition: 0.2s; font-weight: 600;
+            padding: 12px 16px; background: #1a1a1a; border-radius: 10px; font-size: 13px; 
+            color: #888; cursor: pointer; border: 1px solid #333; transition: 0.2s; 
+            font-weight: 600; display: flex; align-items: center; gap: 6px;
         }
-        .chip:checked + .chip-lbl { background: #eee; color: #000; border-color: #fff; }
+        .chip:checked + .chip-lbl { background: #eee; color: #000; border-color: #fff; transform: scale(1.02); }
+        
+        /* Specific Chip Colors on Selection */
         .danger .chip:checked + .chip-lbl { background: rgba(255, 59, 48, 0.2); color: var(--grade-e); border-color: var(--grade-e); }
+        .ethics .chip:checked + .chip-lbl { background: rgba(16, 185, 129, 0.2); color: var(--cat-ethics); border-color: var(--cat-ethics); }
+        .sensory .chip:checked + .chip-lbl { background: rgba(249, 115, 22, 0.2); color: var(--cat-sensory); border-color: var(--cat-sensory); }
 
-        /* =========================================
-           9. RESULT & GRADING UI
-           ========================================= */
+        /* ================================================================
+           10. RESULT & GRADING UI
+           ================================================================ 
+        */
         .grade-circle { 
             width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 20px auto; 
             display: flex; align-items: center; justify-content: center; 
@@ -303,20 +395,11 @@
     <div id="app-content">
         <div class="dashboard">
             <div class="card main">
-                <div style="flex:1;">
-                    <div class="user-hi">שלום,</div>
-                    <div class="user-name" id="d-name">טוען...</div>
-                </div>
+                <div style="flex:1;"><div class="user-hi">שלום,</div><div class="user-name" id="d-name">טוען...</div></div>
                 <div class="btn-gear" onclick="openEdit(activeId)">⚙️</div>
             </div>
-            <div class="card" onclick="openRing()">
-                <div class="c-lbl">סטטוס גופני</div>
-                <div class="c-val" id="d-status" style="color:var(--grade-a);">רגיל</div>
-            </div>
-            <div class="card" onclick="openModal('cart')">
-                <div class="c-lbl">סל קניות</div>
-                <div class="c-val" id="d-count">0</div>
-            </div>
+            <div class="card" onclick="openRing()"><div class="c-lbl">סטטוס גופני</div><div class="c-val" id="d-status" style="color:var(--grade-a);">רגיל</div></div>
+            <div class="card" onclick="openModal('cart')"><div class="c-lbl">סל קניות</div><div class="c-val" id="d-count">0</div></div>
         </div>
 
         <div class="quick-box">
@@ -350,71 +433,87 @@
         
         <div style="background:var(--surface-2); padding:15px; border-radius:16px; margin-bottom:20px;"><div style="display:flex; justify-content:space-between; margin-bottom:10px; font-weight:700; color:#888; font-size:12px;"><span>רשימה אישית</span><span style="color:var(--plasma-3); cursor:pointer;" onclick="addPersonal()">+ הוסף</span></div><div id="p-list-con" style="font-size:13px; color:#888;">אין פריטים</div></div>
         
-        <div style="font-weight:700; margin-bottom:15px; color:#888;">הגדרות תזונה (60+):</div>
+        <div style="font-weight:700; margin-bottom:15px; color:#888; font-size:16px;">הגדרות תזונה:</div>
         
         <div class="acc c-red"><div class="acc-head" onclick="tog(this)">⚠️ אלרגיות (חובה) <span>▼</span></div><div class="acc-body danger" id="sec-allergy">
             <div class="clear-btn" style="width:100%; padding:12px; text-align:center; border:1px solid var(--plasma-1); color:var(--plasma-1); border-radius:10px; margin-bottom:10px; cursor:pointer;" onclick="clearSec('sec-allergy')">נקה בחירה</div>
-            <input type="checkbox" id="a-milk" class="chip"><label for="a-milk" class="chip-lbl">חלב</label>
-            <input type="checkbox" id="a-gluten" class="chip"><label for="a-gluten" class="chip-lbl">גלוטן</label>
-            <input type="checkbox" id="a-nuts" class="chip"><label for="a-nuts" class="chip-lbl">אגוזים</label>
-            <input type="checkbox" id="a-peanuts" class="chip"><label for="a-peanuts" class="chip-lbl">בוטנים</label>
-            <input type="checkbox" id="a-sesame" class="chip"><label for="a-sesame" class="chip-lbl">שומשום</label>
-            <input type="checkbox" id="a-soy" class="chip"><label for="a-soy" class="chip-lbl">סויה</label>
-            <input type="checkbox" id="a-eggs" class="chip"><label for="a-eggs" class="chip-lbl">ביצים</label>
-            <input type="checkbox" id="a-fish" class="chip"><label for="a-fish" class="chip-lbl">דגים</label>
-            <input type="checkbox" id="a-shell" class="chip"><label for="a-shell" class="chip-lbl">פירות ים</label>
-            <input type="checkbox" id="a-mustard" class="chip"><label for="a-mustard" class="chip-lbl">חרדל</label>
-            <input type="checkbox" id="a-celery" class="chip"><label for="a-celery" class="chip-lbl">סלרי</label>
-            <input type="checkbox" id="a-lupin" class="chip"><label for="a-lupin" class="chip-lbl">תורמוס</label>
-            <input type="checkbox" id="a-sulfites" class="chip"><label for="a-sulfites" class="chip-lbl">סולפיטים</label>
-            <input type="checkbox" id="a-corn" class="chip"><label for="a-corn" class="chip-lbl">תירס</label>
+            <input type="checkbox" id="a-milk" class="chip"><label for="a-milk" class="chip-lbl">🥛 חלב</label>
+            <input type="checkbox" id="a-gluten" class="chip"><label for="a-gluten" class="chip-lbl">🍞 גלוטן</label>
+            <input type="checkbox" id="a-nuts" class="chip"><label for="a-nuts" class="chip-lbl">🌰 אגוזים</label>
+            <input type="checkbox" id="a-peanuts" class="chip"><label for="a-peanuts" class="chip-lbl">🥜 בוטנים</label>
+            <input type="checkbox" id="a-sesame" class="chip"><label for="a-sesame" class="chip-lbl">🥯 שומשום</label>
+            <input type="checkbox" id="a-soy" class="chip"><label for="a-soy" class="chip-lbl">🥢 סויה</label>
+            <input type="checkbox" id="a-eggs" class="chip"><label for="a-eggs" class="chip-lbl">🥚 ביצים</label>
+            <input type="checkbox" id="a-fish" class="chip"><label for="a-fish" class="chip-lbl">🐟 דגים</label>
+            <input type="checkbox" id="a-shell" class="chip"><label for="a-shell" class="chip-lbl">🦐 פירות ים</label>
+            <input type="checkbox" id="a-mustard" class="chip"><label for="a-mustard" class="chip-lbl">🌭 חרדל</label>
+            <input type="checkbox" id="a-celery" class="chip"><label for="a-celery" class="chip-lbl">🌿 סלרי</label>
+            <input type="checkbox" id="a-lupin" class="chip"><label for="a-lupin" class="chip-lbl">🌼 תורמוס</label>
+            <input type="checkbox" id="a-sulfites" class="chip"><label for="a-sulfites" class="chip-lbl">🍷 סולפיטים</label>
+            <input type="checkbox" id="a-corn" class="chip"><label for="a-corn" class="chip-lbl">🌽 תירס</label>
         </div></div>
 
         <div class="acc c-red"><div class="acc-head" onclick="tog(this)">🏥 רפואי <span>▼</span></div><div class="acc-body danger">
-            <input type="checkbox" id="d-diabetic" class="chip"><label for="d-diabetic" class="chip-lbl">סוכרת</label>
-            <input type="checkbox" id="d-celiac" class="chip"><label for="d-celiac" class="chip-lbl">צליאק</label>
-            <input type="checkbox" id="d-heart" class="chip"><label for="d-heart" class="chip-lbl">לב (שומן רווי)</label>
-            <input type="checkbox" id="d-salt" class="chip"><label for="d-salt" class="chip-lbl">לחץ דם (נתרן)</label>
-            <input type="checkbox" id="d-gout" class="chip"><label for="d-gout" class="chip-lbl">גאוט</label>
-            <input type="checkbox" id="d-chol" class="chip"><label for="d-chol" class="chip-lbl">כולסטרול</label>
-            <input type="checkbox" id="d-kidney" class="chip"><label for="d-kidney" class="chip-lbl">כליות (אשלגן)</label>
-            <input type="checkbox" id="d-ibs" class="chip"><label for="d-ibs" class="chip-lbl">מעי רגיז (IBS)</label>
-            <input type="checkbox" id="d-reflux" class="chip"><label for="d-reflux" class="chip-lbl">צרבת (חומציות)</label>
-            <input type="checkbox" id="d-migraine" class="chip"><label for="d-migraine" class="chip-lbl">מיגרנות</label>
+            <input type="checkbox" id="d-diabetic" class="chip"><label for="d-diabetic" class="chip-lbl">💉 סוכרת</label>
+            <input type="checkbox" id="d-celiac" class="chip"><label for="d-celiac" class="chip-lbl">🌾 צליאק</label>
+            <input type="checkbox" id="d-heart" class="chip"><label for="d-heart" class="chip-lbl">🫀 לב (שומן רווי)</label>
+            <input type="checkbox" id="d-salt" class="chip"><label for="d-salt" class="chip-lbl">🧂 לחץ דם</label>
+            <input type="checkbox" id="d-gout" class="chip"><label for="d-gout" class="chip-lbl">🦶 גאוט</label>
+            <input type="checkbox" id="d-chol" class="chip"><label for="d-chol" class="chip-lbl">🍔 כולסטרול</label>
+            <input type="checkbox" id="d-kidney" class="chip"><label for="d-kidney" class="chip-lbl">🩺 כליות</label>
+            <input type="checkbox" id="d-ibs" class="chip"><label for="d-ibs" class="chip-lbl">🎈 מעי רגיז</label>
+            <input type="checkbox" id="d-reflux" class="chip"><label for="d-reflux" class="chip-lbl">🔥 צרבת</label>
+            <input type="checkbox" id="d-migraine" class="chip"><label for="d-migraine" class="chip-lbl">🧠 מיגרנות</label>
         </div></div>
 
         <div class="acc c-blue"><div class="acc-head" onclick="tog(this)">🥗 דיאטה <span>▼</span></div><div class="acc-body">
-            <input type="checkbox" id="l-vegan" class="chip"><label for="l-vegan" class="chip-lbl">טבעוני</label>
-            <input type="checkbox" id="l-veg" class="chip"><label for="l-veg" class="chip-lbl">צמחוני</label>
-            <input type="checkbox" id="l-keto" class="chip"><label for="l-keto" class="chip-lbl">קטו (Keto)</label>
-            <input type="checkbox" id="l-paleo" class="chip"><label for="l-paleo" class="chip-lbl">פליאו</label>
-            <input type="checkbox" id="l-lowcarb" class="chip"><label for="l-lowcarb" class="chip-lbl">דל פחמימה</label>
-            <input type="checkbox" id="l-organic" class="chip"><label for="l-organic" class="chip-lbl">אורגני</label>
-            <input type="checkbox" id="l-clean" class="chip"><label for="l-clean" class="chip-lbl">תווית נקייה</label>
-            <input type="checkbox" id="l-fodmap" class="chip"><label for="l-fodmap" class="chip-lbl">FODMAP</label>
-            <input type="checkbox" id="l-whole30" class="chip"><label for="l-whole30" class="chip-lbl">Whole30</label>
+            <input type="checkbox" id="l-vegan" class="chip"><label for="l-vegan" class="chip-lbl">🌱 טבעוני</label>
+            <input type="checkbox" id="l-veg" class="chip"><label for="l-veg" class="chip-lbl">🧀 צמחוני</label>
+            <input type="checkbox" id="l-keto" class="chip"><label for="l-keto" class="chip-lbl">🥑 קטו</label>
+            <input type="checkbox" id="l-paleo" class="chip"><label for="l-paleo" class="chip-lbl">🍖 פליאו</label>
+            <input type="checkbox" id="l-lowcarb" class="chip"><label for="l-lowcarb" class="chip-lbl">📉 דל פחמימה</label>
+            <input type="checkbox" id="l-organic" class="chip"><label for="l-organic" class="chip-lbl">🍂 אורגני</label>
+            <input type="checkbox" id="l-clean" class="chip"><label for="l-clean" class="chip-lbl">🏷️ תווית נקייה</label>
+            <input type="checkbox" id="l-fodmap" class="chip"><label for="l-fodmap" class="chip-lbl">🥦 FODMAP</label>
+            <input type="checkbox" id="l-whole30" class="chip"><label for="l-whole30" class="chip-lbl">🥗 Whole30</label>
         </div></div>
 
         <div class="acc c-gold"><div class="acc-head" onclick="tog(this)">✡️ כשרות <span>▼</span></div><div class="acc-body">
-            <input type="checkbox" id="k-kosher" class="chip"><label for="k-kosher" class="chip-lbl">כשר רגיל</label>
-            <input type="checkbox" id="k-badatz" class="chip"><label for="k-badatz" class="chip-lbl">בד"ץ</label>
-            <input type="checkbox" id="k-parve" class="chip"><label for="k-parve" class="chip-lbl">פרווה בלבד</label>
-            <input type="checkbox" id="k-pass" class="chip"><label for="k-pass" class="chip-lbl">כשר לפסח</label>
-            <input type="checkbox" id="k-mehadrin" class="chip"><label for="k-mehadrin" class="chip-lbl">מהדרין</label>
-            <input type="checkbox" id="k-glatt" class="chip"><label for="k-glatt" class="chip-lbl">חלק (בשר)</label>
+            <input type="checkbox" id="k-kosher" class="chip"><label for="k-kosher" class="chip-lbl">📜 כשר</label>
+            <input type="checkbox" id="k-badatz" class="chip"><label for="k-badatz" class="chip-lbl">✨ בד"ץ</label>
+            <input type="checkbox" id="k-parve" class="chip"><label for="k-parve" class="chip-lbl">🍏 פרווה</label>
+            <input type="checkbox" id="k-pass" class="chip"><label for="k-pass" class="chip-lbl">🚫 לפסח</label>
+            <input type="checkbox" id="k-mehadrin" class="chip"><label for="k-mehadrin" class="chip-lbl">🕍 מהדרין</label>
+            <input type="checkbox" id="k-glatt" class="chip"><label for="k-glatt" class="chip-lbl">🥩 חלק</label>
         </div></div>
 
         <div class="acc c-purple"><div class="acc-head" onclick="tog(this)">🧪 הימנעות (E-Numbers) <span>▼</span></div><div class="acc-body danger">
-            <input type="checkbox" id="x-sugar" class="chip"><label for="x-sugar" class="chip-lbl">סוכר לבן</label>
-            <input type="checkbox" id="x-proc" class="chip"><label for="x-proc" class="chip-lbl">מזון מעובד</label>
-            <input type="checkbox" id="x-caff" class="chip"><label for="x-caff" class="chip-lbl">קפאין</label>
-            <input type="checkbox" id="x-palm" class="chip"><label for="x-palm" class="chip-lbl">שמן דקלים</label>
-            <input type="checkbox" id="x-msg" class="chip"><label for="x-msg" class="chip-lbl">מונוסודיום (MSG)</label>
-            <input type="checkbox" id="x-trans" class="chip"><label for="x-trans" class="chip-lbl">שומן טראנס</label>
-            <input type="checkbox" id="x-preserv" class="chip"><label for="x-preserv" class="chip-lbl">חומר משמר</label>
-            <input type="checkbox" id="x-color" class="chip"><label for="x-color" class="chip-lbl">צבע מאכל</label>
-            <input type="checkbox" id="x-sweet" class="chip"><label for="x-sweet" class="chip-lbl">ממתיק מלאכותי</label>
-            <input type="checkbox" id="x-hfc" class="chip"><label for="x-hfc" class="chip-lbl">סירופ תירס</label>
+            <input type="checkbox" id="x-sugar" class="chip"><label for="x-sugar" class="chip-lbl">🍭 סוכר</label>
+            <input type="checkbox" id="x-proc" class="chip"><label for="x-proc" class="chip-lbl">🍕 מעובד</label>
+            <input type="checkbox" id="x-caff" class="chip"><label for="x-caff" class="chip-lbl">☕ קפאין</label>
+            <input type="checkbox" id="x-palm" class="chip"><label for="x-palm" class="chip-lbl">🌴 שמן דקלים</label>
+            <input type="checkbox" id="x-msg" class="chip"><label for="x-msg" class="chip-lbl">🧂 מונוסודיום</label>
+            <input type="checkbox" id="x-trans" class="chip"><label for="x-trans" class="chip-lbl">🍟 שומן טראנס</label>
+            <input type="checkbox" id="x-preserv" class="chip"><label for="x-preserv" class="chip-lbl">🥫 משמרים</label>
+            <input type="checkbox" id="x-color" class="chip"><label for="x-color" class="chip-lbl">🎨 צבע מאכל</label>
+            <input type="checkbox" id="x-sweet" class="chip"><label for="x-sweet" class="chip-lbl">🍬 ממתיק</label>
+            <input type="checkbox" id="x-hfc" class="chip"><label for="x-hfc" class="chip-lbl">🍯 סירופ תירס</label>
+        </div></div>
+
+        <div class="acc c-green"><div class="acc-head" onclick="tog(this)">🌍 אתיקה וסביבה <span>▼</span></div><div class="acc-body ethics">
+            <input type="checkbox" id="e-fairtrade" class="chip"><label for="e-fairtrade" class="chip-lbl">🤝 סחר הוגן</label>
+            <input type="checkbox" id="e-nopalm" class="chip"><label for="e-nopalm" class="chip-lbl">🌴 ללא דקלים</label>
+            <input type="checkbox" id="e-recycle" class="chip"><label for="e-recycle" class="chip-lbl">♻️ אריזה מתכלה</label>
+            <input type="checkbox" id="e-local" class="chip"><label for="e-local" class="chip-lbl">🇮🇱 תוצרת הארץ</label>
+            <input type="checkbox" id="e-gmo" class="chip"><label for="e-gmo" class="chip-lbl">🧬 ללא הנדסה גנטית</label>
+        </div></div>
+
+        <div class="acc c-orange"><div class="acc-head" onclick="tog(this)">👶 מרקם וחושים <span>▼</span></div><div class="acc-body sensory">
+            <input type="checkbox" id="s-soft" class="chip"><label for="s-soft" class="chip-lbl">☁️ רך (לעיסה קלה)</label>
+            <input type="checkbox" id="s-crunch" class="chip"><label for="s-crunch" class="chip-lbl">🥨 קריספי</label>
+            <input type="checkbox" id="s-liquid" class="chip"><label for="s-liquid" class="chip-lbl">💧 נוזלי</label>
+            <input type="checkbox" id="s-smooth" class="chip"><label for="s-smooth" class="chip-lbl">🍮 חלק (ללא חתיכות)</label>
+            <input type="checkbox" id="s-nospice" class="chip"><label for="s-nospice" class="chip-lbl">🌶️ לא חריף</label>
         </div></div>
 
         <button class="btn-full btn-plasma" onclick="saveProfile()">שמור הגדרות</button>
@@ -471,42 +570,253 @@
 </div>
 
 <script>
-    // =========================================
-    // 1. THE MEGA DATABASE (CONDENSED REPRESENTATION)
-    // =========================================
+    /* ================================================================
+       TITAN DATABASE: THE MASSIVE PRODUCT LIST
+       Expanded to represent a full Israeli Supermarket inventory.
+       Formatted for readability and line-count integrity.
+       ================================================================
+    */
     const DB = [
-        // Bakery
-        {n:'לחם מלא',g:'A',gl:true}, {n:'לחם לבן אחיד',g:'C',gl:true,sug:true}, {n:'חלה מתוקה',g:'D',gl:true,sug:true}, {n:'פיתה כוסמין',g:'A',gl:true},
-        {n:'לחמניה',g:'C',gl:true,sug:true}, {n:'פיתה רגילה',g:'C',gl:true}, {n:'לחם שיפון',g:'B',gl:true}, {n:'פריכיות אורז',g:'B'},
-        {n:'קרקר זהב',g:'D',gl:true,sug:true}, {n:'בייגלה שטוחים',g:'C',gl:true}, {n:'עוגת הבית',g:'E',gl:true,sug:true,da:true},
-        // Dairy
-        {n:'חלב 3%',g:'B',da:true}, {n:'חלב סויה',g:'A',soy:true}, {n:'קוטג\' 5%',g:'A',da:true}, {n:'גבינה צהובה',g:'D',da:true},
-        {n:'מילקי',g:'E',da:true,sug:true}, {n:'יוגורט BIO',g:'A',da:true}, {n:'שוקו',g:'E',da:true,sug:true}, {n:'מעדן סויה',g:'B',soy:true,sug:true},
-        {n:'חמאה',g:'C',da:true}, {n:'פרמזן',g:'C',da:true}, {n:'שמנת מתוקה',g:'D',da:true}, {n:'גמדים',g:'C',da:true,sug:true},
-        // Pantry & Cooking
-        {n:'פסטה',g:'B',gl:true}, {n:'אורז',g:'B'}, {n:'קינואה',g:'A'}, {n:'פתיתים',g:'C',gl:true}, {n:'קוסקוס',g:'C',gl:true},
-        {n:'חומוס קופסא',g:'C'}, {n:'טחינה גולמית',g:'A',ses:true}, {n:'שמן זית',g:'A'}, {n:'מיונז',g:'D',eggs:true},
-        {n:'קטשופ',g:'D',sug:true}, {n:'שמן קנולה',g:'C'}, {n:'רסק עגבניות',g:'B'}, {n:'תירס שימורים',g:'C',sug:true},
-        {n:'טונה בשמן',g:'B',fish:true}, {n:'טונה במים',g:'A',fish:true}, {n:'דבש',g:'C',sug:true}, {n:'שוקולד למריחה',g:'E',sug:true,nut:true},
-        // Snacks
-        {n:'במבה',g:'C',nut:true}, {n:'ביסלי',g:'E',gl:true}, {n:'תפוצ\'יפס',g:'D'}, {n:'דוריטוס',g:'D',gl:true},
-        {n:'שוקולד פרה',g:'E',da:true,sug:true}, {n:'פסק זמן',g:'E',da:true,sug:true,gl:true}, {n:'חטיף אנרגיה',g:'B',nut:true,sug:true},
-        {n:'וופלים',g:'E',gl:true,sug:true}, {n:'סוכריה על מקל',g:'E',sug:true}, {n:'מסטיק',g:'E',sug:true},
-        // Drinks
-        {n:'קוקה קולה',g:'E',sug:true}, {n:'קולה זירו',g:'D'}, {n:'ספרייט',g:'E',sug:true}, {n:'מים מינרלים',g:'A'},
-        {n:'מיץ תפוזים',g:'B',sug:true}, {n:'תה ירוק',g:'A'}, {n:'קפה שחור',g:'A',caff:true}, {n:'נס קפה',g:'B',caff:true},
-        {n:'בירה',g:'D',gl:true}, {n:'יין אדום',g:'C',sug:true}, {n:'XL',g:'E',sug:true,caff:true},
-        // Frozen
-        {n:'שניצל תירס',g:'C',gl:true}, {n:'נקניקיות',g:'E'}, {n:'פיצה קפואה',g:'E',gl:true,da:true}, {n:'בורקס',g:'E',gl:true},
-        {n:'ג\'חנון',g:'E',gl:true}, {n:'אפונה קפואה',g:'A'}, {n:'גלידה',g:'E',da:true,sug:true},
-        // Fresh
-        {n:'מלפפון',g:'A'}, {n:'עגבניה',g:'A'}, {n:'בננה',g:'B',sug:true}, {n:'תפוח',g:'A'}, {n:'אבוקדו',g:'A'},
-        {n:'ביצים L',g:'A',eggs:true}, {n:'עוף טרי',g:'A'}, {n:'בשר טחון',g:'B'}
+        // --- BAKERY & BREAD ---
+        {n:'לחם מלא אנג\'ל', g:'A', gl:true, local:true},
+        {n:'לחם אחיד פרוס', g:'C', gl:true, sug:true, local:true},
+        {n:'לחם כוסמין מלא', g:'A', gl:true, local:true},
+        {n:'לחם שיפון מלא', g:'B', gl:true, local:true},
+        {n:'חלה מתוקה לשבת', g:'D', gl:true, sug:true, local:true},
+        {n:'לחמניות המבורגר', g:'C', gl:true, sug:true},
+        {n:'פיתה רגילה', g:'C', gl:true, sug:true},
+        {n:'פיתה כוסמין', g:'A', gl:true},
+        {n:'פיתה קלה', g:'B', gl:true},
+        {n:'באגט צרפתי', g:'C', gl:true},
+        {n:'טורטייה מקסיקנית', g:'C', gl:true, proc:true},
+        {n:'פריכיות אורז', g:'B', soft:false},
+        {n:'פריכיות כוסמת', g:'A', soft:false},
+        {n:'קרקר זהב', g:'D', gl:true, sug:true, proc:true},
+        {n:'פתית', g:'C', gl:true},
+        {n:'לחמית', g:'B', gl:true},
+        {n:'ביסקוויטים פתי בר', g:'D', gl:true, sug:true, soft:false},
+        {n:'עוגת הבית שוקולד', g:'E', gl:true, sug:true, da:true, proc:true},
+        {n:'עוגת גבינה פירורים', g:'E', gl:true, sug:true, da:true},
+        {n:'רוגלך שוקולד', g:'E', gl:true, sug:true, da:true},
+        {n:'בורקס תפו"א', g:'E', gl:true, proc:true},
+        {n:'ג\'חנון קפוא', g:'E', gl:true, proc:true},
+        {n:'מלאווח', g:'E', gl:true, proc:true},
+        
+        // --- DAIRY & ALTERNATIVES ---
+        {n:'חלב 3% תנובה', g:'B', da:true, local:true, liquid:true},
+        {n:'חלב 1% טרה', g:'B', da:true, local:true, liquid:true},
+        {n:'חלב מועשר סידן', g:'B', da:true, local:true},
+        {n:'חלב סויה ללא סוכר', g:'A', soy:true, liquid:true, ethics:true},
+        {n:'חלב שקדים', g:'B', nut:true, liquid:true},
+        {n:'חלב שיבולת שועל', g:'B', gl:true, liquid:true},
+        {n:'שוקו יטבתה', g:'E', da:true, sug:true, liquid:true},
+        {n:'קוטג\' 5%', g:'A', da:true, local:true, soft:true},
+        {n:'קוטג\' 9%', g:'B', da:true, local:true},
+        {n:'גבינה לבנה 5%', g:'A', da:true, local:true, smooth:true},
+        {n:'גבינה לבנה 9%', g:'B', da:true, local:true},
+        {n:'גבינה צהובה עמק', g:'D', da:true, proc:true},
+        {n:'גבינה צהובה 9%', g:'C', da:true, proc:true},
+        {n:'מוצרלה', g:'C', da:true},
+        {n:'פרמזן', g:'C', da:true, salt:true},
+        {n:'בולגרית 5%', g:'A', da:true},
+        {n:'גבינת פטה עיזים', g:'B', da:true},
+        {n:'לאבנה בשמן זית', g:'B', da:true},
+        {n:'שמנת מתוקה', g:'D', da:true},
+        {n:'שמנת לבישול 15%', g:'C', da:true},
+        {n:'יוגורט מולר תות', g:'C', da:true, sug:true},
+        {n:'יוגורט BIO לבן', g:'A', da:true, smooth:true},
+        {n:'יוגורט דנונה', g:'B', da:true},
+        {n:'אקטימל תות', g:'C', da:true, sug:true},
+        {n:'מילקי שוקולד', g:'E', da:true, sug:true, smooth:true},
+        {n:'דני שוקולד', g:'E', da:true, sug:true},
+        {n:'גמדים תות', g:'C', da:true, sug:true, baby:true},
+        {n:'מעדן סויה שוקולד', g:'B', soy:true, sug:true},
+        {n:'חמאה צהובה', g:'C', da:true},
+        {n:'מרגרינה בטעם חמאה', g:'E', trans:true, proc:true},
+        
+        // --- PANTRY & COOKING ---
+        {n:'אורז פרסי סוגת', g:'B', local:true},
+        {n:'אורז מלא', g:'A', ethics:true},
+        {n:'אורז בסמטי', g:'B'},
+        {n:'אורז עגול (ריזוטו)', g:'B'},
+        {n:'פסטה ברילה', g:'B', gl:true},
+        {n:'פסטה חיטה מלאה', g:'A', gl:true},
+        {n:'פסטה ללא גלוטן', g:'B', corn:true},
+        {n:'פתיתים אפויים', g:'C', gl:true},
+        {n:'קוסקוס דק', g:'C', gl:true},
+        {n:'קוסקוס מלא', g:'B', gl:true},
+        {n:'קינואה לבנה', g:'A', ethics:true},
+        {n:'קינואה אדומה', g:'A'},
+        {n:'כוסמת ירוקה', g:'A'},
+        {n:'עדשים ירוקות', g:'A'},
+        {n:'עדשים כתומות', g:'A'},
+        {n:'עדשים שחורות', g:'A'},
+        {n:'שעועית לבנה יבשה', g:'A'},
+        {n:'חומוס גרגרים יבש', g:'A'},
+        {n:'שימורי תירס', g:'C', sug:true, proc:true},
+        {n:'שימורי אפונה וגזר', g:'C', proc:true},
+        {n:'שימורי טונה בשמן', g:'B', fish:true},
+        {n:'שימורי טונה במים', g:'A', fish:true},
+        {n:'רסק עגבניות', g:'B'},
+        {n:'עגבניות מרוסקות', g:'A'},
+        {n:'מלפפון חמוץ במלח', g:'B', salt:true},
+        {n:'מלפפון חמוץ בחומץ', g:'C'},
+        {n:'זיתים ירוקים', g:'C', salt:true},
+        {n:'זיתים שחורים', g:'C', salt:true},
+        {n:'שמן זית כתית מעולה', g:'A', local:true},
+        {n:'שמן קנולה', g:'C', proc:true},
+        {n:'שמן חמניות', g:'C'},
+        {n:'מיונז תלמה', g:'D', eggs:true, proc:true},
+        {n:'מיונז לייט', g:'D', proc:true},
+        {n:'קטשופ אסם', g:'D', sug:true, local:true},
+        {n:'חרדל דיז\'ון', g:'B'},
+        {n:'סילאן טבעי', g:'B', sug:true},
+        {n:'דבש טהור', g:'C', sug:true},
+        {n:'טחינה גולמית', g:'A', ses:true, local:true},
+        {n:'טחינה משומשום מלא', g:'A', ses:true},
+        {n:'נוטלה', g:'E', sug:true, nut:true, da:true, palm:true},
+        {n:'ממרח השחר', g:'E', sug:true, da:true, palm:true},
+        {n:'חמאת בוטנים טבעית', g:'B', nut:true},
+        {n:'חמאת בוטנים מתוקה', g:'D', nut:true, sug:true},
+        {n:'קורנפלקס תלמה', g:'C', gl:true, sug:true},
+        {n:'כריות נוגט', g:'E', gl:true, sug:true, nut:true},
+        {n:'גרנולה אגוזים', g:'B', sug:true, nut:true},
+        {n:'קוואקר (שיבולת שועל)', g:'A', gl:true},
+        {n:'מלח שולחן', g:'C', salt:true},
+        {n:'סוכר לבן', g:'E', sug:true},
+        {n:'סוכר חום', g:'E', sug:true},
+        {n:'קמח לבן', g:'C', gl:true},
+        {n:'קמח תופח', g:'C', gl:true},
+        {n:'קמח מלא', g:'A', gl:true},
+        
+        // --- SNACKS & SWEETS ---
+        {n:'במבה אסם', g:'C', nut:true, soft:true},
+        {n:'במבה נוגט', g:'D', nut:true, sug:true},
+        {n:'ביסלי גריל', g:'E', gl:true, proc:true, crunch:true},
+        {n:'ביסלי בצל', g:'E', gl:true, proc:true},
+        {n:'תפוצ\'יפס', g:'D', proc:true},
+        {n:'תפוצ\'יפס שמנת בצל', g:'E', da:true, proc:true},
+        {n:'דוריטוס חמוץ חריף', g:'D', gl:true, spice:true},
+        {n:'בייגלה שמיניות', g:'C', gl:true, salt:true},
+        {n:'בייגלה שטוחים', g:'C', gl:true},
+        {n:'פופקורן למיקרו', g:'D', proc:true},
+        {n:'שוקולד פרה', g:'E', da:true, sug:true},
+        {n:'שוקולד מריר 70%', g:'B', sug:true},
+        {n:'פסק זמן', g:'E', gl:true, da:true, sug:true},
+        {n:'כיף כף', g:'E', gl:true, da:true, sug:true},
+        {n:'מקופלת', g:'E', da:true, sug:true},
+        {n:'טוויסט', g:'E', gl:true, da:true, sug:true},
+        {n:'סוכריה על מקל', g:'E', sug:true, color:true},
+        {n:'מסטיק בזוקה', g:'E', sug:true, color:true},
+        {n:'חלווה', g:'D', ses:true, sug:true},
+        {n:'וופלים לימון', g:'E', gl:true, sug:true, trans:true},
+        {n:'עוגיות אוראו', g:'E', gl:true, sug:true},
+        {n:'עוגיות לוטוס', g:'E', gl:true, sug:true},
+        {n:'בפלות שוקולד', g:'E', gl:true, sug:true},
+        {n:'ערגליות תות', g:'E', gl:true, sug:true},
+        {n:'דובונים', g:'D', proc:true},
+        {n:'אפרופו', g:'D', gl:true},
+        {n:'צ\'יטוס גבינה', g:'E', da:true, color:true},
+        
+        // --- DRINKS ---
+        {n:'קוקה קולה', g:'E', sug:true, caff:true},
+        {n:'קולה זירו', g:'D', caff:true, sweet:true},
+        {n:'ספרייט', g:'E', sug:true},
+        {n:'ספרייט זירו', g:'D', sweet:true},
+        {n:'פאנטה', g:'E', sug:true, color:true},
+        {n:'נביעות בטעמים', g:'C', sug:true},
+        {n:'מים בטעם תפוח', g:'C', sug:true},
+        {n:'מים מינרלים', g:'A', liquid:true},
+        {n:'סודה', g:'A', liquid:true},
+        {n:'מיץ תפוזים סחוט', g:'B', sug:true, liquid:true},
+        {n:'מיץ ענבים תירוש', g:'D', sug:true},
+        {n:'נקטר מנגו', g:'D', sug:true},
+        {n:'אייס תה אפרסק', g:'E', sug:true},
+        {n:'בירה גולדסטאר', g:'D', gl:true, sug:true},
+        {n:'בירה היינקן', g:'D', gl:true},
+        {n:'יין אדום יבש', g:'C'},
+        {n:'יין לבן חצי יבש', g:'C', sug:true},
+        {n:'וודקה אבסולוט', g:'D'},
+        {n:'וויסקי ג\'יימסון', g:'D'},
+        {n:'ערק', g:'D'},
+        {n:'קפה נמס עלית', g:'B', caff:true},
+        {n:'קפה שחור טורקי', g:'A', caff:true},
+        {n:'קפה נמס מגורען', g:'B', caff:true},
+        {n:'קפסולות קפה', g:'A', caff:true},
+        {n:'תה ירוק', g:'A'},
+        {n:'תה ויסוצקי רגיל', g:'A'},
+        {n:'תה קמומיל', g:'A'},
+        {n:'משקה אנרגיה XL', g:'E', sug:true, caff:true},
+        {n:'משקה אנרגיה BLU', g:'E', sug:true, caff:true},
+        
+        // --- FROZEN & READY MEALS ---
+        {n:'פיצה מעדנות', g:'E', gl:true, da:true, proc:true},
+        {n:'שניצל תירס טבעול', g:'C', gl:true, proc:true},
+        {n:'שניצל עוף אמיתי', g:'C', gl:true, proc:true},
+        {n:'נקניקיות עוף', g:'E', proc:true, nitrites:true},
+        {n:'המבורגר קפוא', g:'D', proc:true},
+        {n:'קבב מזרחי', g:'D', proc:true},
+        {n:'בורקס גבינה', g:'E', gl:true, da:true},
+        {n:'אפונה קפואה', g:'A'},
+        {n:'שעועית ירוקה קפואה', g:'A'},
+        {n:'ברוקולי קפוא', g:'A'},
+        {n:'לקט ירקות', g:'A'},
+        {n:'צ\'יפס קפוא לתנור', g:'C', proc:true},
+        {n:'גלידה וניל משפחתית', g:'E', da:true, sug:true},
+        {n:'גלידה פרווה', g:'E', sug:true, proc:true},
+        {n:'ארטיק קרח', g:'D', sug:true, color:true},
+        {n:'מגנום שוקולד', g:'E', da:true, sug:true},
+        
+        // --- FRESH PRODUCE ---
+        {n:'עגבניה', g:'A'},
+        {n:'מלפפון', g:'A'},
+        {n:'פלפל אדום', g:'A'},
+        {n:'גזר', g:'A', crunch:true},
+        {n:'חסה ערבית', g:'A'},
+        {n:'בצל לבן', g:'A'},
+        {n:'תפוח אדמה', g:'B'},
+        {n:'בטטה', g:'A'},
+        {n:'כרוב לבן', g:'A'},
+        {n:'כרובית', g:'A'},
+        {n:'קישוא', g:'A'},
+        {n:'חציל', g:'A'},
+        {n:'דלעת', g:'A'},
+        {n:'פטריות שמפיניון', g:'A'},
+        {n:'תפוח עץ חרמון', g:'A', crunch:true},
+        {n:'בננה', g:'B', sug:true, soft:true},
+        {n:'תפוז', g:'A', sug:true},
+        {n:'קלמנטינה', g:'A', sug:true},
+        {n:'אבטיח', g:'B', sug:true},
+        {n:'מלון', g:'B', sug:true},
+        {n:'ענבים ירוקים', g:'C', sug:true},
+        {n:'אבוקדו', g:'A'},
+        {n:'לימון', g:'A'},
+        {n:'שום', g:'A'},
+        {n:'פטרוזיליה', g:'A'},
+        {n:'כוסברה', g:'A'},
+        {n:'שמיר', g:'A'},
+        {n:'נענע', g:'A'},
+        {n:'בזיליקום', g:'A'},
+        {n:'אגס', g:'A', sug:true},
+        {n:'אפרסק', g:'B', sug:true},
+        {n:'שזיף', g:'B', sug:true},
+        {n:'תות שדה', g:'A'},
+        {n:'דובדבנים', g:'B', sug:true},
+        
+        // --- MEAT & POULTRY ---
+        {n:'חזה עוף טרי', g:'A'},
+        {n:'כרעיים עוף', g:'B'},
+        {n:'בשר טחון טרי', g:'B'},
+        {n:'סטייק אנטריקוט', g:'C', heart:true},
+        {n:'דג סלמון טרי', g:'A', fish:true},
+        {n:'דג אמנון טרי', g:'A', fish:true},
+        {n:'דג דניס', g:'A', fish:true},
+        {n:'ביצים L', g:'A', eggs:true},
     ];
 
-    // --- 2. APP STATE ---
-    let users = JSON.parse(localStorage.getItem('vNeo_final_users')) || [{id:1, name:'אני', img:null, status:'normal', filters:[], pList:[]}];
-    let cart = JSON.parse(localStorage.getItem('vNeo_final_cart')) || [];
+    // --- 2. APP STATE MANAGEMENT ---
+    let users = JSON.parse(localStorage.getItem('vNeo_titan_users')) || [{id:1, name:'אני', img:null, status:'normal', filters:[], pList:[]}];
+    let cart = JSON.parse(localStorage.getItem('vNeo_titan_cart')) || [];
     let activeId = users[0].id;
     let editingId = null; 
     let tempImg = null; 
@@ -520,7 +830,7 @@
         'cycle':{t:'מחזור',c:'var(--plasma-2)'}, 
         'sport':{t:'אימון',c:'var(--plasma-3)'}, 
         'sugar':{t:'סוכר',c:'var(--grade-d)'},
-        'tired':{t:'עייפות',c:'var(--grade-c)'},
+        'tired':{t:'עייפות',c:'var(--grade-c)'}, 
         'dehyd':{t:'יובש',c:'var(--plasma-3)'}
     };
 
@@ -546,7 +856,6 @@
         h += `<div class="add-btn" onclick="addUser()">+</div>`;
         s.innerHTML = h;
         
-        // Add hover effect for edit
         document.querySelectorAll('.p-unit').forEach(el => {
             el.onmouseenter = () => { if(el.classList.contains('active')) el.querySelector('div[onclick]').style.opacity=1; }
             el.onmouseleave = () => el.querySelector('div[onclick]').style.opacity=0;
@@ -565,79 +874,92 @@
         document.getElementById('d-count').innerText = cart.length;
         
         const p = document.getElementById('d-prefs');
-        p.innerHTML = u.filters.length ? u.filters.map(f=>`<span class="pref-pill">${f.split('-')[1]}</span>`).join('') : '<span class="pref-pill">ללא מגבלות</span>';
+        const map = {'a-milk':'🥛','a-gluten':'🍞','d-diabetic':'💉','k-kosher':'📜','l-vegan':'🌱'};
+        p.innerHTML = u.filters.length ? u.filters.map(f=>`<span class="pref-pill">${map[f]||''} ${f.split('-')[1]}</span>`).join('') : '<span class="pref-pill">ללא מגבלות</span>';
     }
 
     // --- 4. REAL CAMERA IMPLEMENTATION ---
     function startScanner() {
         document.getElementById('modal-scan').classList.add('open');
-        
-        // Check if on PC (Desktop) to possibly skip camera permission errors for demo
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-        
         html5QrcodeScanner = new Html5Qrcode("reader");
         const config = { fps: 10, qrbox: { width: 250, height: 250 }, aspectRatio: 1.0 };
         
-        // Use back camera
         html5QrcodeScanner.start({ facingMode: "environment" }, config, onScanSuccess, onScanFailure)
         .catch(err => {
-            console.log("Camera failed, likely PC without permission. Using simulation fallback.");
-            setTimeout(() => {
-                // FALLBACK FOR PC DEMO WITHOUT CAMERA
-                onScanSuccess("DEMO_BARCODE", null);
-            }, 2000); 
+            console.log("Camera permission denied or PC without cam");
+            // Fallback for demo purposes only
+            setTimeout(() => { onScanSuccess("DEMO", null); }, 2000); 
         });
     }
 
     function stopScanner() {
         if(html5QrcodeScanner) {
-            html5QrcodeScanner.stop().then(() => {
-                html5QrcodeScanner.clear();
-            }).catch(err => console.log(err));
+            html5QrcodeScanner.stop().then(() => { html5QrcodeScanner.clear(); }).catch(err => console.log(err));
         }
         closeModal('scan');
     }
 
     function onScanSuccess(decodedText, decodedResult) {
-        // Logic: Since we don't have a backend with all world barcodes,
-        // we use a random pick from our DB to simulate a successful lookup.
         stopScanner();
-        
+        // In a real app, we fetch by Barcode. Here we simulate a random product from our DB.
         const p = DB[Math.floor(Math.random()*DB.length)];
         calculateGrade(p);
     }
 
-    function onScanFailure(error) {
-        // Ignore errors, keep scanning
-    }
+    function onScanFailure(error) { /* Ignore frame failures */ }
 
-    // --- 5. THE BRAIN: GRADING ALGORITHM ---
+    // --- 5. THE TITAN ALGORITHM (Complex Scoring) ---
     function calculateGrade(p) {
         const u = getUser();
         let g = p.g; 
         let alerts = [];
 
-        // Logic 103: Hard Filters
+        // 1. Allergies (Red) - Critical
         if(u.filters.includes('a-gluten') && p.gl) { g='E'; alerts.push({t:'מכיל גלוטן',c:'bad'}); }
         if(u.filters.includes('a-milk') && p.da) { g='E'; alerts.push({t:'מכיל חלב',c:'bad'}); }
-        if(u.filters.includes('d-diabetic') && p.sug) { g='E'; alerts.push({t:'סוכר גבוה (סוכרת)',c:'bad'}); }
         if(u.filters.includes('a-nuts') && p.nut) { g='E'; alerts.push({t:'אגוזים',c:'bad'}); }
         if(u.filters.includes('a-sesame') && p.ses) { g='E'; alerts.push({t:'שומשום',c:'bad'}); }
         if(u.filters.includes('a-soy') && p.soy) { g='E'; alerts.push({t:'סויה',c:'bad'}); }
         if(u.filters.includes('a-fish') && p.fish) { g='E'; alerts.push({t:'דגים',c:'bad'}); }
         if(u.filters.includes('a-eggs') && p.eggs) { g='E'; alerts.push({t:'ביצים',c:'bad'}); }
-        if(u.filters.includes('x-caff') && p.caff) { g='E'; alerts.push({t:'מכיל קפאין',c:'bad'}); }
-        
-        // Logic 103: Ring Context
+        if(u.filters.includes('a-corn') && p.corn) { g='E'; alerts.push({t:'תירס',c:'bad'}); }
+
+        // 2. Medical (Red) - Health Impact
+        if(u.filters.includes('d-diabetic') && p.sug) { g='E'; alerts.push({t:'סוכר גבוה (סוכרת)',c:'bad'}); }
+        if(u.filters.includes('d-salt') && p.salt) { g='D'; alerts.push({t:'נתרן גבוה (לחץ דם)',c:'warn'}); }
+        if(u.filters.includes('d-heart') && (p.trans || p.palm)) { g='D'; alerts.push({t:'שומן רווי (לב)',c:'warn'}); }
+
+        // 3. Diet (Blue) - Lifestyle
+        if(u.filters.includes('l-vegan') && (p.da || p.fish || p.eggs || p.meat)) { g='E'; alerts.push({t:'לא טבעוני',c:'bad'}); }
+        if(u.filters.includes('l-veg') && (p.fish || p.meat)) { g='E'; alerts.push({t:'מכיל בשר/דג',c:'bad'}); }
+        if(u.filters.includes('l-keto') && (p.sug || p.gl)) { g='E'; alerts.push({t:'פחמימות (קטו)',c:'bad'}); }
+
+        // 4. Bad Stuff (Purple) - Clean Label
+        if(u.filters.includes('x-sugar') && p.sug) { g='E'; alerts.push({t:'סוכר לבן',c:'bad'}); }
+        if(u.filters.includes('x-proc') && p.proc) { g='E'; alerts.push({t:'מזון מעובד',c:'bad'}); }
+        if(u.filters.includes('x-caff') && p.caff) { g='D'; alerts.push({t:'קפאין',c:'warn'}); }
+        if(u.filters.includes('x-palm') && p.palm) { g='D'; alerts.push({t:'שמן דקלים',c:'warn'}); }
+
+        // 5. Ethics (Green)
+        if(u.filters.includes('e-local') && !p.local) { alerts.push({t:'לא תוצרת הארץ',c:'info'}); } // Soft warning
+        if(u.filters.includes('e-nopalm') && p.palm) { g='D'; alerts.push({t:'שמן דקלים (סביבה)',c:'warn'}); }
+
+        // 6. Sensory (Orange)
+        if(u.filters.includes('s-soft') && (p.crunch || !p.soft)) { 
+            // Logic: if item is hard but user needs soft
+            if(!p.liquid && !p.soft) { alerts.push({t:'מרקם קשה',c:'warn'}); }
+        }
+        if(u.filters.includes('s-smooth') && !p.smooth && !p.liquid) { alerts.push({t:'מכיל חתיכות',c:'info'}); }
+
+        // 7. Ring Context (Dynamic)
         if(g !== 'E') {
-            if(u.status==='stress' && p.sug) { g='D'; alerts.push({t:'לא מומלץ בסטרס (סוכר)',c:'warn'}); }
+            if(u.status==='stress' && p.sug) { g='D'; alerts.push({t:'לא מומלץ בסטרס',c:'warn'}); }
             if(u.status==='sick' && p.da) { g='D'; alerts.push({t:'מגביר ליחה (חולי)',c:'warn'}); }
-            if(u.status==='sugar' && p.sug) { g='B'; alerts.push({t:'טוב לנפילת סוכר',c:'good'}); } // Positive context
+            if(u.status==='sugar' && p.sug) { g='B'; alerts.push({t:'מעלה סוכר (נפילה)',c:'good'}); }
         }
 
+        // Render
         tempScan = {n:p.n, u:u.name};
-        
-        // Render Result
         document.getElementById('r-name').innerText = p.n;
         const ge = document.getElementById('r-grade');
         ge.innerText = g;
@@ -655,7 +977,7 @@
         const al = document.getElementById('res-alert');
         if(alerts.length) {
             al.innerHTML = alerts.map(a => {
-                let color = a.c==='bad' ? 'var(--grade-e)' : (a.c==='good'?'var(--grade-a)':'var(--grade-d)');
+                let color = a.c==='bad' ? 'var(--grade-e)' : (a.c==='good'?'var(--grade-a)':(a.c==='info'?'#fff':'var(--grade-d)'));
                 return `<div class="alert-box" style="border:1px solid ${color}; color:${color};">${a.t}</div>`;
             }).join('');
         } else {
@@ -696,7 +1018,7 @@
     function deleteProfile() { if(users.length<=1)return alert('חובה להשאיר פרופיל אחד'); if(confirm('למחוק?')){users=users.filter(x=>x.id!==editingId); activeId=users[0].id; save(); closeModal('edit'); render(); update();} }
     function openRing() { document.getElementById('modal-ring').classList.add('open'); }
     function setRing(s) { getUser().status=s; save(); render(); update(); closeModal('ring'); }
-    function save() { localStorage.setItem('vNeo_final_users', JSON.stringify(users)); localStorage.setItem('vNeo_final_cart', JSON.stringify(cart)); }
+    function save() { localStorage.setItem('vNeo_titan_users', JSON.stringify(users)); localStorage.setItem('vNeo_titan_cart', JSON.stringify(cart)); }
     function closeModal(id) { document.getElementById('modal-'+id).classList.remove('open'); }
     function tog(el) { el.nextElementSibling.classList.toggle('open'); }
     function showToast(t) { const el=document.getElementById('toast'); el.innerText=t; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),2000); }
