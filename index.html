@@ -3,314 +3,252 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="theme-color" content="#000000">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Vibe OS OMEGA</title>
-    
+    <title>Vibe OS TITAN II</title>
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-    
     <style>
-        /* ================================================================
-           1. CORE & VARIABLES
-           ================================================================ 
-        */
-        :root { 
-            --bg-body: #050505; --bg-app: #000000; 
-            --surface: #141416; --surface-2: #1e1e20; --surface-3: #2c2c2e;
-            --border: #333;
-            
-            --plasma-1: #6366f1; --plasma-2: #d946ef; --plasma-3: #0ea5e9;
-            
-            /* Enhanced Grading Colors (Vivid) */
-            --grade-a-plus: #00ff80; 
-            --grade-a: #2ebb56; 
-            --grade-b: #aadd00; 
-            --grade-c: #ffcc00; 
-            --grade-d: #ff9500; 
-            --grade-e: #ff3b30;
-            
-            --cat-ethics: #10b981; 
-            --cat-sensory: #f97316;
-            --cat-quality: #06b6d4;
-            
-            --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
-            --max-w: 440px; 
-            --shadow-glow: 0 10px 40px rgba(99, 102, 241, 0.25);
+        /* --- CORE THEME (PLASMA INDIGO) --- */
+        :root {
+            --bg-deep: #0f172a;
+            --indigo: #6366f1; --cyan: #06b6d4; --fuchsia: #d946ef;
+            --grade-a-plus: #00ffaa; --grade-a: #22c55e; 
+            --grade-b-plus: #84cc16; /* NEW B+ */
+            --grade-b: #a3e635; 
+            --grade-c: #facc15; --grade-d: #f97316; --grade-e: #ef4444;
+            --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
-
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; user-select: none; font-family: var(--font); }
-        body { background: var(--bg-body); color: #fff; margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+        body { margin: 0; height: 100vh; background: #000; overflow: hidden; display: flex; justify-content: center; align-items: center; color: #fff; }
 
-        /* BOOT SCREEN */
-        #boot-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.5s; }
-        .boot-logo { font-size: 48px; font-weight: 900; letter-spacing: 4px; background: linear-gradient(135deg, var(--plasma-3), var(--plasma-1), var(--plasma-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: pulse 2s infinite; }
-        .boot-bar { width: 140px; height: 4px; background: #222; margin-top: 30px; border-radius: 2px; overflow: hidden; }
-        .boot-fill { width: 0%; height: 100%; background: var(--plasma-1); animation: load 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
-        @keyframes load { 0% {width:0%} 100% {width:100%} }
-        @keyframes pulse { 0% {opacity:0.6} 50% {opacity:1} 100% {opacity:0.6} }
+        /* ANIMATED BACKGROUND */
+        .plasma-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at 50% 0%, #1e1b4b, #000); }
+        .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4; animation: float 10s infinite alternate; }
+        .orb-1 { width: 300px; height: 300px; background: var(--indigo); top: -50px; left: -50px; }
+        .orb-2 { width: 400px; height: 400px; background: var(--cyan); bottom: -100px; right: -100px; animation-delay: -5s; }
+        @keyframes float { 0% {transform:translate(0,0);} 100% {transform:translate(30px, 50px);} }
 
-        /* APP FRAME */
-        #app-frame { width: 100%; max-width: var(--max-w); height: 100%; max-height: 95vh; background: var(--bg-app); position: relative; border-radius: 44px; box-shadow: 0 0 0 12px #080808, 0 0 0 14px #1a1a1a, 0 20px 80px rgba(0,0,0,0.8); overflow: hidden; display: flex; flex-direction: column; opacity: 0; transition: opacity 0.5s; }
-        #app-frame.loaded { opacity: 1; }
-        @media (max-width: 480px) { body { align-items: flex-start; } #app-frame { max-width: 100%; height: 100vh; max-height: 100vh; border-radius: 0; box-shadow: none; border: none; } }
+        /* FRAME */
+        #app-frame { width: 100%; max-width: 440px; height: 100%; max-height: 95vh; background: rgba(15,23,42,0.6); backdrop-filter: blur(30px); border-radius: 40px; border: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 0 60px rgba(99,102,241,0.2); position: relative; }
+        @media (max-width: 480px) { #app-frame { max-height: 100vh; border-radius: 0; border: none; } }
 
-        #app-content { flex: 1; overflow-y: auto; overflow-x: hidden; padding-bottom: 140px; scrollbar-width: none; }
-        
         /* HEADER */
-        .app-header { background: rgba(10, 10, 12, 0.9); backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border); padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; }
-        .logo-neo { font-size: 20px; font-weight: 900; letter-spacing: 2px; background: linear-gradient(90deg, #fff, var(--plasma-3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .header { padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.2); }
+        .logo { font-size: 20px; font-weight: 800; letter-spacing: 1px; }
+        .logo span { background: linear-gradient(to right, var(--cyan), var(--indigo)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* SMART DASHBOARD GRID */
-        .dashboard { padding: 20px 24px; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; gap: 14px; }
+        /* CONTENT */
+        #content { flex: 1; overflow-y: auto; padding: 20px; padding-bottom: 140px; scrollbar-width: none; }
         
-        /* Full Width User Card */
-        .card.user-card { 
-            grid-column: 1 / -1; 
-            background: linear-gradient(160deg, var(--surface-2), #000); 
-            border: 1px solid var(--border); border-left: 4px solid var(--plasma-1);
-            border-radius: 20px; padding: 20px; 
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        
-        /* Stat Cards */
-        .card.stat { 
-            background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 18px; 
-            display: flex; flex-direction: column; justify-content: space-between; min-height: 110px; cursor: pointer; transition: 0.2s;
-        }
-        .card.stat:active { transform: scale(0.97); background: var(--surface-2); }
+        /* CARDS */
+        .dashboard { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between; min-height: 110px; transition: 0.2s; cursor: pointer; }
+        .card:active { transform: scale(0.98); background: rgba(255,255,255,0.07); }
+        .card.full { grid-column: span 2; flex-direction: row; align-items: center; border-left: 4px solid var(--indigo); }
+        .c-lbl { font-size: 11px; color: #94a3b8; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .c-val { font-size: 26px; font-weight: 800; margin-top: 5px; }
 
-        .c-lbl { font-size: 11px; color: #888; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
-        .c-val { font-size: 28px; font-weight: 800; margin-top: 6px; letter-spacing: -0.5px; }
-        
-        /* Score Ring UI */
-        .score-box { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
-        .mini-ring { width: 40px; height: 40px; border-radius: 50%; border: 3px solid var(--surface-2); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; color: #fff; }
+        /* GAUGE */
+        .gauge-wrap { margin-top: 10px; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
+        .gauge-bar { height: 100%; width: 100%; background: linear-gradient(90deg, var(--grade-e), var(--grade-a-plus)); transition: width 0.5s; }
 
-        /* QUICK BOX */
-        .quick-box { padding: 5px 24px; display: flex; gap: 10px; margin-top: 5px; }
-        .quick-inp { flex: 1; background: var(--surface); border: 1px solid var(--border); padding: 16px; border-radius: 16px; color: #fff; text-align: right; font-size: 15px; transition: 0.2s; }
-        .quick-inp:focus { border-color: var(--plasma-1); background: #000; }
-        .quick-btn { width: 54px; background: var(--plasma-1); border: none; border-radius: 16px; font-size: 24px; color: #fff; cursor: pointer; box-shadow: 0 5px 20px rgba(99,102,241,0.3); }
-
-        .prefs-container { padding: 15px 24px; display: flex; flex-wrap: wrap; gap: 8px; }
-        .pref-tag { font-size: 11px; background: rgba(255,255,255,0.05); padding: 6px 12px; border-radius: 8px; color: #ccc; border: 1px solid var(--border); }
-
-        /* DOCK */
-        .dock { position: absolute; bottom: 35px; left: 50%; transform: translateX(-50%); width: 85%; max-width: 360px; height: 72px; background: rgba(22,22,24,0.95); backdrop-filter: blur(30px); border-radius: 24px; border: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; padding: 0 35px; z-index: 500; box-shadow: 0 20px 60px rgba(0,0,0,0.8); }
-        .dock-icon { font-size: 24px; cursor: pointer; color: #666; transition: 0.2s; }
+        /* DOCK & FAB */
+        .dock { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); width: 90%; height: 75px; background: rgba(15,23,42,0.9); backdrop-filter: blur(20px); border-radius: 28px; border: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; padding: 0 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); z-index: 500; }
+        .dock-icon { font-size: 24px; color: #94a3b8; cursor: pointer; transition: 0.2s; }
         .dock-icon:active { color: #fff; transform: scale(0.9); }
-        
-        .scan-fab { 
-            width: 64px; height: 64px; background: linear-gradient(135deg, var(--plasma-1), var(--plasma-3)); 
-            border-radius: 22px; display: flex; align-items: center; justify-content: center; 
-            font-size: 28px; margin-top: -50px; box-shadow: var(--shadow-glow); 
-            cursor: pointer; color: #fff; border: 5px solid var(--bg-app); transform: rotate(45deg); transition: 0.2s;
-        }
-        .scan-fab span { transform: rotate(-45deg); display: block; font-size: 26px; }
-        .scan-fab:active { transform: rotate(45deg) scale(0.9); }
+        .scan-fab { width: 65px; height: 65px; border-radius: 20px; background: linear-gradient(135deg, var(--indigo), var(--cyan)); display: flex; align-items: center; justify-content: center; font-size: 28px; color: #fff; box-shadow: 0 10px 30px rgba(99,102,241,0.4); margin-top: -40px; cursor: pointer; border: 4px solid #0f172a; transform: rotate(45deg); transition: 0.2s; }
+        .scan-fab span { transform: rotate(-45deg); display: block; }
+        .scan-fab:active { transform: scale(0.95) rotate(45deg); }
 
         /* MODALS */
-        .modal { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; display: none; align-items: flex-end; opacity: 0; transition: 0.3s; }
-        .modal.open { display: flex; opacity: 1; }
-        .modal-sheet { 
-            width: 100%; background: #111; border-radius: 36px 36px 0 0; padding: 0;
-            max-height: 92vh; height: auto; display: flex; flex-direction: column;
-            transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.2, 1);
-            border-top: 1px solid var(--border); overflow: hidden;
-        }
-        .modal.open .modal-sheet { transform: translateY(0); }
-
-        .m-head { padding: 25px 25px 15px 25px; display: flex; justify-content: space-between; align-items: center; background: #111; z-index: 10; border-bottom: 1px solid var(--border); }
-        .m-title { font-size: 22px; font-weight: 800; color: #fff; }
-        .m-close { width: 32px; height: 32px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; }
+        .modal { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; display: none; align-items: flex-end; }
+        .modal.open { display: flex; animation: fadeIn 0.3s; }
+        .sheet { width: 100%; background: #0f172a; border-radius: 40px 40px 0 0; border-top: 1px solid rgba(255,255,255,0.1); max-height: 92vh; display: flex; flex-direction: column; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.2, 1); }
+        .modal.open .sheet { transform: translateY(0); }
         
-        .m-content { padding: 20px 25px 120px 25px; overflow-y: auto; flex: 1; } /* Padding bottom for floating buttons */
+        .sheet-head { padding: 20px 25px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; background: rgba(15,23,42,0.95); z-index: 10; border-radius: 40px 40px 0 0; }
+        .sheet-body { padding: 20px 25px; overflow-y: auto; padding-bottom: 100px; }
+        .sheet-foot { padding: 20px; background: #0f172a; border-top: 1px solid rgba(255,255,255,0.05); }
 
-        /* FLOATING BOTTOM BAR IN MODAL */
-        .m-footer { 
-            position: absolute; bottom: 0; left: 0; width: 100%; padding: 20px 25px 40px 25px; 
-            background: linear-gradient(to top, #000 80%, transparent); pointer-events: none; 
-            display: flex; flex-direction: column; gap: 10px;
-        }
-        .m-footer button { pointer-events: auto; }
-
-        /* ACCORDION */
-        .acc { background: var(--surface); border-radius: 14px; margin-bottom: 10px; overflow: hidden; border: 1px solid var(--border); }
-        .acc-head { padding: 16px; font-weight: 700; display: flex; justify-content: space-between; cursor: pointer; font-size: 14px; }
-        .acc-body { display: none; padding: 15px; background: #080808; flex-wrap: wrap; gap: 8px; border-top: 1px solid var(--border); }
-        .acc-body.open { display: flex; }
+        /* HISTORY ANALYTICS STYLES */
+        .hist-controls { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 16px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05); }
+        .hist-row { display: flex; gap: 10px; margin-bottom: 10px; }
+        .hist-inp { flex: 1; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 10px; border-radius: 8px; font-size: 12px; }
+        .hist-grades { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px; }
+        .grade-toggle { font-size: 11px; padding: 5px 8px; border-radius: 6px; border: 1px solid #333; cursor: pointer; color: #666; transition: 0.2s; }
+        .grade-toggle.active { font-weight: bold; color: #000; border-color: transparent; }
+        .agg-switch { display: flex; align-items: center; justify-content: space-between; font-size: 13px; color: var(--cyan); font-weight: 600; cursor: pointer; margin-top: 10px; }
         
-        .c-red .acc-head { color: var(--grade-e); border-right: 3px solid var(--grade-e); }
-        .c-teal .acc-head { color: var(--cat-quality); border-right: 3px solid var(--cat-quality); }
+        .hist-list { display: flex; flex-direction: column; gap: 8px; }
+        .hist-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 12px; border-left: 3px solid #333; }
+        .hist-badge { font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px; color: #000; margin-left: 8px; }
+        .hist-meta { font-size: 10px; color: #666; margin-top: 2px; }
+        .hist-count { background: var(--indigo); color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 10px; font-weight: 700; }
 
-        .chip { display: none; }
-        .chip-lbl { padding: 10px 14px; background: #1a1a1a; border-radius: 10px; font-size: 13px; color: #888; cursor: pointer; border: 1px solid #333; font-weight: 600; transition: 0.2s; }
-        .chip:checked + .chip-lbl { background: #eee; color: #000; border-color: #fff; }
-        .quality .chip:checked + .chip-lbl { background: rgba(6, 182, 212, 0.2); color: var(--cat-quality); border-color: var(--cat-quality); }
+        /* SETTINGS CHIPS */
+        .chip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+        .chip-lbl { padding: 12px; background: rgba(255,255,255,0.05); border-radius: 10px; font-size: 13px; color: #94a3b8; cursor: pointer; border: 1px solid transparent; transition: 0.2s; display: flex; align-items: center; gap: 6px; }
+        input:checked + .chip-lbl { background: rgba(99,102,241,0.15); border-color: var(--indigo); color: #fff; font-weight: 600; }
 
-        /* RESULT & SCANNER */
-        .grade-circle { width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 15px auto; display: flex; align-items: center; justify-content: center; font-size: 50px; font-weight: 900; color: #000; box-shadow: 0 0 40px currentColor; flex-shrink: 0; }
-        .alert-box { padding: 12px; background: rgba(255,255,255,0.05); border-radius: 10px; margin-bottom: 8px; font-size: 13px; border: 1px solid transparent; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        /* BUTTONS */
+        .btn { width: 100%; padding: 16px; border-radius: 14px; font-weight: 700; font-size: 16px; border: none; cursor: pointer; margin-top: 8px; }
+        .btn-prime { background: linear-gradient(90deg, var(--indigo), var(--cyan)); color: #fff; }
+        .btn-sec { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #fff; }
 
-        .btn-main { width: 100%; padding: 16px; border-radius: 16px; font-weight: 700; font-size: 16px; border: none; cursor: pointer; background: linear-gradient(90deg, var(--plasma-1), var(--plasma-3)); color: #fff; box-shadow: 0 5px 20px rgba(99, 102, 241, 0.3); }
-        .btn-sec { width: 100%; padding: 16px; border-radius: 16px; font-weight: 700; font-size: 16px; cursor: pointer; background: var(--surface-2); color: #fff; border: 1px solid var(--border); }
+        /* SCANNER */
+        #cam-ui { position: absolute; top:0; left:0; width:100%; height:100%; background:#000; z-index:2000; display:none; flex-direction:column; }
+        #cam-ui.active { display:flex; }
+        .laser { position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: var(--grade-e); box-shadow: 0 0 20px var(--grade-e); animation: scan 2s infinite; }
+        @keyframes scan { 0%{top:20%} 50%{top:80%} 100%{top:20%} }
 
-        #cam-view { position: relative; width: 100%; height: 100%; background: #000; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-        #reader { width: 100%; height: 100%; object-fit: cover; }
-        .laser { position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--grade-e); box-shadow: 0 0 20px var(--grade-e); animation: scan 1.5s infinite; z-index: 10; }
-        @keyframes scan { 0% {top:10%} 50% {top:90%} 100% {top:10%} }
-
-        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: var(--surface); border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--border); }
+        /* HELPERS */
+        .grade-a-plus { background: var(--grade-a-plus); }
+        .grade-a { background: var(--grade-a); }
+        .grade-b-plus { background: var(--grade-b-plus); }
+        .grade-b { background: var(--grade-b); }
+        .grade-c { background: var(--grade-c); }
+        .grade-d { background: var(--grade-d); }
+        .grade-e { background: var(--grade-e); }
         
-        #toast { position: absolute; top: 40px; left: 50%; transform: translateX(-50%) translateY(-100px); background: #222; color: #fff; padding: 10px 25px; border-radius: 50px; transition: 0.4s; z-index: 3000; font-weight: 600; border: 1px solid #444; white-space: nowrap; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        #toast.show { transform: translateX(-50%) translateY(0); }
+        @keyframes fadeIn { from{opacity:0} to{opacity:1} }
     </style>
 </head>
 <body>
 
-<div id="boot-screen">
-    <div class="boot-logo">VIBE OS</div>
-    <div class="boot-bar"><div class="boot-fill"></div></div>
-    <div style="margin-top:10px; font-size:10px; color:#666; letter-spacing:2px;">OMEGA SYSTEM LOADING</div>
-</div>
+<div class="plasma-bg"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
 
 <div id="app-frame">
-    <div id="toast"></div>
-    <div class="app-header">
-        <div class="logo-box"><span style="font-weight:700;">VIBE</span> <span class="logo-neo">OMEGA</span></div>
+    <div class="header">
+        <div class="logo">VIBE <span>TITAN II</span></div>
+        <div onclick="openModal('m-settings')" style="cursor:pointer; padding:5px;">⚙️</div>
     </div>
 
-    <div id="app-content">
+    <div id="content">
         <div class="dashboard">
-            <div class="card user-card" onclick="openEdit(activeId)">
+            <div class="card full">
                 <div>
-                    <div class="c-lbl">שלום,</div>
-                    <div id="d-name" style="font-size:22px; font-weight:800; color:#fff;">טוען...</div>
+                    <div class="c-lbl">משתמש</div>
+                    <div id="dash-name" class="c-val" style="font-size:22px;">אורח</div>
                 </div>
-                <div style="width:40px; height:40px; background:rgba(255,255,255,0.1); border-radius:12px; display:flex; align-items:center; justify-content:center;">⚙️</div>
+                <div id="dash-filters" style="font-size:12px; color:var(--cyan); max-width:150px; text-align:left;">טוען נתונים...</div>
+            </div>
+            
+            <div class="card" onclick="openModal('m-ring')">
+                <div class="c-lbl">Vibe Ring</div>
+                <div id="dash-status" class="c-val" style="color:var(--grade-a);">רגיל</div>
             </div>
 
-            <div class="card stat" onclick="openRing()">
-                <div class="c-lbl">סטטוס גופני</div>
-                <div id="d-status" class="c-val" style="color:var(--grade-a);">רגיל</div>
-            </div>
-
-            <div class="card stat" onclick="openModal('cart')">
-                <div class="c-lbl">ציון סל</div>
-                <div class="score-box">
-                    <div id="cart-score" class="c-val">100%</div>
-                    <div class="mini-ring"><span id="d-count">0</span></div>
+            <div class="card" onclick="openModal('m-cart')">
+                <div style="display:flex; justify-content:space-between;">
+                    <div class="c-lbl">ציון סל</div>
+                    <div id="dash-score" style="font-weight:800; font-size:18px;">100%</div>
                 </div>
+                <div class="gauge-wrap"><div id="score-bar" class="gauge-bar"></div></div>
+                <div style="font-size:11px; color:#94a3b8; margin-top:5px;">פריטים: <span id="dash-count">0</span></div>
             </div>
         </div>
 
-        <div class="quick-box">
-            <button class="quick-btn" onclick="quickAdd()">+</button>
-            <input type="text" id="q-inp" class="quick-inp" placeholder="הוספה לבית...">
-        </div>
-
-        <div class="prefs-container" id="d-prefs"></div>
+        <div style="text-align:center; color:#666; font-size:12px; margin-top:20px;">המערכת מוכנה לסריקה</div>
     </div>
 
     <div class="dock">
-        <div class="dock-icon" onclick="openCart()">🛒</div>
+        <div class="dock-icon" onclick="openModal('m-cart')">🛒</div>
         <div class="scan-fab" onclick="startScanner()"><span>📷</span></div>
         <div class="dock-icon" onclick="openHistory()">📜</div>
     </div>
 
-    <div id="modal-edit" class="modal"><div class="modal-sheet">
-        <div class="m-head"><div class="m-title">הגדרות פרופיל</div><div class="m-close" onclick="closeModal('edit')">✕</div></div>
-        
-        <div class="m-content">
-            <input type="text" id="edit-name" style="width:100%; padding:14px; background:var(--surface-2); border:1px solid var(--border); border-radius:12px; color:#fff; text-align:center; margin-bottom:20px; font-size:16px;" placeholder="שם המשתמש">
+    <div id="m-history" class="modal"><div class="sheet" style="height:90vh;">
+        <div class="sheet-head"><div class="logo">היסטוריה חכמה</div><div onclick="closeModal('m-history')" style="cursor:pointer;">✕</div></div>
+        <div class="sheet-body">
+            <div class="hist-controls">
+                <div class="hist-row">
+                    <input type="date" id="hist-start" class="hist-inp" onchange="filterHistory()">
+                    <input type="date" id="hist-end" class="hist-inp" onchange="filterHistory()">
+                </div>
+                <div class="hist-row">
+                    <input type="text" id="hist-search" class="hist-inp" placeholder="חפש מוצר או מותג..." onkeyup="filterHistory()">
+                </div>
+                <div class="hist-grades" id="hist-grade-filters">
+                    </div>
+                <div class="agg-switch" onclick="toggleAggregation()">
+                    <span>📂 צמצם פריטים זהים (Aggregation)</span>
+                    <span id="agg-status" style="color:#666;">OFF</span>
+                </div>
+            </div>
             
-            <div style="font-weight:700; margin-bottom:15px; color:#888; font-size:14px; text-transform:uppercase;">קטגוריות סינון:</div>
-            
-            <div class="acc c-teal"><div class="acc-head" onclick="tog(this)">🏅 איכות ודירוג <span>▼</span></div><div class="acc-body quality">
-                <input type="checkbox" id="q-nored" class="chip"><label for="q-nored" class="chip-lbl">🚫 ללא מדבקות אדומות</label>
-                <input type="checkbox" id="q-green" class="chip"><label for="q-green" class="chip-lbl">✅ תו ירוק בלבד</label>
-                <input type="checkbox" id="q-natural" class="chip"><label for="q-natural" class="chip-lbl">🍃 100% טבעי</label>
-                <input type="checkbox" id="g-high" class="chip"><label for="g-high" class="chip-lbl">⭐ ציוני A-B בלבד</label>
-            </div></div>
-
-            <div class="acc c-red"><div class="acc-head" onclick="tog(this)">⚠️ אלרגיות <span>▼</span></div><div class="acc-body danger" id="sec-allergy">
-                <div style="width:100%; text-align:center; padding:10px; border:1px solid var(--grade-e); color:var(--grade-e); border-radius:10px; margin-bottom:5px; cursor:pointer;" onclick="clearSec('sec-allergy')">נקה הכל</div>
-                <input type="checkbox" id="a-milk" class="chip"><label for="a-milk" class="chip-lbl">🥛 חלב</label>
-                <input type="checkbox" id="a-gluten" class="chip"><label for="a-gluten" class="chip-lbl">🍞 גלוטן</label>
-                <input type="checkbox" id="a-nuts" class="chip"><label for="a-nuts" class="chip-lbl">🌰 אגוזים</label>
-                <input type="checkbox" id="a-peanuts" class="chip"><label for="a-peanuts" class="chip-lbl">🥜 בוטנים</label>
-                <input type="checkbox" id="a-sesame" class="chip"><label for="a-sesame" class="chip-lbl">🥯 שומשום</label>
-                <input type="checkbox" id="a-soy" class="chip"><label for="a-soy" class="chip-lbl">🥢 סויה</label>
-                <input type="checkbox" id="a-eggs" class="chip"><label for="a-eggs" class="chip-lbl">🥚 ביצים</label>
-                <input type="checkbox" id="a-fish" class="chip"><label for="a-fish" class="chip-lbl">🐟 דגים</label>
-            </div></div>
-            
-            <div style="height:50px;"></div> </div>
-
-        <div class="m-footer">
-            <button class="btn-main" onclick="saveProfile()">שמור שינויים</button>
-            <button class="btn-sec" style="color:var(--grade-e); border-color:var(--grade-e);" onclick="deleteProfile()">מחק פרופיל</button>
+            <div id="hist-list" class="hist-list">
+                </div>
         </div>
     </div></div>
 
-    <div id="modal-cart" class="modal"><div class="modal-sheet">
-        <div class="m-head"><div class="m-title">עגלה</div><div class="m-close" onclick="closeModal('cart')">✕</div></div>
-        <div class="m-content" id="cart-content"></div>
-        <div class="m-footer">
-            <div style="display:flex; gap:10px;">
-                <input type="text" id="c-inp" class="quick-inp" placeholder="הוספה ידנית...">
-                <button class="quick-btn" onclick="quickAddCart()">+</button>
+    <div id="m-settings" class="modal"><div class="sheet">
+        <div class="sheet-head"><div class="logo">הגדרות פרופיל</div><div onclick="closeModal('m-settings')" style="cursor:pointer;">✕</div></div>
+        <div class="sheet-body">
+            <input type="text" id="user-name-inp" placeholder="שם" style="width:100%; padding:15px; background:rgba(255,255,255,0.05); border:none; border-radius:12px; color:#fff; margin-bottom:20px;">
+            
+            <div style="color:var(--cyan); font-weight:700; margin:15px 0;">🏅 דירוג מינימלי (איכות)</div>
+            <div class="chip-grid">
+                <input type="checkbox" id="q-aplus"><label for="q-aplus" class="chip-lbl">A+ בלבד</label>
+                <input type="checkbox" id="q-green"><label for="q-green" class="chip-lbl">✅ תו ירוק</label>
+                <input type="checkbox" id="q-natural"><label for="q-natural" class="chip-lbl">🍃 100% טבעי</label>
+            </div>
+
+            <div style="color:var(--grade-e); font-weight:700; margin:15px 0;">⚠️ אלרגיות</div>
+            <div class="chip-grid">
+                <input type="checkbox" id="a-milk"><label for="a-milk" class="chip-lbl">חלב</label>
+                <input type="checkbox" id="a-gluten"><label for="a-gluten" class="chip-lbl">גלוטן</label>
+                <input type="checkbox" id="a-nuts"><label for="a-nuts" class="chip-lbl">אגוזים</label>
+                <input type="checkbox" id="a-soy"><label for="a-soy" class="chip-lbl">סויה</label>
+            </div>
+
+            <div style="color:var(--indigo); font-weight:700; margin:15px 0;">🥗 אורח חיים</div>
+            <div class="chip-grid">
+                <input type="checkbox" id="l-vegan"><label for="l-vegan" class="chip-lbl">טבעוני</label>
+                <input type="checkbox" id="l-keto"><label for="l-keto" class="chip-lbl">קטו</label>
             </div>
         </div>
-    </div></div>
-
-    <div id="modal-hist" class="modal"><div class="modal-sheet">
-        <div class="m-head"><div class="m-title">היסטוריה</div><div class="m-close" onclick="closeModal('hist')">✕</div></div>
-        <div class="m-content" id="hist-content"></div>
-    </div></div>
-
-    <div id="modal-ring" class="modal"><div class="modal-sheet">
-        <div class="m-head"><div class="m-title">Vibe Ring</div><div class="m-close" onclick="closeModal('ring')">✕</div></div>
-        <div class="m-content">
-            <div class="ring-grid">
-                <div class="r-opt" onclick="setRing('normal')">🟢 רגיל</div>
-                <div class="r-opt" onclick="setRing('stress')">🤯 סטרס</div>
-                <div class="r-opt" onclick="setRing('sick')">🤒 חולי</div>
-                <div class="r-opt" onclick="setRing('cycle')">🌸 מחזור</div>
-                <div class="r-opt" onclick="setRing('sport')">💪 אימון</div>
-                <div class="r-opt" onclick="setRing('sugar')">🩸 סוכר</div>
-                <div class="r-opt" onclick="setRing('tired')">😴 עייפות</div>
-                <div class="r-opt" onclick="setRing('dehyd')">💧 יובש</div>
-            </div>
+        <div class="sheet-foot">
+            <button class="btn btn-prime" onclick="saveSettings()">שמור שינויים</button>
         </div>
     </div></div>
 
-    <div id="modal-res" class="modal"><div class="modal-sheet" style="text-align:center;">
-        <div class="m-head" style="justify-content:flex-end;"><div class="m-close" onclick="closeModal('res')">✕</div></div>
-        <div class="m-content">
-            <div style="font-size:12px; font-weight:700; color:#888; text-transform:uppercase; letter-spacing:2px; margin-bottom:10px;">ציון NEO</div>
-            <div id="r-grade" class="grade-circle" style="background:var(--grade-a);">A</div>
-            <div id="r-name" style="font-size:28px; font-weight:800; margin:10px 0 5px 0; line-height:1.1;">שם</div>
-            <div id="r-brand" style="font-size:16px; color:#888; margin-bottom:25px;">מותג</div>
-            <div id="res-alert"></div>
+    <div id="cam-ui">
+        <div id="reader" style="width:100%; height:100%; object-fit:cover;"></div>
+        <div class="laser"></div>
+        <div style="position:absolute; bottom:50px; width:100%; display:flex; justify-content:center;">
+            <button onclick="stopScanner()" style="background:rgba(0,0,0,0.6); color:#fff; border:1px solid #fff; padding:10px 30px; border-radius:30px; font-weight:700; cursor:pointer;">ביטול חזרה</button>
         </div>
-        <div class="m-footer">
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-                <button class="btn-main" onclick="addToCart(true)">+ לבית</button>
-                <button class="btn-sec" onclick="addToCart(false)">+ לי</button>
-            </div>
+    </div>
+
+    <div id="m-result" class="modal"><div class="sheet">
+        <div class="sheet-head"><div class="logo">תוצאות</div><div onclick="closeModal('m-result')" style="cursor:pointer;">✕</div></div>
+        <div class="sheet-body" style="text-align:center;">
+            <div style="font-size:12px; color:#888; text-transform:uppercase; letter-spacing:2px;">ציון משוקלל</div>
+            <div id="res-grade" style="font-size:80px; font-weight:900; margin:10px 0; text-shadow:0 0 30px currentColor;">A+</div>
+            <h2 id="res-name" style="margin:0;">שם מוצר</h2>
+            <div id="res-brand" style="color:#888; margin-bottom:20px;">מותג</div>
+            <div id="res-reasons" style="background:rgba(255,255,255,0.05); padding:15px; border-radius:15px; text-align:right;"></div>
+        </div>
+        <div class="sheet-foot" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <button class="btn btn-prime" onclick="addToCart(true)">+ לבית</button>
+            <button class="btn btn-sec" onclick="addToCart(false)">+ לי</button>
         </div>
     </div></div>
 
-    <div id="modal-scan" class="modal"><div class="modal-sheet" style="height:100%; padding:0; background:#000; border-radius:0;">
-        <div id="cam-view">
-            <div id="reader" style="width:100%; height:100%; object-fit:cover;"></div>
-            <div class="laser"></div>
-            <div style="position:absolute; bottom:50px; width:100%; display:flex; justify-content:center; z-index:20;">
-                <button onclick="stopScanner()" style="background:rgba(20,20,20,0.8); border:1px solid rgba(255,255,255,0.2); color:#fff; padding:15px 40px; border-radius:30px; font-weight:700; backdrop-filter:blur(10px); display:flex; align-items:center; gap:10px;">
-                    <span>✕</span> ביטול
-                </button>
+    <div id="m-cart" class="modal"><div class="sheet">
+        <div class="sheet-head"><div class="logo">עגלה</div><div onclick="closeModal('m-cart')" style="cursor:pointer;">✕</div></div>
+        <div class="sheet-body" id="cart-list"></div>
+        <div class="sheet-foot">
+            <button class="btn btn-sec" onclick="clearCart()">רוקן עגלה</button>
+        </div>
+    </div></div>
+
+    <div id="m-ring" class="modal"><div class="sheet">
+        <div class="sheet-head"><div class="logo">Vibe Ring</div><div onclick="closeModal('m-ring')" style="cursor:pointer;">✕</div></div>
+        <div class="sheet-body">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <button class="btn btn-sec" onclick="setRing('normal')">🟢 רגיל</button>
+                <button class="btn btn-sec" onclick="setRing('stress')">🤯 סטרס</button>
+                <button class="btn btn-sec" onclick="setRing('sugar')">🩸 סוכר</button>
+                <button class="btn btn-sec" onclick="setRing('sick')">🤒 חולי</button>
             </div>
         </div>
     </div></div>
@@ -318,229 +256,289 @@
 </div>
 
 <script>
-    // --- 1. GLOBAL STATE & CONFIG ---
-    window.tempScan = null;
-    let html5QrcodeScanner = null;
-    let isScanning = false;
-
-    // --- 2. DATABASE ENGINE ---
-    // Expanded core for simulation
-    const DB_CORE = [
-        {n:'לחם מלא', cat:'bakery', g:'A', gl:true}, {n:'לחם אחיד', cat:'bakery', g:'C', gl:true, sug:true},
-        {n:'חלב 3%', cat:'dairy', g:'B', da:true, liquid:true}, {n:'חלב סויה', cat:'dairy', g:'A', soy:true, ethics:true},
-        {n:'קוטג\'', cat:'dairy', g:'A', da:true}, {n:'גבינה צהובה', cat:'dairy', g:'D', da:true, proc:true},
-        {n:'מילקי', cat:'dairy', g:'E', da:true, sug:true}, {n:'קולה', cat:'drink', g:'E', sug:true, caff:true},
-        {n:'קולה זירו', cat:'drink', g:'D', caff:true}, {n:'במבה', cat:'snack', g:'C', nut:true},
-        {n:'ביסלי', cat:'snack', g:'E', gl:true, proc:true}, {n:'תפוצ\'יפס', cat:'snack', g:'D', proc:true},
-        {n:'שוקולד פרה', cat:'snack', g:'E', da:true, sug:true}, {n:'פסטה', cat:'pantry', g:'B', gl:true},
-        {n:'אורז', cat:'pantry', g:'B'}, {n:'מלפפון', cat:'fresh', g:'A'}, {n:'עגבניה', cat:'fresh', g:'A'},
-        {n:'שניצל תירס', cat:'frozen', g:'C', gl:true, proc:true}, {n:'טונה', cat:'pantry', g:'A', fish:true}
-    ];
-    const BRANDS = ['תנובה','שטראוס','אסם','עלית','תלמה','טרה','רמי לוי','שופרסל','גד','טבעול'];
+    // --- 1. CONFIG & DB ENGINE ---
+    const GRADES = ['A+', 'A', 'B+', 'B', 'C', 'D', 'E'];
+    const G_COLORS = {'A+':'var(--grade-a-plus)', 'A':'var(--grade-a)', 'B+':'var(--grade-b-plus)', 'B':'var(--grade-b)', 'C':'var(--grade-c)', 'D':'var(--grade-d)', 'E':'var(--grade-e)'};
     
-    // --- 3. APP INIT ---
-    let users = JSON.parse(localStorage.getItem('vOmega_users')) || [{id:1, name:'אני', img:null, status:'normal', filters:[], pList:[]}];
-    let cart = JSON.parse(localStorage.getItem('vOmega_cart')) || [];
-    let history = JSON.parse(localStorage.getItem('vOmega_hist')) || [];
-    let activeId = users[0].id;
+    // Simulating 1000+ Items via procedural generation for the demo
+    const BASE_ITEMS = [
+        {n:'לחם מלא', cat:'bakery', g:'A', tags:['gl']}, {n:'לחם לבן', cat:'bakery', g:'C', tags:['gl','sug']},
+        {n:'חלב 3%', cat:'dairy', g:'B', tags:['da']}, {n:'חלב סויה', cat:'dairy', g:'A', tags:['soy']},
+        {n:'קוטג\'', cat:'dairy', g:'A', tags:['da']}, {n:'גבינה צהובה', cat:'dairy', g:'D', tags:['da','proc']},
+        {n:'מילקי', cat:'dairy', g:'E', tags:['da','sug']}, {n:'קולה', cat:'drink', g:'E', tags:['sug','caff']},
+        {n:'קולה זירו', cat:'drink', g:'D', tags:['caff']}, {n:'במבה', cat:'snack', g:'C', tags:['nut']},
+        {n:'שוקולד', cat:'snack', g:'E', tags:['sug','da']}, {n:'מלפפון', cat:'fresh', g:'A+', tags:[]},
+        {n:'עגבניה', cat:'fresh', g:'A+', tags:[]}, {n:'טונה במים', cat:'pantry', g:'A', tags:['fish']},
+        {n:'פסטה', cat:'pantry', g:'B', tags:['gl']}, {n:'נקניקיות', cat:'frozen', g:'E', tags:['proc','meat']},
+        {n:'שניצל תירס', cat:'frozen', g:'C', tags:['gl','proc']}, {n:'חומוס', cat:'pantry', g:'B+', tags:[]}
+    ];
+    const BRANDS = ['תנובה', 'שטראוס', 'אסם', 'עלית', 'טרה', 'רמי לוי', 'שופרסל', 'גד', 'ויסוצקי', 'טבעול'];
 
-    const STATES = {
-        'normal':{t:'רגיל',c:'var(--grade-a)'}, 'stress':{t:'סטרס',c:'var(--grade-e)'}, 'sick':{t:'חולי',c:'var(--plasma-2)'},
-        'cycle':{t:'מחזור',c:'var(--plasma-2)'}, 'sport':{t:'אימון',c:'var(--plasma-3)'}, 'sugar':{t:'סוכר',c:'var(--grade-d)'},
-        'tired':{t:'עייפות',c:'var(--grade-c)'}, 'dehyd':{t:'יובש',c:'var(--plasma-3)'}
-    };
+    // --- 2. STATE ---
+    let user = { name:'אורח', filters:[] };
+    let cart = [];
+    let history = [];
+    let isAggregated = false;
+    let selectedGrades = []; // for filtering history
+    let scanner = null;
+    let currentProduct = null;
+    let ringStatus = 'normal';
 
+    // --- 3. INIT ---
     window.onload = () => {
-        // Boot Animation Logic
-        setTimeout(() => {
-            const boot = document.getElementById('boot-screen');
-            boot.style.opacity = 0;
-            // QA Fix: Ensure display:none to prevent blocking clicks
-            setTimeout(() => { boot.style.display = 'none'; }, 500); 
-            document.getElementById('app-frame').classList.add('loaded');
-        }, 1800);
-        updateUI();
+        loadData();
+        if(history.length === 0) generateMockHistory(); // MOCK DATA FOR DEMO
+        renderUI();
+        initHistoryFilters();
     };
 
-    // --- 4. UI LOGIC ---
-    function updateUI() {
-        const u = users.find(x=>x.id===activeId);
-        const s = STATES[u.status];
-        
-        document.getElementById('d-name').innerText = u.name;
-        document.getElementById('d-status').innerText = s.t;
-        document.getElementById('d-status').style.color = s.c;
-        document.getElementById('d-count').innerText = cart.length;
-        
-        // Cart Score
-        let totalScore=0;
-        if(cart.length>0){
-            cart.forEach(i=>{
-                let val=0;
-                if(i.g==='A') val=100; else if(i.g==='B') val=80; else if(i.g==='C') val=60; else if(i.g==='D') val=40; else val=20;
-                totalScore+=val;
-            });
-            let avg = Math.round(totalScore/cart.length);
-            const el = document.getElementById('cart-score');
-            el.innerText = avg + '%';
-            if(avg>=80) el.style.color='var(--grade-a)'; else if(avg>=60) el.style.color='var(--grade-c)'; else el.style.color='var(--grade-e)';
-        } else {
-            document.getElementById('cart-score').innerText = '100%';
-            document.getElementById('cart-score').style.color = '#fff';
-        }
-
-        // Prefs
-        const p = document.getElementById('d-prefs');
-        const map = {'a-milk':'🥛','a-gluten':'🍞','d-diabetic':'💉','q-green':'✅'};
-        p.innerHTML = u.filters.length ? u.filters.slice(0,3).map(f=>`<div class="pref-tag">${map[f]||''} ${f.split('-')[1]}</div>`).join('') : '<div class="pref-tag">ללא מגבלות</div>';
+    function loadData() {
+        const u = localStorage.getItem('vTitan2_user');
+        if(u) user = JSON.parse(u);
+        const c = localStorage.getItem('vTitan2_cart');
+        if(c) cart = JSON.parse(c);
+        const h = localStorage.getItem('vTitan2_hist');
+        if(h) history = JSON.parse(h);
     }
 
-    // --- 5. CAMERA & SCANNING ---
+    function saveData() {
+        localStorage.setItem('vTitan2_user', JSON.stringify(user));
+        localStorage.setItem('vTitan2_cart', JSON.stringify(cart));
+        localStorage.setItem('vTitan2_hist', JSON.stringify(history));
+        renderUI();
+    }
+
+    // --- 4. MOCK HISTORY GENERATOR (To show off analytics) ---
+    function generateMockHistory() {
+        const now = new Date();
+        for(let i=0; i<50; i++) {
+            const item = BASE_ITEMS[Math.floor(Math.random() * BASE_ITEMS.length)];
+            const brand = BRANDS[Math.floor(Math.random() * BRANDS.length)];
+            const daysBack = Math.floor(Math.random() * 180); // Last 6 months
+            const date = new Date();
+            date.setDate(now.getDate() - daysBack);
+            
+            history.push({
+                n: item.n,
+                b: brand,
+                g: item.g, // Initial grade
+                t: date.toISOString(),
+                id: Date.now() + Math.random()
+            });
+        }
+        history.sort((a,b) => new Date(b.t) - new Date(a.t)); // Sort new to old
+        saveData();
+    }
+
+    // --- 5. RENDER UI ---
+    function renderUI() {
+        document.getElementById('dash-name').innerText = user.name;
+        document.getElementById('dash-filters').innerText = user.filters.length + ' הגדרות פעילות';
+        document.getElementById('dash-count').innerText = cart.length;
+        document.getElementById('dash-status').innerText = ringStatus === 'normal' ? 'רגיל' : (ringStatus==='stress'?'סטרס 🤯':'חולי 🤒');
+        
+        // Cart Score Calculation
+        let score = 100;
+        if(cart.length > 0) {
+            let total = 0;
+            cart.forEach(i => {
+                if(i.g === 'A+') total+=100;
+                else if(i.g === 'A') total+=90;
+                else if(i.g === 'B+') total+=85;
+                else if(i.g === 'B') total+=75;
+                else if(i.g === 'C') total+=60;
+                else if(i.g === 'D') total+=40;
+                else total+=20;
+            });
+            score = Math.round(total / cart.length);
+        }
+        document.getElementById('dash-score').innerText = score + '%';
+        const bar = document.getElementById('score-bar');
+        bar.style.width = score + '%';
+        if(score >= 85) bar.style.background = 'var(--grade-a-plus)';
+        else if(score >= 70) bar.style.background = 'var(--grade-b)';
+        else if(score >= 50) bar.style.background = 'var(--grade-c)';
+        else bar.style.background = 'var(--grade-e)';
+        
+        renderCart();
+    }
+
+    function renderCart() {
+        const con = document.getElementById('cart-list');
+        con.innerHTML = cart.map((i, idx) => `
+            <div style="display:flex; justify-content:space-between; padding:15px; border-bottom:1px solid rgba(255,255,255,0.05);">
+                <div><span style="color:${G_COLORS[i.g]}; font-weight:bold;">${i.g}</span> ${i.n}</div>
+                <div style="cursor:pointer; color:#ef4444;" onclick="remCart(${idx})">✕</div>
+            </div>
+        `).join('');
+    }
+
+    // --- 6. HISTORY ANALYTICS LOGIC (THE REQUESTED FEATURE) ---
+    function initHistoryFilters() {
+        const con = document.getElementById('hist-grade-filters');
+        let html = '';
+        GRADES.forEach(g => {
+            html += `<div class="grade-toggle" onclick="toggleGradeFilter(this, '${g}')">${g}</div>`;
+        });
+        con.innerHTML = html;
+        // Set Default dates (Last 6 months)
+        const end = new Date();
+        const start = new Date();
+        start.setMonth(start.getMonth() - 6);
+        document.getElementById('hist-end').valueAsDate = end;
+        document.getElementById('hist-start').valueAsDate = start;
+    }
+
+    function toggleGradeFilter(el, g) {
+        el.classList.toggle('active');
+        if(selectedGrades.includes(g)) selectedGrades = selectedGrades.filter(x => x!==g);
+        else selectedGrades.push(g);
+        filterHistory();
+    }
+
+    function toggleAggregation() {
+        isAggregated = !isAggregated;
+        document.getElementById('agg-status').innerText = isAggregated ? 'ON' : 'OFF';
+        document.getElementById('agg-status').style.color = isAggregated ? 'var(--cyan)' : '#666';
+        filterHistory();
+    }
+
+    function filterHistory() {
+        const search = document.getElementById('hist-search').value.toLowerCase();
+        const start = new Date(document.getElementById('hist-start').value).getTime();
+        const end = new Date(document.getElementById('hist-end').value).getTime() + 86400000; // End of day
+
+        let filtered = history.filter(item => {
+            const t = new Date(item.t).getTime();
+            const matchDate = t >= start && t <= end;
+            const matchSearch = item.n.includes(search) || item.b.includes(search);
+            const matchGrade = selectedGrades.length === 0 || selectedGrades.includes(item.g);
+            return matchDate && matchSearch && matchGrade;
+        });
+
+        const list = document.getElementById('hist-list');
+        
+        if (isAggregated) {
+            // AGGREGATION LOGIC
+            const agg = {};
+            filtered.forEach(item => {
+                const key = item.n + '|' + item.b + '|' + item.g;
+                if(!agg[key]) agg[key] = { ...item, count: 0 };
+                agg[key].count++;
+            });
+            
+            list.innerHTML = Object.values(agg).map(i => `
+                <div class="hist-item">
+                    <div>
+                        <span style="font-weight:bold;">${i.n}</span>
+                        <span class="hist-badge" style="background:${G_COLORS[i.g]}">${i.g}</span>
+                        <div class="hist-meta">${i.b}</div>
+                    </div>
+                    <div class="hist-count">x${i.count}</div>
+                </div>
+            `).join('');
+        } else {
+            // STANDARD LIST
+            list.innerHTML = filtered.map(i => `
+                <div class="hist-item">
+                    <div>
+                        <span>${i.n}</span>
+                        <span class="hist-badge" style="background:${G_COLORS[i.g]}">${i.g}</span>
+                        <div class="hist-meta">${i.b} • ${new Date(i.t).toLocaleDateString()}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+    }
+
+    // --- 7. SCANNER & ALGORITHM ---
     function startScanner() {
-        document.getElementById('modal-scan').classList.add('open');
-        isScanning = true;
+        document.getElementById('m-scan').classList.add('open');
+        document.getElementById('cam-ui').classList.add('active');
         
-        html5QrcodeScanner = new Html5Qrcode("reader");
-        const config = { fps: 10, qrbox: { width: 250, height: 250 }, aspectRatio: 1.0 };
-        
-        html5QrcodeScanner.start({ facingMode: "environment" }, config, onScanSuccess, onScanFailure)
-        .catch(err => {
-            console.log("Cam Fail/Desktop");
-            // QA Fallback: Simulate successful scan after 2s
-            setTimeout(() => { if(isScanning) onScanSuccess("DEMO", null); }, 2000); 
+        scanner = new Html5Qrcode("reader");
+        scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, 
+            (decoded) => { handleScanResult(); }, 
+            (err) => {}
+        ).catch(err => { 
+            console.log("Cam error, simulating..."); 
+            setTimeout(handleScanResult, 1500); 
         });
     }
 
     function stopScanner() {
-        isScanning = false;
-        if(html5QrcodeScanner) {
-            try { 
-                html5QrcodeScanner.stop().then(() => { html5QrcodeScanner.clear(); }).catch(e=>console.log(e)); 
-            } catch(e) { console.log("Scanner stop error", e); }
-        }
-        closeModal('scan');
+        if(scanner) { scanner.stop().then(()=>scanner.clear()).catch(e=>{}); }
+        document.getElementById('m-scan').classList.remove('open');
+        document.getElementById('cam-ui').classList.remove('active');
     }
 
-    function onScanSuccess(decodedText, decodedResult) {
+    function handleScanResult() {
         stopScanner();
         // Simulate DB Fetch
-        const core = DB_CORE[Math.floor(Math.random()*DB_CORE.length)];
-        const brand = BRANDS[Math.floor(Math.random()*BRANDS.length)];
-        const product = { ...core, brand: brand }; // Create unique item
+        const base = BASE_ITEMS[Math.floor(Math.random() * BASE_ITEMS.length)];
+        const brand = BRANDS[Math.floor(Math.random() * BRANDS.length)];
+        const product = { ...base, brand: brand };
         
-        analyzeProduct(product);
-        
-        // Add to history
-        const time = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-        history.unshift({n:product.n, b:brand, t:time});
-        if(history.length>15) history.pop();
-        localStorage.setItem('vOmega_hist', JSON.stringify(history));
+        gradeProduct(product);
     }
-    function onScanFailure(e) {}
 
-    // --- 6. ANALYSIS ENGINE ---
-    function analyzeProduct(p) {
-        const u = users.find(x=>x.id===activeId);
-        let g = p.g; 
-        let alerts = [];
+    function gradeProduct(p) {
+        let g = p.g;
+        let reasons = [];
 
-        // Quality Check
-        if(u.filters.includes('q-green')) { if(g!=='A') { g='D'; alerts.push({t:'אינו תו ירוק', c:'warn'}); } }
-        if(u.filters.includes('g-high')) { if(g!=='A' && g!=='B') alerts.push({t:'ציון נמוך מההגדרה', c:'bad'}); }
-
-        // Allergies
-        if(u.filters.includes('a-gluten') && p.gl) { g='E'; alerts.push({t:'גלוטן', c:'bad'}); }
-        if(u.filters.includes('a-milk') && p.da) { g='E'; alerts.push({t:'חלב', c:'bad'}); }
-        if(u.filters.includes('d-diabetic') && p.sug) { g='E'; alerts.push({t:'סוכר גבוה', c:'bad'}); }
+        // Logic (Filters vs Tags)
+        if(user.filters.includes('a-gluten') && p.tags.includes('gl')) { g='E'; reasons.push('גלוטן'); }
+        if(user.filters.includes('a-milk') && p.tags.includes('da')) { g='E'; reasons.push('חלב'); }
+        if(user.filters.includes('l-vegan') && (p.tags.includes('da') || p.tags.includes('meat') || p.tags.includes('eggs'))) { g='E'; reasons.push('לא טבעוני'); }
+        if(user.filters.includes('q-green') && (p.tags.includes('proc') || p.tags.includes('sug'))) { g='D'; reasons.push('אינו תו ירוק'); }
         
-        // Context
-        if(g!=='E') {
-            if(u.status==='stress' && p.sug) { g='D'; alerts.push({t:'סוכר (סטרס)', c:'warn'}); }
-            if(u.status==='sugar' && p.sug) { g='B'; alerts.push({t:'מעלה סוכר', c:'good'}); }
+        // Ring Influence
+        if(g !== 'E') {
+            if(ringStatus === 'stress' && p.tags.includes('sug')) { g='D'; reasons.push('סוכר (סטרס)'); }
+            if(ringStatus === 'sick' && p.tags.includes('da')) { g='D'; reasons.push('חלב (ליחה)'); }
+            if(ringStatus === 'sugar' && p.tags.includes('sug')) { 
+                reasons.push('טוב לנפילת סוכר'); 
+                // Upgrade grade logic
+                if(g==='C') g='B'; else if(g==='B') g='A';
+            }
         }
 
-        // Global State for Cart
-        window.tempScan = {n:p.n, u:u.name, g:g, brand:p.brand};
-
-        // Render Result
-        document.getElementById('r-name').innerText = p.n;
-        document.getElementById('r-brand').innerText = p.brand;
-        const ge = document.getElementById('r-grade');
-        ge.innerText = g;
+        currentProduct = { ...p, g: g };
         
-        let color = '#fff';
-        if(g==='A') color='var(--grade-a)'; else if(g==='B') color='var(--grade-b)'; else if(g==='C') color='var(--grade-c)'; else if(g==='D') color='var(--grade-d)'; else color='var(--grade-e)';
-        ge.style.background = color; ge.style.boxShadow = `0 0 50px ${color}`;
-
-        const al = document.getElementById('res-alert');
-        al.innerHTML = alerts.length ? alerts.map(a => {
-            let ac = a.c==='bad'?'var(--grade-e)':'var(--grade-d)'; 
-            if(a.c==='good') ac='var(--grade-a)';
-            return `<div class="alert-box" style="border:1px solid ${ac}; color:${ac};">${a.t}</div>`;
-        }).join('') : '<div style="color:#666; margin-bottom:10px;">מתאים לפרופיל</div>';
+        // UI
+        const elG = document.getElementById('res-grade');
+        elG.innerText = g;
+        elG.style.color = G_COLORS[g];
+        elG.style.boxShadow = `0 0 50px ${G_COLORS[g]}`;
+        document.getElementById('res-name').innerText = p.n;
+        document.getElementById('res-brand').innerText = p.brand;
+        document.getElementById('res-reasons').innerHTML = reasons.length ? reasons.map(r=>`<div>• ${r}</div>`).join('') : 'מוצר תואם';
         
-        document.getElementById('modal-res').classList.add('open');
+        openModal('m-result');
     }
 
-    // --- 7. CART & UTILS ---
-    function addToCart(isHome) {
-        if(!window.tempScan) return;
-        cart.push({n:window.tempScan.n, u:isHome?'בית':window.tempScan.u, g:window.tempScan.g});
-        save(); closeModal('res'); showToast('נוסף בהצלחה'); updateUI();
+    function addToCart(home) {
+        if(!currentProduct) return;
+        const item = { ...currentProduct, u: home?'בית':'אני', t: new Date().toISOString() };
+        cart.push(item);
+        history.unshift(item); // Add to history as well
+        saveData();
+        closeModal('m-result');
     }
 
-    function openCart() {
-        const d = document.getElementById('cart-content');
-        d.innerHTML = cart.length ? cart.map((i,x) => `
-            <div class="cart-item">
-                <div><span style="font-weight:bold; color:${i.g==='A'?'var(--grade-a)':'var(--grade-c)'}; margin-left:5px;">${i.g}</span> ${i.n}</div>
-                <div onclick="remCart(${x})" style="color:var(--grade-e); cursor:pointer;">✕</div>
-            </div>`).join('') : '<div style="text-align:center; padding:20px; color:#666;">העגלה ריקה</div>';
-        document.getElementById('modal-cart').classList.add('open');
+    // --- 8. HELPERS ---
+    function openModal(id) { document.getElementById(id).classList.add('open'); if(id==='m-history') filterHistory(); }
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+    function remCart(i) { cart.splice(i,1); saveData(); renderCart(); }
+    function clearCart() { if(confirm('לרוקן?')) { cart=[]; saveData(); closeModal('m-cart'); } }
+    function setRing(s) { ringStatus=s; saveData(); closeModal('m-ring'); }
+    function saveSettings() {
+        user.name = document.getElementById('user-name-inp').value || user.name;
+        user.filters = [];
+        document.querySelectorAll('input[type="checkbox"]:checked').forEach(c => user.filters.push(c.id));
+        saveData(); closeModal('m-settings');
     }
-    
-    function remCart(i) { cart.splice(i,1); save(); openCart(); updateUI(); }
-    
-    function openHistory() {
-        const d = document.getElementById('hist-content');
-        d.innerHTML = history.length ? history.map(h => `
-            <div style="padding:15px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; color:#bbb;">
-                <span>${h.n} <small style="color:#666">(${h.b})</small></span><span>${h.t}</span>
-            </div>`).join('') : '<div style="text-align:center; padding:20px; color:#666;">אין היסטוריה</div>';
-        document.getElementById('modal-hist').classList.add('open');
-    }
-
-    // Modal Helpers
-    function closeModal(id) { document.getElementById('modal-'+id).classList.remove('open'); }
-    function tog(el) { el.nextElementSibling.classList.toggle('open'); }
-    function save() { localStorage.setItem('vOmega_users', JSON.stringify(users)); localStorage.setItem('vOmega_cart', JSON.stringify(cart)); }
-    function showToast(t) { const el=document.getElementById('toast'); el.innerText=t; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),2000); }
-    
-    // Quick Add
-    function quickAdd() { const v=document.getElementById('q-inp').value; if(v){cart.push({n:v,u:'בית',g:'C'}); save(); document.getElementById('q-inp').value=''; showToast('נוסף'); updateUI();}}
-    function quickAddCart() { const v=document.getElementById('c-inp').value; if(v){cart.push({n:v,u:'בית',g:'C'}); save(); document.getElementById('c-inp').value=''; openCart(); updateUI();}}
-
-    // Profile & Settings
-    function openEdit(id) {
-        const u = users.find(x=>x.id===id);
-        document.getElementById('edit-name').value = u.name;
-        document.querySelectorAll('.chip').forEach(c=>c.checked=false);
-        u.filters.forEach(f=>{ if(document.getElementById(f)) document.getElementById(f).checked=true; });
-        document.getElementById('modal-edit').classList.add('open');
-    }
-    
-    function saveProfile() {
-        const u = users.find(x=>x.id===activeId);
-        u.name = document.getElementById('edit-name').value || 'משתמש';
-        u.filters = [];
-        document.querySelectorAll('.chip:checked').forEach(c => u.filters.push(c.id));
-        save(); closeModal('edit'); updateUI();
-    }
-    
-    function clearSec(id) { document.getElementById(id).querySelectorAll('input').forEach(i=>i.checked=false); }
-    function openRing() { document.getElementById('modal-ring').classList.add('open'); }
-    function setRing(s) { getUser().status=s; save(); closeModal('ring'); updateUI(); }
-    function getUser() { return users.find(x=>x.id===activeId); }
+    function openHistory() { openModal('m-history'); }
 
 </script>
 </body>
